@@ -535,7 +535,7 @@ MonoBehaviour:
   triggerColliderPrefab: {fileID: 5348246947413440532, guid: 2207ac54bb3613341a7c340a8300ce98, type: 3}
   gridSize: {x: 50, y: 50}
   cubeMaterial: {fileID: 2100000, guid: 83d4c00b8438c4846bcebdc77a0b0202, type: 2}
-  size: 0.1
+  height: 0.1
 --- !u!64 &1573425220
 MeshCollider:
   m_ObjectHideFlags: 0
