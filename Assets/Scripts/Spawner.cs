@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 // spawns enemies
 public class Spawner : MonoBehaviour {
     public List<GameObject> enemyPrefabs;
-    public float spawnInterval = 5f; 
+    public float spawnInterval = 3f; 
 
     IEnumerator Start() {
         while (true) {
@@ -20,5 +19,4 @@ public class Spawner : MonoBehaviour {
         GameObject randomEnemyPrefab = enemyPrefabs[randomIndex];
         Instantiate(randomEnemyPrefab, transform.position, Quaternion.identity);
     }
-
 }

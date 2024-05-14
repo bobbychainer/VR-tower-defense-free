@@ -8,10 +8,11 @@ public class EnemyController : MonoBehaviour {
     protected GenerateCubes generateCubes; // Reference to the GenerateCubes script
     protected int currentWaypointIndex = 0;
     protected NavMeshAgent agent;
-    protected int enemyHealth = 1;
+    protected int enemyHealth = 1; // health to destroy
+    protected int enemyValue = 1; // score for player and damage to base
 
     protected virtual void Start() {
-        generateCubes = GameObject.FindObjectOfType<GenerateCubes>(); // Find the GenerateCubes script
+        generateCubes = FindObjectOfType<GenerateCubes>(); // Find the GenerateCubes script
         agent = GetComponent<NavMeshAgent>();
         SetDestinationToNextWaypoint();
     }
@@ -26,6 +27,7 @@ public class EnemyController : MonoBehaviour {
             } else {
                 // Reached the last waypoint (Base), destroy the enemy
                 Debug.Log("Enemy reached Base.");
+                // rufe GM auf für base dmg 
                 Destroy(gameObject);
             }
         }
@@ -34,19 +36,14 @@ public class EnemyController : MonoBehaviour {
         // Check if there are waypoints remaining
         if (currentWaypointIndex < generateCubes.waypoints.Length) agent.SetDestination(generateCubes.waypoints[currentWaypointIndex].position);
     }
-    
-    protected virtual private void OnTriggerEnter(Collider other) {
-        if (other.CompareTag("Base")) {
-            Debug.Log("Collision Enemy with Base.");
-            Destroy(other.gameObject);
-        }
-    }
 
     public void TakeDamage(int damage) {
         enemyHealth -= damage;
-        if (enemyHealth <= 0) Destroy(gameObject);
-
-        
+        if (enemyHealth <= 0) {
+            Destroy(gameObject);
+            Debug.Log("Enemy destroyed.");
+            GameManager.instance.UpdatePlayerScore(enemyValue);
+        }
     }
 
 }

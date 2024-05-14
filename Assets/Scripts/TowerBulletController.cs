@@ -8,6 +8,12 @@ public class TowerBulletController : MonoBehaviour {
     private int damage;
 
     void Update() {
+        // if target does not exist, destroy bullet (from other tower)
+        if (target == null) {
+            Destroy(gameObject);
+            return;
+        }
+        
         // calculate direction
         Vector3 direction = target.transform.position - transform.position;
         float distanceThisFrame = bulletSpeed * Time.deltaTime;

@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMedium : EnemyController {
+public class EnemyHard : EnemyController {
     protected override void Start() {
         base.Start();
-        enemyHealth = 3;
-        enemyValue = 3;
+        enemyHealth = 5;
+        enemyValue = 5;
     }
 }
