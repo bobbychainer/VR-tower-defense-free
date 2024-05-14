@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+// parent class for all enemies
 public class EnemyController : MonoBehaviour {
-    private GenerateCubes generateCubes; // Reference to the GenerateCubes script
+    protected GenerateCubes generateCubes; // Reference to the GenerateCubes script
+    protected int currentWaypointIndex = 0;
+    protected NavMeshAgent agent;
+    protected int enemyHealth = 1;
 
-    private int currentWaypointIndex = 0;
-    private NavMeshAgent agent;
-
-    void Start() {
+    protected virtual void Start() {
         generateCubes = GameObject.FindObjectOfType<GenerateCubes>(); // Find the GenerateCubes script
         agent = GetComponent<NavMeshAgent>();
         SetDestinationToNextWaypoint();
     }
-    void Update() {
+
+    protected virtual void Update() {
         // Check if the agent has reached the current waypoint
         if (agent.remainingDistance <= agent.stoppingDistance) {
             // Move to the next waypoint
@@ -28,16 +30,23 @@ public class EnemyController : MonoBehaviour {
             }
         }
     }
-    void SetDestinationToNextWaypoint() {
+    protected virtual void SetDestinationToNextWaypoint() {
         // Check if there are waypoints remaining
         if (currentWaypointIndex < generateCubes.waypoints.Length) agent.SetDestination(generateCubes.waypoints[currentWaypointIndex].position);
     }
-
-    private void OnTriggerEnter(Collider other) {
+    
+    protected virtual private void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Base")) {
             Debug.Log("Collision Enemy with Base.");
             Destroy(other.gameObject);
         }
+    }
+
+    public void TakeDamage(int damage) {
+        enemyHealth -= damage;
+        if (enemyHealth <= 0) Destroy(gameObject);
+
+        
     }
 
 }

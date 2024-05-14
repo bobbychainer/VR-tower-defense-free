@@ -9,11 +9,13 @@ TagManager:
   - Base
   - Ground
   - Path
+  - Enemy
+  - Tower
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Enemies
   - Water
   - UI
   - 

@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 7659181080709410962}
   - component: {fileID: 8437440031113175447}
   - component: {fileID: 133463733576044295}
-  - component: {fileID: 3825306539473031915}
+  - component: {fileID: -5502717970855252075}
   m_Layer: 3
-  m_Name: EnemyBasic
+  m_Name: EnemyMedium
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6423d9d99fa5e184da296819cba1a076, type: 2}
+  - {fileID: 2100000, guid: 96e4a5c8b5bfc6a47996d7b56df7a21b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -129,7 +129,7 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &3825306539473031915
+--- !u!114 &-5502717970855252075
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -138,6 +138,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5196961611457245738}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60fb7e8dc126a3e49b8de7ade902cbc0, type: 3}
+  m_Script: {fileID: 11500000, guid: a674c784da8cf544d90e2e78d8277944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

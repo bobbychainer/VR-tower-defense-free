@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// class for implement the game field with ground an path
 public class GenerateCubes : MonoBehaviour {
     public GameObject cubePrefab; // prefab
     public Vector2 gridSize; // grid size
     public Material pathMaterial; // Material for cubes on the path
     public Material transparentMaterial; // Material for cubes not on the path
-
     public Transform[] waypoints; // Waypoints for the path, included in scene
     private GameObject spawnObject;
     private GameObject baseObject;
-
     public float height = 0.1f;
 
     void Start() {
@@ -26,6 +25,7 @@ public class GenerateCubes : MonoBehaviour {
         }
     }
 
+    // generates the grid
     void GenerateGrid() {
         for (float x = 0.5f; x < gridSize.x; x++) {
             // Create row parent
