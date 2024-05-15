@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
-
     public static GameManager instance;
+    private int playerScore;
+    private int playerHighScore;
 
     void Awake() {
         if (instance == null) {
@@ -13,15 +14,26 @@ public class GameManager : MonoBehaviour {
             Destroy(gameObject);
         }
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    void Start() {
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // initialize game variables
+        playerScore = 0;
+        playerHighScore = PlayerPrefs.GetInt("HighScore", 0);
+
+        UpdateHighScore();
     }
+    public int GetPlayerScore() { return playerScore; }
+    void UpdateHighScore() { UIManager.instance.UpdatePlayerHighScoreText(playerHighScore); }
+
+    public void UpdatePlayerScore(int score) {
+        playerScore += score;
+        UIManager.instance.UpdatePlayerScoreText(playerScore);
+        // check if new highscore
+        if (playerScore > playerHighScore) {
+            playerHighScore = playerScore;
+            PlayerPrefs.SetInt("HighScore", playerHighScore); // safe new highscore
+            UpdateHighScore();
+        }
+    }
+    
 }
