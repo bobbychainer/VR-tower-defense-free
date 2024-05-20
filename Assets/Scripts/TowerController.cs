@@ -1,24 +1,23 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
 
-// parent class for all towers
-public class TowerController : MonoBehaviour {
-	private Transform targetEnemy;
+public class TowerController: MonoBehaviour {
+	protected Transform targetEnemy;
 	public LayerMask enemyLayer;
-	private float lastAttackTime = 0f;
-	public GameObject bulletPrefab;
-	private int damage = 1;
-	private int towerHealth = 20;
-	private float attackRadius = 10f;
-	private float attackCooldown = 1f;
+	protected float lastAttackTime = 0f;
+	protected int damage = 1;
+	protected int towerHealth = 20;
+	protected float attackCooldown = 1f;
+	
+	protected virtual void Start() {
+		
+	}
 
-	void Update() {
+	protected virtual void Update() {
 		// find all enemies in radius
-		Collider[] enemyColliders = Physics.OverlapSphere(transform.position, attackRadius, enemyLayer);
-
+		Collider[] enemyColliders = EnemiesInRange();
+		
 		// choose nearest enemy
 		targetEnemy = FindNearestEnemy(enemyColliders);
 
@@ -28,17 +27,20 @@ public class TowerController : MonoBehaviour {
 			lastAttackTime = Time.time;
 		}
 	}
+	
+	protected virtual Collider[] EnemiesInRange() {
+		return null;
+	}
 
-	void AttackEnemy(Transform enemy) {
-		// initialize bullet
-		Debug.Log("Target " + enemy.name);
-		GameObject towerBullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-		TowerBulletController bullet = towerBullet.GetComponent<TowerBulletController>();
-		if (bullet != null) bullet.Initialize(targetEnemy, damage);
+	protected virtual void AttackEnemy(Transform enemy) {
+		return;
 	}
 
 	// searches for nearest enemy in attackradius
-	Transform FindNearestEnemy(Collider[] enemyColliders) {
+	private Transform FindNearestEnemy(Collider[] enemyColliders) {
+		
+		if (enemyColliders == null) return null;
+		
 		Transform nearestEnemy = null;
 		float shortestDistance = Mathf.Infinity;
 
@@ -50,11 +52,5 @@ public class TowerController : MonoBehaviour {
 			}
 		}
 		return nearestEnemy;
-	}
-	
-	// draw attackradius from tower
-	private void OnDrawGizmosSelected() {
-		Gizmos.color = Color.red;
-		Gizmos.DrawWireSphere(transform.position, attackRadius);
 	}
 }

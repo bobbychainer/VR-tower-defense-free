@@ -11,6 +11,7 @@ TagManager:
   - Path
   - Enemy
   - Tower
+  - Bullet
   layers:
   - Default
   - TransparentFX
