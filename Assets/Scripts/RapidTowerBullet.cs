@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SmallTowerBullet : BulletController {
+public class RapidTowerBullet : BulletController {
 	
-	// bullet target
+    // bullet target
 	private Transform target;
 	
 	// return true if target destroyed or hit
@@ -25,5 +25,4 @@ public class SmallTowerBullet : BulletController {
         damage = _damage;
 		target = _target;
     }
-	
 }

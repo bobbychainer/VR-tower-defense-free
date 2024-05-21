@@ -4,23 +4,25 @@ using UnityEngine;
 
 public class LaserTower : TowerController {
 	
-	private float attackRadius = 10f;
+	private float attackDistance = 10f;
 	public GameObject bulletPrefab;
 	private Vector3 attackStartPosition;
+	//target position
 	private Vector3 attackEndPosition;
 	
-    // Start is called before the first frame update
     protected override void Start() {
 		base.Start();
+		attackCooldown = 5f;
         attackStartPosition = transform.Find("Canon").position;
 		Vector3 frontPosition = transform.Find("Front").position;
-		
+		// set board edge position by extending the attackStartPosition and frontPosition vector
 		attackEndPosition = GetEndPosition(frontPosition);
     }
 	
 	private Vector3 GetEndPosition(Vector3 frontPosition) {
+		// get normalized direction
 		Vector3 attackVector = (frontPosition - attackStartPosition).normalized;
-		
+		// set x or z to {50,-50} depending on the direction
 		if (attackVector.x == 0 && attackVector.z != 0) {
 			return new Vector3(attackStartPosition.x, attackStartPosition.y, (attackVector.z + 1f) * 25f);
 		} else if (attackVector.x != 0 && attackVector.z == 0) {
@@ -29,19 +31,16 @@ public class LaserTower : TowerController {
 		return frontPosition;
 	}
 	
-	protected override Collider[] EnemiesInRange() {
-		RaycastHit hit;
+	// return true if raycast on enemyLayer detects enemy 
+	protected override bool TargetDetected() {
 		Vector3 attackDirection = attackEndPosition - attackStartPosition;
-		if (Physics.Raycast(attackStartPosition, attackDirection, out hit, 20, enemyLayer)) {
-			Debug.DrawRay(transform.position, attackDirection, Color.green);
-			return new Collider[] {hit.collider};
-		}
-		return null;
+		return Physics.Raycast(attackStartPosition, attackDirection, attackDistance, enemyLayer);
 	}
 	
-	protected override void AttackEnemy(Transform enemy) {
+	// shot LaserTowerBullet towards attackEndPosition
+	protected override void Attack() {
 		GameObject towerBullet = Instantiate(bulletPrefab, attackStartPosition, Quaternion.identity);
-		towerBullet.transform.rotation = transform.rotation * bulletPrefab.transform.rotation;
+		towerBullet.transform.rotation = transform.rotation;// * bulletPrefab.transform.rotation;
 		
 		LaserTowerBullet bullet = towerBullet.GetComponent<LaserTowerBullet>();
 		if (bullet != null) bullet.Initialize(attackEndPosition, damage);
@@ -49,7 +48,8 @@ public class LaserTower : TowerController {
 	
 	private void OnDrawGizmosSelected() {
 		Gizmos.color = Color.red;
-		Gizmos.DrawWireSphere(transform.position, attackRadius);
+		Vector3 attackDirection = attackEndPosition - attackStartPosition;
+		Gizmos.DrawRay(attackStartPosition, attackDirection);
 	}
 
 }
