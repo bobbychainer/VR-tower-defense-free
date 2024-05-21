@@ -36,6 +36,22 @@ public class EnemyController : MonoBehaviour {
         // Check if there are waypoints remaining
         if (currentWaypointIndex < generateCubes.waypoints.Length) agent.SetDestination(generateCubes.waypoints[currentWaypointIndex].position);
     }
+	
+	private void OnCollisionEnter(Collision collision) {
+		
+		if (collision.gameObject.tag == "Bullet") {
+			
+			Debug.Log("Hit "+collision.gameObject);
+			
+			BulletController bulletController = collision.gameObject.GetComponent<BulletController>();
+			
+			if (bulletController != null){
+				int damage = bulletController.GetDamage();
+				bulletController.TargetHit();
+				TakeDamage(damage);
+			}
+		}	
+	}
 
     public void TakeDamage(int damage) {
         enemyHealth -= damage;
@@ -45,5 +61,7 @@ public class EnemyController : MonoBehaviour {
             GameManager.instance.UpdatePlayerScore(enemyValue);
         }
     }
+	
+	
 
 }
