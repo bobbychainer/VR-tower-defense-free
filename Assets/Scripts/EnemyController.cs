@@ -41,7 +41,7 @@ public class EnemyController : MonoBehaviour {
 		
 		if (collision.gameObject.tag == "Bullet") {
 			
-			Debug.Log("Hit "+collision.gameObject);
+			//Debug.Log("Hit "+collision.gameObject);
 			
 			BulletController bulletController = collision.gameObject.GetComponent<BulletController>();
 			

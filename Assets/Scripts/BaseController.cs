@@ -25,7 +25,7 @@ public class BaseController : MonoBehaviour {
     public void TakeDmg(float dmg)
     {
         currentHealth -= dmg;
-        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth); // sorgt dafür, dass currHealth immer zwischen 0 und maxHealth ist
+        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth); // sorgt dafï¿½r, dass currHealth immer zwischen 0 und maxHealth ist
 
         if(currentHealth <= 0 )
         {
@@ -44,7 +44,7 @@ public class BaseController : MonoBehaviour {
         if (other.gameObject.tag == "Enemy")
         {
 
-            Debug.Log(other.gameObject + " Entered Base");
+            //Debug.Log(other.gameObject + " Entered Base");
 
             EnemyController enemyController = other.gameObject.GetComponent<EnemyController>();
 
