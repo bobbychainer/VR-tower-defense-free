@@ -61,7 +61,11 @@ public class EnemyController : MonoBehaviour {
             GameManager.instance.UpdatePlayerScore(enemyValue);
         }
     }
-	
-	
+	public int getEnemyValue()
+    {
+        return enemyValue;
+    }
+
+
 
 }
