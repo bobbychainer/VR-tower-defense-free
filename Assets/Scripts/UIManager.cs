@@ -12,10 +12,12 @@ public class UIManager : MonoBehaviour {
     private bool isBuildUIOpen = false;
     public TMP_Text scoreText;
     public TMP_Text highScoreText;
-    //public TMP_Text baseHealthText;
     public TMP_Text roundText;
     public TMP_Text stateText;
     public TMP_Text timerText;
+    public TMP_Text baseHealthText;
+    public TMP_Text playerHealthText;
+    public TMP_Text playerCoinsText;
     public Button readyButton;
    
     
@@ -37,6 +39,9 @@ public class UIManager : MonoBehaviour {
         scoreText.text = "Score: " + "0".ToString();
         roundText.text = "Round: " + "1".ToString();
         stateText.text = " - Preparation".ToString();
+        baseHealthText.text = "Base Health: " + "20".ToString();
+        playerHealthText.text = "Player Health: " + "100".ToString();
+        playerCoinsText.text = "Player Coins: " + "100".ToString();
     } 
 
     // toggles player and build UI
@@ -68,6 +73,9 @@ public class UIManager : MonoBehaviour {
     public void ToggleReadyButton(bool isVisible) { readyButton.gameObject.SetActive(isVisible); }
 
     // update ui texts
+    public void UpdatePlayerHealthText(int playerHealth) { playerHealthText.text = "Player Health: " + playerHealth.ToString(); }
+    public void UpdatePlayerCoinsText(int playerCoins) { playerCoinsText.text = "Player Coins: " + playerCoins.ToString(); }
+    public void UpdateBaseHealthText(int baseHealth) { baseHealthText.text = "Base Health: " + baseHealth.ToString(); }
     public void UpdatePlayerScoreText(int score) { scoreText.text = "Score: " + score.ToString(); }
     public void UpdatePlayerHighScoreText(int highScore) { highScoreText.text = "Highscore: " + highScore.ToString(); }
     public void UpdateRound(int round) { roundText.text = "Round: " + round.ToString(); }

@@ -5,19 +5,17 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
     public static GameManager instance;
     private Spawner enemySpawner;
-    private int playerScore;
-    private int playerHighScore;
-<<<<<<< HEAD
     public enum GameState { PREPARATION, ATTACK }
     public GameState currentState;
+    public bool isTimerRunning = false; 
     public float timer = 10f;
     private float currentTimer;
-    public bool isTimerRunning = false; 
-    public int currentRound;
-=======
-    public int baseCurrHealth; //Zu Debug Zwecken Public, wird später private
+    private int playerScore;
+    private int playerHighScore;
+    private int currentRound;
+    private int baseCurrHealth;
     private int baseMaxHealth;
->>>>>>> 69b3809c123f29d911c7b9c26dee4328ddb07462
+    private int playerCoins; // TODO: implement tower placement with buyable towers from coins
 
     void Awake() {
         if (instance == null) {
@@ -32,15 +30,13 @@ public class GameManager : MonoBehaviour {
         // initialize game variables
         playerScore = 0;
         playerHighScore = PlayerPrefs.GetInt("HighScore", 0);
-<<<<<<< HEAD
         currentRound = 1;
         currentTimer = timer;
         currentState = GameState.PREPARATION;
-=======
         baseMaxHealth = 20;
         baseCurrHealth = baseMaxHealth;
+        playerCoins = 100;
         
->>>>>>> 69b3809c123f29d911c7b9c26dee4328ddb07462
         UpdateHighScore();
     }
 
@@ -65,6 +61,7 @@ public class GameManager : MonoBehaviour {
             // unfreeze player
             // switch camera
         } else if (currentState == GameState.ATTACK) { // Next is PREP
+            baseCurrHealth = baseMaxHealth;
             currentState = GameState.PREPARATION;
             isTimerRunning = false;
             enemySpawner.StopEnemySpawn();
@@ -79,6 +76,11 @@ public class GameManager : MonoBehaviour {
 
     public int GetPlayerScore() { return playerScore; }
     
+    private void LoadGameOverSzene() {
+        Debug.Log("Base Destroyed, Game Over!");
+        // TODO: Load GameOver Scene
+    }
+
     void UpdateHighScore() { UIManager.instance.UpdatePlayerHighScoreText(playerHighScore); }
 
     public void UpdatePlayerScore(int score) {
@@ -92,21 +94,11 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public void TakeBaseDmg(int dmg)
-    {
+    public void TakeBaseDamage(int dmg) {
         baseCurrHealth -= dmg;
-        baseCurrHealth = Mathf.Clamp(baseCurrHealth, 0, baseMaxHealth); // sorgt dafür, dass currHealth immer zwischen 0 und maxHealth ist
-
-        if (baseCurrHealth <= 0)
-        {
-            gameOver();
-        }
+        UIManager.instance.UpdateBaseHealthText(baseCurrHealth);
+        baseCurrHealth = Mathf.Clamp(baseCurrHealth, 0, baseMaxHealth); // sorgt dafuer, dass currHealth immer zwischen 0 und maxHealth ist
+        if (baseCurrHealth <= 0) LoadGameOverSzene();
     }
 
-    private void gameOver()
-    {
-        Debug.Log("Base Destroyed, Game Over!");
-        //EndScreen
-    }
-    
 }
