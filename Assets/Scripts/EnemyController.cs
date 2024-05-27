@@ -6,6 +6,7 @@ using UnityEngine.AI;
 // parent class for all enemies
 public class EnemyController : MonoBehaviour {
     protected GenerateCubes generateCubes; // Reference to the GenerateCubes script
+    protected GameManager gameManager; //Reference to the GameManager script
     protected int currentWaypointIndex = 0;
     protected NavMeshAgent agent;
     protected int enemyHealth = 1; // health to destroy
@@ -14,6 +15,8 @@ public class EnemyController : MonoBehaviour {
     protected virtual void Start() {
         generateCubes = FindObjectOfType<GenerateCubes>(); // Find the GenerateCubes script
         agent = GetComponent<NavMeshAgent>();
+        gameManager = FindObjectOfType<GameManager>(); // Find the GenerateCubes script
+
         SetDestinationToNextWaypoint();
     }
 
@@ -28,6 +31,7 @@ public class EnemyController : MonoBehaviour {
                 // Reached the last waypoint (Base), destroy the enemy
                 Debug.Log("Enemy reached Base.");
                 // rufe GM auf für base dmg 
+                gameManager.TakeBaseDmg(enemyValue);
                 Destroy(gameObject);
             }
         }
@@ -50,7 +54,8 @@ public class EnemyController : MonoBehaviour {
 				bulletController.TargetHit();
 				TakeDamage(damage);
 			}
-		}	
+		}
+
 	}
 
     public void TakeDamage(int damage) {

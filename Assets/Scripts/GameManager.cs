@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance;
     private int playerScore;
     private int playerHighScore;
+    public int baseCurrHealth; //Zu Debug Zwecken Public, wird später private
+    private int baseMaxHealth;
 
     void Awake() {
         if (instance == null) {
@@ -19,7 +21,9 @@ public class GameManager : MonoBehaviour {
         // initialize game variables
         playerScore = 0;
         playerHighScore = PlayerPrefs.GetInt("HighScore", 0);
-
+        baseMaxHealth = 20;
+        baseCurrHealth = baseMaxHealth;
+        
         UpdateHighScore();
     }
     public int GetPlayerScore() { return playerScore; }
@@ -34,6 +38,23 @@ public class GameManager : MonoBehaviour {
             PlayerPrefs.SetInt("HighScore", playerHighScore); // safe new highscore
             UpdateHighScore();
         }
+    }
+
+    public void TakeBaseDmg(int dmg)
+    {
+        baseCurrHealth -= dmg;
+        baseCurrHealth = Mathf.Clamp(baseCurrHealth, 0, baseMaxHealth); // sorgt dafür, dass currHealth immer zwischen 0 und maxHealth ist
+
+        if (baseCurrHealth <= 0)
+        {
+            gameOver();
+        }
+    }
+
+    private void gameOver()
+    {
+        Debug.Log("Base Destroyed, Game Over!");
+        //EndScreen
     }
     
 }
