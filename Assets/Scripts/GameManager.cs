@@ -7,12 +7,17 @@ public class GameManager : MonoBehaviour {
     private Spawner enemySpawner;
     private int playerScore;
     private int playerHighScore;
+<<<<<<< HEAD
     public enum GameState { PREPARATION, ATTACK }
     public GameState currentState;
     public float timer = 10f;
     private float currentTimer;
     public bool isTimerRunning = false; 
     public int currentRound;
+=======
+    public int baseCurrHealth; //Zu Debug Zwecken Public, wird später private
+    private int baseMaxHealth;
+>>>>>>> 69b3809c123f29d911c7b9c26dee4328ddb07462
 
     void Awake() {
         if (instance == null) {
@@ -27,9 +32,15 @@ public class GameManager : MonoBehaviour {
         // initialize game variables
         playerScore = 0;
         playerHighScore = PlayerPrefs.GetInt("HighScore", 0);
+<<<<<<< HEAD
         currentRound = 1;
         currentTimer = timer;
         currentState = GameState.PREPARATION;
+=======
+        baseMaxHealth = 20;
+        baseCurrHealth = baseMaxHealth;
+        
+>>>>>>> 69b3809c123f29d911c7b9c26dee4328ddb07462
         UpdateHighScore();
     }
 
@@ -79,6 +90,23 @@ public class GameManager : MonoBehaviour {
             PlayerPrefs.SetInt("HighScore", playerHighScore); // safe new highscore
             UpdateHighScore();
         }
+    }
+
+    public void TakeBaseDmg(int dmg)
+    {
+        baseCurrHealth -= dmg;
+        baseCurrHealth = Mathf.Clamp(baseCurrHealth, 0, baseMaxHealth); // sorgt dafür, dass currHealth immer zwischen 0 und maxHealth ist
+
+        if (baseCurrHealth <= 0)
+        {
+            gameOver();
+        }
+    }
+
+    private void gameOver()
+    {
+        Debug.Log("Base Destroyed, Game Over!");
+        //EndScreen
     }
     
 }
