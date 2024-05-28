@@ -6,6 +6,7 @@ using UnityEngine.AI;
 // parent class for all enemies
 public class EnemyController : MonoBehaviour {
     protected GenerateCubes generateCubes; // Reference to the GenerateCubes script
+    protected GameManager gameManager; //Reference to the GameManager script
     protected int currentWaypointIndex = 0;
     protected NavMeshAgent agent;
     protected int enemyHealth = 1; // health to destroy
@@ -14,6 +15,8 @@ public class EnemyController : MonoBehaviour {
     protected virtual void Start() {
         generateCubes = FindObjectOfType<GenerateCubes>(); // Find the GenerateCubes script
         agent = GetComponent<NavMeshAgent>();
+        gameManager = FindObjectOfType<GameManager>(); // Find the GenerateCubes script
+
         SetDestinationToNextWaypoint();
     }
 
@@ -28,31 +31,36 @@ public class EnemyController : MonoBehaviour {
                 // Reached the last waypoint (Base), destroy the enemy
                 Debug.Log("Enemy reached Base.");
                 // rufe GM auf für base dmg 
+                gameManager.TakeBaseDamage(enemyValue);
                 Destroy(gameObject);
             }
         }
     }
-    protected virtual void SetDestinationToNextWaypoint() {
-        // Check if there are waypoints remaining
-        if (currentWaypointIndex < generateCubes.waypoints.Length) agent.SetDestination(generateCubes.waypoints[currentWaypointIndex].position);
-    }
-	
-	private void OnCollisionEnter(Collision collision) {
+
+    public int GetEnemyValue() { return enemyValue; }
+
+    // Check collision enemies with bullets
+    private void OnCollisionEnter(Collision collision) {
 		
 		if (collision.gameObject.tag == "Bullet") {
-			
-			Debug.Log("Hit "+collision.gameObject);
-			
+			//Debug.Log("Hit "+collision.gameObject);
 			BulletController bulletController = collision.gameObject.GetComponent<BulletController>();
 			
-			if (bulletController != null){
+			if (bulletController != null) {
 				int damage = bulletController.GetDamage();
 				bulletController.TargetHit();
 				TakeDamage(damage);
 			}
-		}	
+		}
+
 	}
 
+    // Check if there are waypoints remaining
+    protected virtual void SetDestinationToNextWaypoint() {
+        if (currentWaypointIndex < generateCubes.waypoints.Length) agent.SetDestination(generateCubes.waypoints[currentWaypointIndex].position);
+    }
+	
+    // enemy takes damage from bullet and player gets score
     public void TakeDamage(int damage) {
         enemyHealth -= damage;
         if (enemyHealth <= 0) {
@@ -61,11 +69,4 @@ public class EnemyController : MonoBehaviour {
             GameManager.instance.UpdatePlayerScore(enemyValue);
         }
     }
-	public int getEnemyValue()
-    {
-        return enemyValue;
-    }
-
-
-
 }
