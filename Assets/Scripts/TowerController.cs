@@ -10,7 +10,7 @@ public class TowerController: MonoBehaviour {
 	protected float attackCooldown = 1f;
 	
 	protected virtual void Start() {
-		
+	
 	}
 
 	protected virtual void Update() {
