@@ -12,7 +12,7 @@ public class EnemyController : MonoBehaviour {
     protected int enemyHealth = 1; // health to destroy
     protected int enemyValue = 1; // score for player and damage to base
 
-    protected int enemySpeed = 8;
+    protected float enemySpeed = 8f;
 
     protected virtual void Start() {
         generateCubes = FindObjectOfType<GenerateCubes>(); // Find the GenerateCubes script
@@ -43,23 +43,7 @@ public class EnemyController : MonoBehaviour {
     }
 
     public int GetEnemyValue() { return enemyValue; }
-    /*
-    // Check collision enemies with bullets
-    private void OnCollisionEnter(Collision collision) {
-		
-		if (collision.gameObject.tag == "Bullet") {
-			//Debug.Log("Hit "+collision.gameObject);
-			BulletController bulletController = collision.gameObject.GetComponent<BulletController>();
-			
-			if (bulletController != null) {
-				int damage = bulletController.GetDamage();
-				bulletController.TargetHit();
-				TakeDamage(damage);
-			}
-		}
 
-	}
-    */
     // Check collision enemies with bullets
     private void OnTriggerEnter(Collider other)
     {
