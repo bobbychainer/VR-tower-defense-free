@@ -21,9 +21,9 @@ public class MouseHoverDetector : MonoBehaviour {
         currentRay = cam.ScreenPointToRay(adjustedMousePosition);
 
         if (Physics.Raycast(currentRay, out hit, Mathf.Infinity, layerMask)) {
-            //Debug.Log("Hovering over: " + hit.collider.gameObject.name);
+            Debug.Log("Hovering over: " + hit.collider.gameObject.name);
         } else {
-            //Debug.Log("Hovering over: Nothing");
+            Debug.Log("Hovering over: Nothing");
         }
 
         Debug.DrawRay(currentRay.origin, currentRay.direction * 1000, Color.green);
