@@ -12,6 +12,7 @@ TagManager:
   - Enemy
   - Tower
   - Bullet
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX

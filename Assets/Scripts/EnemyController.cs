@@ -24,7 +24,7 @@ public class EnemyController : MonoBehaviour {
 
     protected virtual void Update() {
         // Check if the agent has reached the current waypoint
-        if (agent.remainingDistance <= agent.stoppingDistance) {
+        if (agent.remainingDistance <= agent.stoppingDistance + 0.2) {
             // Move to the next waypoint
             currentWaypointIndex++;
             if (currentWaypointIndex < generateCubes.waypoints.Length) {
