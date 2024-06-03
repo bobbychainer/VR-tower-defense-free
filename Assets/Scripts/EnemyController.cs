@@ -38,7 +38,7 @@ public class EnemyController : MonoBehaviour {
     }
 
     public int GetEnemyValue() { return enemyValue; }
-
+    /*
     // Check collision enemies with bullets
     private void OnCollisionEnter(Collision collision) {
 		
@@ -54,6 +54,23 @@ public class EnemyController : MonoBehaviour {
 		}
 
 	}
+    */
+    // Check collision enemies with bullets
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Bullet")
+        {
+            // Debug.Log("Hit " + other.gameObject);
+            BulletController bulletController = other.gameObject.GetComponent<BulletController>();
+
+            if (bulletController != null)
+            {
+                int damage = bulletController.GetDamage();
+                bulletController.TargetHit();
+                TakeDamage(damage);
+            }
+        }
+    }
 
     // Check if there are waypoints remaining
     protected virtual void SetDestinationToNextWaypoint() {
