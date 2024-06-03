@@ -12,6 +12,8 @@ public class EnemyController : MonoBehaviour {
     protected int enemyHealth = 1; // health to destroy
     protected int enemyValue = 1; // score for player and damage to base
 
+    protected int enemySpeed = 8;
+
     protected virtual void Start() {
         generateCubes = FindObjectOfType<GenerateCubes>(); // Find the GenerateCubes script
         agent = GetComponent<NavMeshAgent>();
@@ -35,6 +37,9 @@ public class EnemyController : MonoBehaviour {
                 Destroy(gameObject);
             }
         }
+        //In Update Methode, damit später slows oder sogar speedups implementiert werden können
+        agent.speed = enemySpeed;
+
     }
 
     public int GetEnemyValue() { return enemyValue; }
