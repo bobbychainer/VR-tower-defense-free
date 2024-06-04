@@ -75,11 +75,6 @@ public class GameManager : MonoBehaviour {
     }
 
     public int GetPlayerScore() { return playerScore; }
-    
-    private void LoadGameOverSzene() {
-        Debug.Log("Base Destroyed, Game Over!");
-        // TODO: Load GameOver Scene
-    }
 
     void UpdateHighScore() { UIManager.instance.UpdatePlayerHighScoreText(playerHighScore); }
 
@@ -98,7 +93,7 @@ public class GameManager : MonoBehaviour {
         baseCurrHealth -= dmg;
         UIManager.instance.UpdateBaseHealthText(baseCurrHealth);
         baseCurrHealth = Mathf.Clamp(baseCurrHealth, 0, baseMaxHealth); // sorgt dafuer, dass currHealth immer zwischen 0 und maxHealth ist
-        if (baseCurrHealth <= 0) LoadGameOverSzene();
+        if (baseCurrHealth <= 0) MenuController.instance.LoadGameOverScene();
     }
 
 }
