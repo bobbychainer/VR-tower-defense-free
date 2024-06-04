@@ -6,6 +6,10 @@ public class BulletController : MonoBehaviour {
     protected float bulletSpeed = 10f;
     protected int damage;
 	protected bool targetReached = false;
+
+    protected virtual void Start() {
+
+	}
 	
 	protected virtual void Update() {
         // if target is reached destroy bullet object

@@ -7,5 +7,6 @@ public class EnemyHard : EnemyController {
         base.Start();
         enemyHealth = 5;
         enemyValue = 5;
+        enemySpeed = 2f;
     }
 }

@@ -12,6 +12,8 @@ public class EnemyController : MonoBehaviour {
     protected int enemyHealth = 1; // health to destroy
     protected int enemyValue = 1; // score for player and damage to base
 
+    protected float enemySpeed = 8f;
+
     protected virtual void Start() {
         generateCubes = FindObjectOfType<GenerateCubes>(); // Find the GenerateCubes script
         agent = GetComponent<NavMeshAgent>();
@@ -22,7 +24,7 @@ public class EnemyController : MonoBehaviour {
 
     protected virtual void Update() {
         // Check if the agent has reached the current waypoint
-        if (agent.remainingDistance <= agent.stoppingDistance) {
+        if (agent.remainingDistance <= agent.stoppingDistance + 0.2) {
             // Move to the next waypoint
             currentWaypointIndex++;
             if (currentWaypointIndex < generateCubes.waypoints.Length) {
@@ -35,25 +37,28 @@ public class EnemyController : MonoBehaviour {
                 Destroy(gameObject);
             }
         }
+        //In Update Methode, damit später slows oder sogar speedups implementiert werden können
+        agent.speed = enemySpeed;
+
     }
 
     public int GetEnemyValue() { return enemyValue; }
 
-    // Check collision enemies with bullets
-    private void OnCollisionEnter(Collision collision) {
-		
-		if (collision.gameObject.tag == "Bullet") {
-			//Debug.Log("Hit "+collision.gameObject);
-			BulletController bulletController = collision.gameObject.GetComponent<BulletController>();
-			
-			if (bulletController != null) {
-				int damage = bulletController.GetDamage();
-				bulletController.TargetHit();
-				TakeDamage(damage);
-			}
-		}
-
-	}
+    // Check collision
+    private void OnTriggerEnter(Collider other)
+    {
+        //Collision Towerbullet -> Enemy
+        if (other.gameObject.tag == "Bullet")
+        {
+            BulletController bulletController = other.gameObject.GetComponent<BulletController>();
+            if (bulletController != null)
+            {
+                int damage = bulletController.GetDamage();
+                bulletController.TargetHit();
+                TakeDamage(damage);
+            }
+        }
+    }
 
     // Check if there are waypoints remaining
     protected virtual void SetDestinationToNextWaypoint() {

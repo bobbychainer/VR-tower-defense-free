@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 8732141487747051282}
   - component: {fileID: 6854583132486587268}
   - component: {fileID: 4106610632296546606}
-  - component: {fileID: 2154143627495595388}
   - component: {fileID: 2905080649672598315}
   - component: {fileID: 4942743922954099372}
+  - component: {fileID: -8834732285969366754}
   m_Layer: 3
-  m_Name: EnemyHard
+  m_Name: EnemyShooting
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7c01a4e4483ef674c82b39d56a4f7f12, type: 2}
+  - {fileID: 2100000, guid: 76539f7e38ef34240be6def2c3c4c856, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,18 +108,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2154143627495595388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8235772313742901243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65fc0198cf5af814898f054f10b291fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!195 &2905080649672598315
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -130,7 +118,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.1
-  m_Speed: 3
+  m_Speed: 2
   m_Acceleration: 999
   avoidancePriority: 50
   m_AngularSpeed: 999
@@ -169,3 +157,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &-8834732285969366754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8235772313742901243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3b7e5974ec102941b7f3776f54b1f98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  bulletPrefab: {fileID: 8805446975887201342, guid: 0de45527387435349839b2e922761b6d, type: 3}

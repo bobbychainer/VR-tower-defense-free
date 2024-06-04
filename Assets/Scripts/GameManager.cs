@@ -15,7 +15,9 @@ public class GameManager : MonoBehaviour {
     private int currentRound;
     private int baseCurrHealth;
     private int baseMaxHealth;
-    private int playerCoins; // TODO: implement tower placement with buyable towers from coins
+    private int playerCoins; // TODO: implement tower placement with buyable towers from coins 
+    private int playerCurrHealth;
+    private int playerMaxHealth;
 
     void Awake() {
         if (instance == null) {
@@ -36,6 +38,10 @@ public class GameManager : MonoBehaviour {
         baseMaxHealth = 20;
         baseCurrHealth = baseMaxHealth;
         playerCoins = 100;
+
+        playerMaxHealth = 100;
+        playerCurrHealth = playerMaxHealth;
+
         
         UpdateHighScore();
     }
@@ -91,9 +97,15 @@ public class GameManager : MonoBehaviour {
 
     public void TakeBaseDamage(int dmg) {
         baseCurrHealth -= dmg;
-        UIManager.instance.UpdateBaseHealthText(baseCurrHealth);
         baseCurrHealth = Mathf.Clamp(baseCurrHealth, 0, baseMaxHealth); // sorgt dafuer, dass currHealth immer zwischen 0 und maxHealth ist
         if (baseCurrHealth <= 0) MenuController.instance.LoadGameOverScene();
+    }
+
+    public void TakePlayerDamage(int dmg)
+    {
+        playerCurrHealth -= dmg;
+        playerCurrHealth = Mathf.Clamp(playerCurrHealth, 0, playerMaxHealth);
+        UIManager.instance.UpdatePlayerHealthText(playerCurrHealth);
     }
 
 }
