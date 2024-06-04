@@ -2166,22 +2166,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 9014170783809206330, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
-      propertyPath: m_BackGroundColor.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9014170783809206330, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
-      propertyPath: m_BackGroundColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9014170783809206330, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
-      propertyPath: m_BackGroundColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9014170783809206330, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
-      propertyPath: m_BackGroundColor.r
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 9032954039820430273, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       propertyPath: m_MaxRaycastDistance
       value: 1000
@@ -2436,6 +2420,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefabs:
+  - {fileID: 5196961611457245738, guid: b43a1c4f107b02946a86422d3e2587b6, type: 3}
+  - {fileID: 5196961611457245738, guid: c6b4712cb012af14bbf8239d6e8b0020, type: 3}
+  - {fileID: 8235772313742901243, guid: 945bc18edd49d014f85d12c87f3604f0, type: 3}
   - {fileID: 8235772313742901243, guid: e71ae31c4da88e74fa41fe8bbce094a7, type: 3}
   spawnInterval: 1
 --- !u!1 &987195991
@@ -2875,7 +2862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b673464b94b85df4a8a00c754ab1beb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialLocation: {fileID: 0}
+  initialLocation: {fileID: 987195992}
   triggerAction:
     m_UseReference: 1
     m_Action:
@@ -2887,7 +2874,9 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -3599823989380923159, guid: 0be0028c24f2a4c14a96b6aa39055933, type: 3}
+    m_Reference: {fileID: -3742484312079769484, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  disableMovement: 0
+  moveProvider: {fileID: 77125660}
 --- !u!54 &1111315256
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4463,7 +4452,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
