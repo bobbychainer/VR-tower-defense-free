@@ -95,10 +95,15 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public void TakeBaseDamage(int dmg) {
+    public void TakeBaseDamage(int dmg) {// TODO: Fix Nullref
+        Debug.Log("BH: " + baseCurrHealth);
         baseCurrHealth -= dmg;
-        baseCurrHealth = Mathf.Clamp(baseCurrHealth, 0, baseMaxHealth); // sorgt dafuer, dass currHealth immer zwischen 0 und maxHealth ist
-        if (baseCurrHealth <= 0) MenuController.instance.LoadGameOverScene();
+        UIManager.instance.UpdateBaseHealthText(baseCurrHealth);
+        //baseCurrHealth = Mathf.Clamp(baseCurrHealth, 0, baseMaxHealth); // sorgt dafuer, dass currHealth immer zwischen 0 und maxHealth ist
+        if (baseCurrHealth <= 0) {
+            Debug.Log("Base Health 0");
+            MenuController.instance.LoadGameOverScene();
+        }
     }
 
     public void TakePlayerDamage(int dmg)
