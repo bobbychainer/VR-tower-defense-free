@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
+//using System.Diagnostics;
 using UnityEngine;
+
 
 public class EnemyShooting : EnemyController
 {
-    public LayerMask enemyLayer;
+    public LayerMask towerLayer;
     protected float lastAttackTime = 0f;
     protected int damage = 1;
-    protected float attackCooldown = 4f;
+    protected float attackCooldown = 10f;
 
     private Transform targetEnemy;
     private float attackRadius = 8f;
@@ -22,7 +23,7 @@ public class EnemyShooting : EnemyController
         enemyValue = 3;
         enemySpeed = 1f;
 
-        attackCooldown = 0.5f;
+        attackCooldown = 4f;
         damage = 1;
 
         attackStartPosition = gameObject.transform.position;
@@ -72,10 +73,11 @@ public class EnemyShooting : EnemyController
 
     protected virtual void Attack()
     {
-        GameObject towerBullet = Instantiate(bulletPrefab, attackStartPosition, Quaternion.identity);
+        GameObject enemyBullet = Instantiate(bulletPrefab, attackStartPosition, Quaternion.identity);
 
-        RapidTowerBullet bullet = towerBullet.GetComponent<RapidTowerBullet>();
-        if (bullet != null) bullet.Initialize(targetEnemy, damage);
+        EnemyShootingBullet bullet = enemyBullet.GetComponent<EnemyShootingBullet>();
+
+        if (bullet != null)  bullet.Initialize(targetEnemy, damage);
     }
 
     protected virtual bool AttackReady()
@@ -86,7 +88,7 @@ public class EnemyShooting : EnemyController
     // get enemy collider in sphere with attackradius
     private Collider[] EnemiesInRange()
     {
-        return Physics.OverlapSphere(transform.position, attackRadius, enemyLayer);
+        return Physics.OverlapSphere(transform.position, attackRadius, towerLayer);
     }
 
     private bool TargetOutOfRange(Collider[] enemyColliders)

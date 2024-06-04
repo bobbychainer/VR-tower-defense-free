@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3b7e5974ec102941b7f3776f54b1f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyLayer:
+  towerLayer:
     serializedVersion: 2
     m_Bits: 64
   bulletPrefab: {fileID: 8805446975887201342, guid: 0de45527387435349839b2e922761b6d, type: 3}

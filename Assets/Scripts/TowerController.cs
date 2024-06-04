@@ -40,14 +40,11 @@ public class TowerController: MonoBehaviour {
 		return (Time.time - lastAttackTime >= attackCooldown);
 	}
 
-    private void OnTriggerEnter(Collider other)
-    {
-		Debug.Log("TESTING");
+    private void OnTriggerEnter(Collider other) { //TODO: Add LifeBar
+		//Collision EnemyBullet -> Tower
         if (other.gameObject.tag == "EnemyBullet")
         {
-            Debug.Log("Hit EnemyBullet" + other.gameObject);
             BulletController bulletController = other.gameObject.GetComponent<BulletController>();
-
             if (bulletController != null)
             {
                 int damage = bulletController.GetDamage();
@@ -65,7 +62,7 @@ public class TowerController: MonoBehaviour {
         {
             Destroy(gameObject);
             Debug.Log("Tower destroyed.");
-            //GameManager.instance.UpdatePlayerScore(enemyValue); Minuspunkte hinzufügen?
+            //GameManager.instance.UpdatePlayerScore(enemyValue); Minuspunkte hinzufï¿½gen?
         }
     }
 

@@ -47,9 +47,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //Check Collision EnemyBullet -> Player
         if (other.gameObject.tag == "EnemyBullet")
         {
-            // Debug.Log("Hit Player" + other.gameObject);
+            Debug.Log("Hit Player" + other.gameObject);
             BulletController bulletController = other.gameObject.GetComponent<BulletController>();
 
             if (bulletController != null)

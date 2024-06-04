@@ -44,14 +44,13 @@ public class EnemyController : MonoBehaviour {
 
     public int GetEnemyValue() { return enemyValue; }
 
-    // Check collision enemies with bullets
+    // Check collision
     private void OnTriggerEnter(Collider other)
     {
+        //Collision Towerbullet -> Enemy
         if (other.gameObject.tag == "Bullet")
         {
-            // Debug.Log("Hit " + other.gameObject);
             BulletController bulletController = other.gameObject.GetComponent<BulletController>();
-
             if (bulletController != null)
             {
                 int damage = bulletController.GetDamage();
