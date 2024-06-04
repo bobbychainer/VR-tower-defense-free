@@ -6,8 +6,23 @@ using Debug = UnityEngine.Debug;
 
 public class PlayerController : MonoBehaviour
 {
-    public Transform targetLocation; // The target location to move to
-    public InputActionProperty triggerAction; // The input action for the trigger
+    public Transform initialLocation;
+    public InputActionProperty triggerAction;
+
+    public bool disableMovement = false;
+    public ActionBasedContinuousMoveProvider moveProvider;
+
+    void Update()
+    { 
+        if (disableMovement && moveProvider.enabled)
+        {
+            moveProvider.enabled = false;
+        }
+        else if (!disableMovement && !moveProvider.enabled)
+        {
+            moveProvider.enabled = true;
+        }
+    }
 
     protected GameManager gameManager;
 
@@ -33,11 +48,11 @@ public class PlayerController : MonoBehaviour
 
     private void MovePlayerToLocation()
     {
-        if (targetLocation)
+        if (initialLocation)
         {
             // Move the XR Origin to the target location
-            transform.position = targetLocation.position;
-            transform.rotation = targetLocation.rotation;
+            transform.position = initialLocation.position;
+            transform.rotation = initialLocation.rotation;
         }
         else
         {
