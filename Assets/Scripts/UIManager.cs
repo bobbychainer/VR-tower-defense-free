@@ -29,11 +29,12 @@ public class UIManager : MonoBehaviour {
         }
     }
 
-    private void Start() {
+    private void Start() { // TODO: change buildUI
         playerUI = GameObject.Find("PlayerUI");
         buildUI = GameObject.Find("BuildUI");
-        if (buildUI == null || playerUI == null) Debug.Log("UIs not found");
-        buildUI.SetActive(isBuildUIOpen);
+        //if (buildUI == null || playerUI == null) Debug.Log("UIs not found");
+        if (playerUI == null) Debug.Log("UIs not found");
+        //buildUI.SetActive(isBuildUIOpen);
         playerUI.SetActive(isPlayerUIOpen);
 
         scoreText.text = "Score: " + "0".ToString();
