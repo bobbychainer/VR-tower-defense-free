@@ -9,13 +9,17 @@ public class TowerController: MonoBehaviour {
 	public LayerMask enemyLayer;
 	protected float lastAttackTime = 0f;
 	protected int damage = 1;
-	protected int towerHealth = 100;
+	protected int totalTowerHealth = 100;
+	protected int currentTowerHealth = 100;
 	protected float attackCooldown = 1f;
 	
 	protected bool placed = false;
 	
+	protected GameObject healthObject;
+	
 	protected virtual void Start() {
-		
+		healthObject = gameObject.transform.Find("HealthBar/Background/Anchor/Health").gameObject;
+		Debug.Log(healthObject);
 	}
 
 	protected virtual void Update() {
@@ -71,15 +75,36 @@ public class TowerController: MonoBehaviour {
             }
         }
     }
+	
+	private void UpdateHealthBar() {
+		// Calculate the new scale for the health object based on the current health percentage
+		Vector3 newScale = healthObject.transform.localScale;
+		float healthPercentage = (float)currentTowerHealth / (float)totalTowerHealth;
+		newScale.x = healthPercentage;
+
+		// Apply the new scale
+		healthObject.transform.localScale = newScale;
+
+		// Adjust the position to keep the left side anchored
+		Vector3 newPos = healthObject.transform.localPosition;
+		float originalWidth = 1f; // Assuming the original width of the health bar is 1 unit
+		newPos.x = (healthPercentage - 1) * (originalWidth / 2);
+
+		// Apply the new position
+		healthObject.transform.localPosition = newPos;
+	}
 
     public void TakeDamage(int damage)
     {
-        towerHealth -= damage;
-        if (towerHealth <= 0)
+        currentTowerHealth -= damage;
+		// update healthObject
+		UpdateHealthBar();
+        if (currentTowerHealth <= 0)
         {
             Destroy(gameObject);
             Debug.Log("Tower destroyed.");
             //GameManager.instance.UpdatePlayerScore(enemyValue); Minuspunkte hinzuf�gen?
+			
         }
     }
 	
