@@ -19,7 +19,8 @@ public class UIManager : MonoBehaviour {
     public TMP_Text playerHealthText;
     public TMP_Text playerCoinsText;
     public Button readyButton;
-   
+	
+    private BuildCameraController buildController;
     
     void Awake() {
         if (instance == null) {
@@ -42,6 +43,8 @@ public class UIManager : MonoBehaviour {
         baseHealthText.text = "Base Health: " + "20".ToString();
         playerHealthText.text = "Player Health: " + "100".ToString();
         playerCoinsText.text = "Player Coins: " + "100".ToString();
+		
+		buildController = FindObjectOfType<BuildCameraController>();
     } 
 
     // toggles player and build UI
@@ -90,5 +93,11 @@ public class UIManager : MonoBehaviour {
         }
     }
 
-    
+    // instatiate small tower
+	public void SmallTowerButtonPressed() { buildController.SpawnSmallTower(); }
+	// instatiate rapid tower
+	public void RapidTowerButtonPressed() { buildController.SpawnRapidTower(); }
+	// instatiate laser tower
+	public void LaserTowerButtonPressed() { buildController.SpawnLaserTower(); }
+
 }

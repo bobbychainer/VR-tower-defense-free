@@ -12,21 +12,38 @@ public class TowerController: MonoBehaviour {
 	protected int towerHealth = 100;
 	protected float attackCooldown = 1f;
 	
-	protected virtual void Start() {
+	protected bool placed = false;
 	
+	protected virtual void Start() {
+		
 	}
 
 	protected virtual void Update() {
-		// attack if not on cooldown and if target near by
-		if (TargetDetected() && AttackReady()) {
-			Attack();
-			lastAttackTime = Time.time;
+		// no target detection or attack without being placed
+		if (placed) {
+			Debug.Log("works");
+			// attack if not on cooldown and if target near by
+			if (TargetDetected() && AttackReady()) {
+				Attack();
+				lastAttackTime = Time.time;
+			}
 		}
+	}
+	
+	// initialize tower
+	protected virtual void Initialize() {
+		return;
 	}
 	
 	// target detected = true ; no target near by = false;
 	protected virtual bool TargetDetected() {
 		return false;
+	}
+	
+	// attack cooldown
+	// returns true if attack ready
+	protected virtual bool AttackReady() {
+		return (Time.time - lastAttackTime >= attackCooldown);
 	}
 
 	// attack target (depends on tower type)
@@ -34,10 +51,10 @@ public class TowerController: MonoBehaviour {
 		return;
 	}
 	
-	// attack cooldown
-	// returns true if attack ready
-	protected virtual bool AttackReady() {
-		return (Time.time - lastAttackTime >= attackCooldown);
+	// activate tower
+	public void PlaceTower() {
+		Initialize();
+		placed = true;
 	}
 
     private void OnTriggerEnter(Collider other) { //TODO: Add LifeBar
@@ -65,6 +82,10 @@ public class TowerController: MonoBehaviour {
             //GameManager.instance.UpdatePlayerScore(enemyValue); Minuspunkte hinzuf�gen?
         }
     }
+	
+	public bool hasBeenPlaced() {
+		return placed;
+	}
 
 
 }

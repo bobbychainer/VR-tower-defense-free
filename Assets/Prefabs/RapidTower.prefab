@@ -178,7 +178,7 @@ GameObject:
   - component: {fileID: 772392292864818307}
   - component: {fileID: 1575016522977071029}
   - component: {fileID: 8938951579103393375}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RapidTower
   m_TagString: Tower
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}

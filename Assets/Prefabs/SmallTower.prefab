@@ -344,7 +344,7 @@ GameObject:
   - component: {fileID: 819154067708552800}
   - component: {fileID: 6147414387234884763}
   - component: {fileID: 8801718204214449473}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SmallTower
   m_TagString: Tower
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
