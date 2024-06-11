@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildCameraController : MonoBehaviour {
+public class BuildController : MonoBehaviour {
     public LayerMask layerMask;
 	public GameObject smallTowerPrefab;
 	public GameObject rapidTowerPrefab;
 	public GameObject laserTowerPrefab;
 	private GameManager gameManager;
-	private Camera cam;
+	public Camera cam;
 	private GameObject dragTarget;
 	private Vector3 spawnPosition;
 	private bool spawnedTowerButNotPlaced = false;
@@ -21,9 +21,9 @@ public class BuildCameraController : MonoBehaviour {
 	protected bool isDragging = false;
 
 	void Start() {
-		cam = GetComponent<Camera>();
+		//cam = GetComponent<Camera>();
 		gameManager = FindObjectOfType<GameManager>();
-		spawnPosition = new Vector3(0,dragHeight,25);
+		spawnPosition = new Vector3(0, dragHeight, 5);
 		objectHeightPlane = new Plane(Vector3.up * dragHeight, Vector3.up);
 	}
 
