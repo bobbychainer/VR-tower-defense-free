@@ -38,4 +38,8 @@ public class MenuController : MonoBehaviour {
             UnityEditor.EditorApplication.isPlaying = false;
         #endif
     }
+
+    public void Test() {
+        Debug.Log("Test()");
+    }
 }
