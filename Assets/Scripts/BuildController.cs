@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class BuildController : MonoBehaviour {
     public LayerMask layerMask;
@@ -12,12 +13,13 @@ public class BuildController : MonoBehaviour {
 	private GameObject dragTarget;
 	private Vector3 spawnPosition;
 	private bool spawnedTowerButNotPlaced = false;
-	
 	private float dragHeight = 1f;
 	private float dragXOffset = 0.5f;
 	private float dragZOffset = 0.5f;
 	private Plane objectHeightPlane;
-	
+	public XRRayInteractor leftRayInteractor;
+    public LineRenderer lineRenderer;
+
 	protected bool isDragging = false;
 
 	void Start() {
@@ -27,12 +29,9 @@ public class BuildController : MonoBehaviour {
 		objectHeightPlane = new Plane(Vector3.up * dragHeight, Vector3.up);
 	}
 
-    void Update(){
-		// only run while in build state
-		if (gameManager.IsPreparationGameState()) {
-			// mouse pressed. Select dragTarget if layerMask is valid
-			if (Input.GetMouseButtonDown(0)) {
-				dragTarget = PointerOnObject();
+    void Update() {
+		if (Input.GetMouseButtonDown(0)) {
+				dragTarget = PerformRaycast();
 				if (dragTarget != null) {
 					isDragging = true;
 					Debug.Log("Drag Started");
@@ -60,50 +59,32 @@ public class BuildController : MonoBehaviour {
 			if (isDragging && dragTarget != null) {
 				DragTargetToMouse();
 			}
-		}
     }
+		
+	private GameObject PerformRaycast() {
+        if (leftRayInteractor != null) {
+			// Perform raycast using XRRayInteractor
+			Ray ray = new Ray(leftRayInteractor.transform.position, leftRayInteractor.transform.forward);
+			RaycastHit hit;
+
+			if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
+				Debug.Log("Hit: " + hit.collider.gameObject.name);
+				return hit.collider.gameObject;
+			}
+		}
+		return null;
+    }
+
 	
 	// move target to mouse positon
 	private void DragTargetToMouse(){
-		// ray from camera through mouse position on screen
-		Vector3 adjustedMousePosition = AdjustMousePosition(Input.mousePosition);
-        Ray ray = cam.ScreenPointToRay(adjustedMousePosition);
 		// get intersection with objectHeightPlane and move target to that point
 		float distance;
+		Ray ray = new Ray(leftRayInteractor.transform.position, leftRayInteractor.transform.forward);
 		if (objectHeightPlane.Raycast(ray, out distance)) {
 			Vector3 point = ray.GetPoint(distance);
 			dragTarget.transform.position = new Vector3(Mathf.Round(point.x - dragXOffset), Mathf.Round(dragHeight), Mathf.Round(point.z - dragZOffset)); // Set y to 2
 		}
-    }
-	
-	private GameObject PointerOnObject() {
-		// ray from camera through mouse position on screen
-		RaycastHit hit;
-		Vector3 adjustedMousePosition = AdjustMousePosition(Input.mousePosition);
-		Ray ray = cam.ScreenPointToRay(adjustedMousePosition);
-		// if ray hits a tower object and tower not placed return tower object
-		if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
-			TowerController towerController = hit.collider.gameObject.GetComponent<TowerController>();
-			if (towerController) {
-				if (!towerController.hasBeenPlaced()) {
-					return hit.collider.gameObject;
-				} else {
-					Debug.Log("Tower already placed.");
-				}
-			}
-		}
-		return null;
-	}
-
-	// adjust mouseposition to avoid wrong target position while dragging and for drag selection
-    private Vector3 AdjustMousePosition(Vector3 originalMousePosition) {
-        // adjust the mouse position to account for any offsets due to the XR setup
-        Vector3 screenPoint = originalMousePosition;
-        // convert screen point to viewport point, taking into account the XR origin's offset and scaling
-        Vector3 viewportPoint = cam.ScreenToViewportPoint(screenPoint);
-        // adjust viewport point back to screen space, correcting for the XR setup's viewport
-        Vector3 adjustedScreenPoint = cam.ViewportToScreenPoint(viewportPoint);
-        return adjustedScreenPoint;
     }
 	
 	private void SpawnTower(GameObject towerPrefab, Vector3 position) {

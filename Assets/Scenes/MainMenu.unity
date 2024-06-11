@@ -1701,6 +1701,12 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 64
+  smallTowerPrefab: {fileID: 0}
+  rapidTowerPrefab: {fileID: 0}
+  laserTowerPrefab: {fileID: 0}
+  cam: {fileID: 0}
+  leftRayInteractor: {fileID: 0}
+  lineRenderer: {fileID: 0}
 --- !u!114 &1782587421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2044,7 +2050,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2025534842}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 12}
+  m_LocalPosition: {x: 0, y: 0, z: 15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
