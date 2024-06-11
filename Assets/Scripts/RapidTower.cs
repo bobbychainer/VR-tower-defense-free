@@ -6,16 +6,19 @@ public class RapidTower : TowerController {
     // target transform object
 	private Transform targetEnemy;
 	
-	private float attackRadius = 8f;
+	private float attackRadius;
 	public GameObject bulletPrefab;
 	private Vector3 attackStartPosition;
 	
-    protected override void Start() {
-		base.Start();
+	// initialize tower
+	protected override void Initialize() {
+		// TowerController initialization
 		attackCooldown = 0.5f;
 		damage = 1;
+		// RapidTower initialization
 		// get top position of tower (CenterSphere)
 		attackStartPosition = gameObject.transform.Find("TopSpheres/CenterSphere").position;
+		attackRadius = 8f;
 	}
 	
 	// return true if target got set
