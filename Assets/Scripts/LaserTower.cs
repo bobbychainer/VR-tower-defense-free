@@ -9,6 +9,7 @@ public class LaserTower : TowerController {
 	private Vector3 attackStartPosition;
 	//target position
 	private Vector3 attackEndPosition;
+	public int laserTowerPrice = 100;
 	
 	// initialize tower
 	protected override void Initialize() {

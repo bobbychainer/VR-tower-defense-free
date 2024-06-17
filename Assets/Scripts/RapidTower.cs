@@ -5,10 +5,10 @@ using UnityEngine;
 public class RapidTower : TowerController {
     // target transform object
 	private Transform targetEnemy;
-	
 	private float attackRadius;
 	public GameObject bulletPrefab;
 	private Vector3 attackStartPosition;
+	public int rapidTowerPrice = 100;
 	
 	// initialize tower
 	protected override void Initialize() {
