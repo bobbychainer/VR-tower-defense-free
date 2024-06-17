@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour {
     private GameObject buildUI;
     private GameObject playerUI;
     private bool isPlayerUIOpen = true;
-    private bool isBuildUIOpen = false;
+    private bool isBuildUIOpen = true;
     public TMP_Text scoreText;
     public TMP_Text highScoreText;
     public TMP_Text roundText;
@@ -19,7 +19,8 @@ public class UIManager : MonoBehaviour {
     public TMP_Text playerHealthText;
     public TMP_Text playerCoinsText;
     public Button readyButton;
-   
+	
+    private BuildController buildController;
     
     void Awake() {
         if (instance == null) {
@@ -32,9 +33,8 @@ public class UIManager : MonoBehaviour {
     private void Start() { // TODO: change buildUI
         playerUI = GameObject.Find("PlayerUI");
         buildUI = GameObject.Find("BuildUI");
-        //if (buildUI == null || playerUI == null) Debug.Log("UIs not found");
-        if (playerUI == null) Debug.Log("UIs not found");
-        //buildUI.SetActive(isBuildUIOpen);
+        if (buildUI == null || playerUI == null) Debug.Log("UIs not found");
+        buildUI.SetActive(isBuildUIOpen);
         playerUI.SetActive(isPlayerUIOpen);
 
         scoreText.text = "Score: " + "0".ToString();
@@ -43,6 +43,8 @@ public class UIManager : MonoBehaviour {
         baseHealthText.text = "Base Health: " + "20".ToString();
         playerHealthText.text = "Player Health: " + "100".ToString();
         playerCoinsText.text = "Player Coins: " + "100".ToString();
+		
+		buildController = FindObjectOfType<BuildController>();
     } 
 
     // toggles player and build UI
@@ -91,5 +93,11 @@ public class UIManager : MonoBehaviour {
         }
     }
 
-    
+    // instatiate small tower
+	public void SmallTowerButtonPressed() { Debug.Log("S pressed");buildController.SpawnSmallTower(); }
+	// instatiate rapid tower
+	public void RapidTowerButtonPressed() { Debug.Log("R pressed");buildController.SpawnRapidTower(); }
+	// instatiate laser tower
+	public void LaserTowerButtonPressed() { Debug.Log("L pressed");buildController.SpawnLaserTower(); }
+
 }

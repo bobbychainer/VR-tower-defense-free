@@ -112,5 +112,13 @@ public class GameManager : MonoBehaviour {
         playerCurrHealth = Mathf.Clamp(playerCurrHealth, 0, playerMaxHealth);
         UIManager.instance.UpdatePlayerHealthText(playerCurrHealth);
     }
+	
+	public bool IsPreparationGameState() {
+		return currentState == GameState.PREPARATION;
+	}
+	
+	public bool IsAttackGameState() {
+		return currentState == GameState.ATTACK;
+	}
 
 }

@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SmallTower : TowerController {
-	
 	// target transform object
 	private Transform targetEnemy;
 	
-	private float attackRadius = 10f;
+	private float attackRadius;
 	public GameObject bulletPrefab;
 	private Vector3 attackStartPosition;
 	
-    protected override void Start() {
-		base.Start();
+	// initialize tower
+	protected override void Initialize() {
+		// TowerController initialization
+		damage = 1;
+		// RapidTower initialization
 		// get top position of tower (CenterSphere)
 		attackStartPosition = gameObject.transform.Find("TopSpheres/CenterSphere").position;
+		attackRadius = 10f;
 	}
 	
 	// return true if target got set
