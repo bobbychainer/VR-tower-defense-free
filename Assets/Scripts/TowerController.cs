@@ -9,12 +9,11 @@ public class TowerController: MonoBehaviour {
 	public LayerMask enemyLayer;
 	protected float lastAttackTime = 0f;
 	protected int damage = 1;
+	protected int towerPrice = 100;
 	protected int totalTowerHealth = 100;
 	protected int currentTowerHealth = 100;
 	protected float attackCooldown = 1f;
-	
 	protected bool placed = false;
-	
 	protected GameObject healthObject;
 	
 	protected virtual void Start() {
@@ -94,23 +93,18 @@ public class TowerController: MonoBehaviour {
 		healthObject.transform.localPosition = newPos;
 	}
 
-    public void TakeDamage(int damage)
-    {
+    public void TakeDamage(int damage) {
         currentTowerHealth -= damage;
 		// update healthObject
 		UpdateHealthBar();
-        if (currentTowerHealth <= 0)
-        {
+        if (currentTowerHealth <= 0) {
             Destroy(gameObject);
             Debug.Log("Tower destroyed.");
-            //GameManager.instance.UpdatePlayerScore(enemyValue); Minuspunkte hinzuf�gen?
-			
+            //GameManager.instance.UpdatePlayerScore(enemyValue); Minuspunkte hinzuf�gen
         }
     }
 	
-	public bool hasBeenPlaced() {
-		return placed;
-	}
+	public bool hasBeenPlaced() { return placed; }
 
 
 }

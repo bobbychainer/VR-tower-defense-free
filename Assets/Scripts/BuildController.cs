@@ -99,9 +99,18 @@ public class BuildController : MonoBehaviour {
 	}
 	
 	// create a SmallTower at spawnposition
-	public void SpawnSmallTower() { SpawnTower(smallTowerPrefab, spawnPosition); }
+	public void SpawnSmallTower() { 
+		SpawnTower(smallTowerPrefab, spawnPosition); 
+		GameManager.instance.RemoveCoins(smallTowerPrefab.GetComponent<SmallTower>().smallTowerPrice);
+	}
 	// create a SmallTower at spawnposition
-	public void SpawnRapidTower() { SpawnTower(rapidTowerPrefab, spawnPosition); }
+	public void SpawnRapidTower() { 
+		SpawnTower(rapidTowerPrefab, spawnPosition); 
+		GameManager.instance.RemoveCoins(rapidTowerPrefab.GetComponent<RapidTower>().rapidTowerPrice);
+	}
 	// create a SmallTower at spawnposition
-	public void SpawnLaserTower() { SpawnTower(laserTowerPrefab, spawnPosition); }
+	public void SpawnLaserTower() { 
+		SpawnTower(laserTowerPrefab, spawnPosition); 
+		GameManager.instance.RemoveCoins(laserTowerPrefab.GetComponent<LaserTower>().laserTowerPrice);
+	}
 }

@@ -5,10 +5,10 @@ using UnityEngine;
 public class SmallTower : TowerController {
 	// target transform object
 	private Transform targetEnemy;
-	
 	private float attackRadius;
 	public GameObject bulletPrefab;
 	private Vector3 attackStartPosition;
+	public int smallTowerPrice = 100;
 	
 	// initialize tower
 	protected override void Initialize() {
