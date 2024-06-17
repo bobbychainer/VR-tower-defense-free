@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour {
         currentRound = 1;
         currentTimer = timer;
         currentState = GameState.PREPARATION;
-        baseMaxHealth = 20;
+        baseMaxHealth = 300;
         baseCurrHealth = baseMaxHealth;
         playerCoins = 100;
 

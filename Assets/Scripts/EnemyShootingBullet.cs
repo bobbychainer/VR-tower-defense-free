@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class EnemyShootingBullet : BulletController
 {
-
-    // bullet target
+    // Bullet target
     private Transform target;
-    private Vector3 towerTargetOffset = new Vector3(0,1f,0);
-
+    private Vector3 towerTargetOffset = new Vector3(0, 0.5f, 0); // Offset to target the lower body
 
     protected override void Start()
     {
@@ -16,29 +14,32 @@ public class EnemyShootingBullet : BulletController
         damage = 1;
     }
 
-    // return true if target destroyed or hit
+    // Return true if target destroyed or hit
     protected override bool TargetReached()
     {
         return (targetReached || target == null);
     }
 
-    // move bullet 
+    // Move bullet towards the target
     protected override void MoveToTarget()
     {
-        Vector3 direction = target.transform.position - transform.position;
-        direction += towerTargetOffset;
+        if (target == null)
+        {
+            Destroy(gameObject); // Destroy the bullet if target is lost
+            return;
+        }
+
+        Vector3 targetPosition = target.position + towerTargetOffset;
+        Vector3 direction = targetPosition - transform.position;
         float distanceThisFrame = bulletSpeed * Time.deltaTime;
 
         transform.Translate(direction.normalized * distanceThisFrame, Space.World);
     }
 
-    // initialize bullet damage and target
+    // Initialize bullet damage and target
     public void Initialize(Transform _target, int _damage)
     {
-
         damage = _damage;
         target = _target;
     }
-
-
 }

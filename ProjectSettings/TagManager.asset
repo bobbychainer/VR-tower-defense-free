@@ -13,6 +13,7 @@ TagManager:
   - Tower
   - Bullet
   - EnemyBullet
+  - PlayerBullet
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - Tower
   - VRUI
   - Ground
-  - 
+  - Player
   - Teleportation
   - 
   - 
