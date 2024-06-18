@@ -95,22 +95,31 @@ public class BuildController : MonoBehaviour {
             dragTarget.transform.position = new Vector3(Mathf.Round(point.x - dragXOffset), Mathf.Round(dragHeight), Mathf.Round(point.z - dragZOffset)); // Set y to 2
         }
     }
-
-    private void SpawnTower(GameObject towerPrefab, Vector3 position) {
-        // if game state is preparation (building) spawn a tower
-        if (gameManager.IsPreparationGameState()) {
-            // avoid spawning multiple towers
-            if (!spawnedTowerButNotPlaced) {
-                Instantiate(towerPrefab, position, towerPrefab.transform.rotation);
-                spawnedTowerButNotPlaced = true;
-            }
-        }
-    }
-
-    // create a SmallTower at spawn position
-    public void SpawnSmallTower() { SpawnTower(smallTowerPrefab, spawnPosition); }
-    // create a RapidTower at spawn position
-    public void SpawnRapidTower() { SpawnTower(rapidTowerPrefab, spawnPosition); }
-    // create a LaserTower at spawn position
-    public void SpawnLaserTower() { SpawnTower(laserTowerPrefab, spawnPosition); }
+	
+	private void SpawnTower(GameObject towerPrefab, Vector3 position) {
+		// if game state is preparation (building) spawn a tower
+		if (gameManager.IsPreparationGameState()) {
+			// avoid spawning multiple tower
+			if (!spawnedTowerButNotPlaced) {
+				Instantiate(towerPrefab, position, towerPrefab.transform.rotation);
+				spawnedTowerButNotPlaced =  true;
+			}
+		}
+	}
+	
+	// create a SmallTower at spawnposition
+	public void SpawnSmallTower() { 
+		SpawnTower(smallTowerPrefab, spawnPosition); 
+		GameManager.instance.RemoveCoins(smallTowerPrefab.GetComponent<SmallTower>().smallTowerPrice);
+	}
+	// create a SmallTower at spawnposition
+	public void SpawnRapidTower() { 
+		SpawnTower(rapidTowerPrefab, spawnPosition); 
+		GameManager.instance.RemoveCoins(rapidTowerPrefab.GetComponent<RapidTower>().rapidTowerPrice);
+	}
+	// create a SmallTower at spawnposition
+	public void SpawnLaserTower() { 
+		SpawnTower(laserTowerPrefab, spawnPosition); 
+		GameManager.instance.RemoveCoins(laserTowerPrefab.GetComponent<LaserTower>().laserTowerPrice);
+	}
 }
