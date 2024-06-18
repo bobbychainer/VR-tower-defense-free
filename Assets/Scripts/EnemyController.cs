@@ -58,6 +58,14 @@ public class EnemyController : MonoBehaviour {
                 TakeDamage(damage);
             }
         }
+        //Collision PlayerBullet -> Enemy
+        if (other.gameObject.tag == "PlayerBullet")
+        {
+            int damage = other.gameObject.GetComponent<PlayerBullet>().GetDamage();
+            TakeDamage(damage);
+            Destroy(other.gameObject);
+            
+        }
     }
 
     // Check if there are waypoints remaining

@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
-//using System.Diagnostics;
 using UnityEngine;
-
 
 public class EnemyShooting : EnemyController
 {
     public LayerMask towerLayer;
+    public LayerMask playerLayer;  // Layer mask for the player
     protected float lastAttackTime = 0f;
     protected int damage = 1;
     protected float attackCooldown = 10f;
 
     private Transform targetEnemy;
-    private float attackRadius = 8f;
+    private Transform targetPlayer;  // Reference to the player
+    private float attackRadius = 5f;
     public GameObject bulletPrefab;
     private Vector3 attackStartPosition;
 
@@ -32,7 +32,7 @@ public class EnemyShooting : EnemyController
     protected override void Update()
     {
         base.Update();
-        // attack if not on cooldown and if target near by
+        // Attack if not on cooldown and if target is nearby
         if (TargetDetected() && AttackReady())
         {
             Attack();
@@ -41,34 +41,61 @@ public class EnemyShooting : EnemyController
         attackStartPosition = gameObject.transform.position;
     }
 
-    private Transform FindNearestEnemy(Collider[] enemyColliders)
+    private Transform FindNearestTarget(Collider[] targetColliders)
     {
-        if (enemyColliders == null) return null;
+        if (targetColliders == null) return null;
 
-        Transform nearestEnemy = null;
+        Transform nearestTarget = null;
         float shortestDistance = Mathf.Infinity;
 
-        foreach (Collider collider in enemyColliders)
+        foreach (Collider collider in targetColliders)
         {
-            float distanceToEnemy = Vector3.Distance(transform.position, collider.transform.position);
-            if (distanceToEnemy < shortestDistance)
+            float distanceToTarget = Vector3.Distance(transform.position, collider.transform.position);
+            if (distanceToTarget < shortestDistance)
             {
-                shortestDistance = distanceToEnemy;
-                nearestEnemy = collider.transform;
+                shortestDistance = distanceToTarget;
+                nearestTarget = collider.transform;
             }
         }
-        return nearestEnemy;
+        return nearestTarget;
     }
 
     protected virtual bool TargetDetected()
     {
-        Collider[] enemies = EnemiesInRange();
-        // check if target is still in range else change targetEnemy
-        if (targetEnemy == null || TargetOutOfRange(enemies))
+        // Check for player in range
+        Collider[] playersInRange = Physics.OverlapSphere(transform.position, attackRadius, playerLayer);
+        if (playersInRange.Length > 0)
         {
-            targetEnemy = FindNearestEnemy(enemies);
+            targetPlayer = playersInRange[0].transform;  // Assuming there's only one player
+            Debug.Log("Player detected!");
         }
-        return targetEnemy != null;
+        else
+        {
+            targetPlayer = null;
+            Debug.Log("No player detected.");
+        }
+
+        if (targetPlayer != null)
+        {
+            Debug.Log("Targeting player");
+            return true;
+        }
+
+        // Check for other enemies in range
+        Collider[] enemiesInRange = EnemiesInRange();
+        // Check if target is still in range, else change targetEnemy
+        if (targetEnemy == null || TargetOutOfRange(enemiesInRange))
+        {
+            targetEnemy = FindNearestTarget(enemiesInRange);
+        }
+
+        if (targetEnemy != null)
+        {
+            Debug.Log("Targeting enemy");
+            return true;
+        }
+
+        return false;
     }
 
     protected virtual void Attack()
@@ -77,7 +104,18 @@ public class EnemyShooting : EnemyController
 
         EnemyShootingBullet bullet = enemyBullet.GetComponent<EnemyShootingBullet>();
 
-        if (bullet != null)  bullet.Initialize(targetEnemy, damage);
+
+        if (bullet != null)
+        {
+            if (targetPlayer != null)
+            {
+                bullet.Initialize(targetPlayer, damage);
+            }
+            else if (targetEnemy != null)
+            {
+                bullet.Initialize(targetEnemy, damage);
+            }
+        }
     }
 
     protected virtual bool AttackReady()
@@ -85,7 +123,7 @@ public class EnemyShooting : EnemyController
         return (Time.time - lastAttackTime >= attackCooldown);
     }
 
-    // get enemy collider in sphere with attackradius
+    // Get enemy colliders in sphere with attackRadius
     private Collider[] EnemiesInRange()
     {
         return Physics.OverlapSphere(transform.position, attackRadius, towerLayer);
@@ -95,7 +133,8 @@ public class EnemyShooting : EnemyController
     {
         foreach (Collider collider in enemyColliders)
         {
-            if (targetEnemy.position.Equals(collider.transform.position)) return false;
+            if (targetEnemy != null && targetEnemy.position.Equals(collider.transform.position))
+                return false;
         }
         return true;
     }

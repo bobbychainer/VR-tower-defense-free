@@ -368,7 +368,7 @@ GameObject:
   - component: {fileID: 209638283}
   - component: {fileID: 209638282}
   - component: {fileID: 209638281}
-  m_Layer: 7
+  m_Layer: 5
   m_Name: playerCoinsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -502,7 +502,7 @@ GameObject:
   - component: {fileID: 427637352}
   - component: {fileID: 427637354}
   - component: {fileID: 427637353}
-  m_Layer: 7
+  m_Layer: 5
   m_Name: timerText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1822,11 +1822,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefabs:
-  - {fileID: 5196961611457245738, guid: b43a1c4f107b02946a86422d3e2587b6, type: 3}
-  - {fileID: 5196961611457245738, guid: c6b4712cb012af14bbf8239d6e8b0020, type: 3}
-  - {fileID: 8235772313742901243, guid: 945bc18edd49d014f85d12c87f3604f0, type: 3}
   - {fileID: 8235772313742901243, guid: e71ae31c4da88e74fa41fe8bbce094a7, type: 3}
-  spawnInterval: 1
+  - {fileID: 5196961611457245738, guid: b43a1c4f107b02946a86422d3e2587b6, type: 3}
+  - {fileID: 8235772313742901243, guid: 945bc18edd49d014f85d12c87f3604f0, type: 3}
+  - {fileID: 5196961611457245738, guid: c6b4712cb012af14bbf8239d6e8b0020, type: 3}
+  spawnInterval: 2
 --- !u!1 &884547664
 GameObject:
   m_ObjectHideFlags: 0
@@ -1838,7 +1838,7 @@ GameObject:
   - component: {fileID: 884547665}
   - component: {fileID: 884547667}
   - component: {fileID: 884547666}
-  m_Layer: 7
+  m_Layer: 5
   m_Name: scoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2185,6 +2185,10 @@ PrefabInstance:
       propertyPath: m_MaxRaycastDistance
       value: 500
       objectReference: {fileID: 0}
+    - target: {fileID: 2871854915733156399, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3462571325970164592, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 25
@@ -2196,6 +2200,10 @@ PrefabInstance:
     - target: {fileID: 3462571325970164592, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_LocalPosition.z
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462571325970164595, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4592956391713993908, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_Name
@@ -2251,6 +2259,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2871854915733156396, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1688396762}
+    - targetCorrespondingSourceObject: {fileID: 2871854915733156396, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1847513166}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3462571325970164595, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       insertIndex: -1
@@ -2435,7 +2446,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2853412522427425234, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
   m_PrefabInstance: {fileID: 961505302}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1402145556}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6803edce0201f574f923fd9d10e5b30a, type: 3}
@@ -2664,7 +2675,7 @@ GameObject:
   - component: {fileID: 1156027562}
   - component: {fileID: 1156027564}
   - component: {fileID: 1156027563}
-  m_Layer: 7
+  m_Layer: 5
   m_Name: highScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3108,6 +3119,11 @@ MonoBehaviour:
   m_Teleporting:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1402145556 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6396743587534923916, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
+  m_PrefabInstance: {fileID: 961505302}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1521724376
 GameObject:
   m_ObjectHideFlags: 0
@@ -3119,7 +3135,7 @@ GameObject:
   - component: {fileID: 1521724377}
   - component: {fileID: 1521724379}
   - component: {fileID: 1521724378}
-  m_Layer: 7
+  m_Layer: 5
   m_Name: playerHealthText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3691,20 +3707,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialLocation: {fileID: 987195992}
-  triggerAction:
+  returnTriggerAction:
     m_UseReference: 1
     m_Action:
-      m_Name: Trigger
+      m_Name: Return Trigger
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: 2890b4d2-b474-4f52-8761-e8a6559bd5df
+      m_Id: bc58d715-0ca3-43ec-9976-55c7cdf4cde5
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: -6395602842196007441, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  shootTriggerAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Shoot Trigger
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 76c610a4-1cf5-4afb-80ed-9d2660c67a55
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 3279264004350380116, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   disableMovement: 0
   moveProvider: {fileID: 1075278202}
+  bulletPrefab: {fileID: 8805446975887201342, guid: 7400b26d95fbc2f40b277d80b848798d, type: 3}
+  bulletSpeed: 20
+  fireRate: 2
+  bulletSpawnPoint: {fileID: 1402145556}
 --- !u!1 &1688396761
 GameObject:
   m_ObjectHideFlags: 0
@@ -3718,7 +3750,7 @@ GameObject:
   - component: {fileID: 1688396765}
   - component: {fileID: 1688396764}
   - component: {fileID: 1688396763}
-  m_Layer: 7
+  m_Layer: 5
   m_Name: PlayerUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3933,7 +3965,7 @@ GameObject:
   - component: {fileID: 1700594238}
   - component: {fileID: 1700594237}
   - component: {fileID: 1700594236}
-  m_Layer: 7
+  m_Layer: 5
   m_Name: baseHealthText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4128,7 +4160,7 @@ GameObject:
   - component: {fileID: 1881409209}
   - component: {fileID: 1881409211}
   - component: {fileID: 1881409210}
-  m_Layer: 7
+  m_Layer: 5
   m_Name: roundText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4145,6 +4177,59 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 2871854915733156393, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
   m_PrefabInstance: {fileID: 961505302}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1847513165
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1847513166}
+  - component: {fileID: 1847513167}
+  m_Layer: 9
+  m_Name: HitCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1847513166
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1847513165}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1765754570}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1847513167
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1847513165}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!224 &1881409209
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4439,7 +4524,7 @@ GameObject:
   - component: {fileID: 2047486086}
   - component: {fileID: 2047486088}
   - component: {fileID: 2047486087}
-  m_Layer: 7
+  m_Layer: 5
   m_Name: stateText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
