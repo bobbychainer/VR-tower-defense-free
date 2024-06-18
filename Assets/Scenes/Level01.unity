@@ -618,75 +618,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 178499413}
   m_CullTransparentMesh: 1
---- !u!1001 &206656985
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 372916327534868910, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_TagString
-      value: Tower
-      objectReference: {fileID: 0}
-    - target: {fileID: 1455434713090379368, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_Name
-      value: RapidTower (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 1455434713090379368, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1455434713090379368, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239639985064391170, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 16.49
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239639985064391170, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239639985064391170, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239639985064391170, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239639985064391170, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239639985064391170, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239639985064391170, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239639985064391170, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239639985064391170, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239639985064391170, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
 --- !u!1 &209638280
 GameObject:
   m_ObjectHideFlags: 0
@@ -1896,9 +1827,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 9014170783809206332, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1238943393}
-    - targetCorrespondingSourceObject: {fileID: 9014170783809206332, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1238943398}
   m_SourcePrefab: {fileID: 100100000, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
 --- !u!1 &844908734
 GameObject:
@@ -2765,7 +2693,7 @@ MonoBehaviour:
     m_Bits: 64
   smallTowerPrefab: {fileID: 5507405810073356762, guid: 55191675ee912104ea304821713a4789, type: 3}
   rapidTowerPrefab: {fileID: 1455434713090379368, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-  laserTowerPrefab: {fileID: 6626505868054740830, guid: d026027acc0cd5e4892773b3220290fb, type: 3}
+  laserTowerPrefab: {fileID: 1739369934043734528, guid: 0e35ffd48947ab84e88b00955fdc6446, type: 3}
   cam: {fileID: 1238943400}
   leftRayInteractor: {fileID: 560710404}
   lineRenderer: {fileID: 560710407}
@@ -3495,27 +3423,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!114 &1238943398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1238943388}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74a843f04f8c8b4429a9c4e8df677df7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 64
-  smallTowerPrefab: {fileID: 0}
-  rapidTowerPrefab: {fileID: 0}
-  laserTowerPrefab: {fileID: 0}
-  cam: {fileID: 0}
-  leftRayInteractor: {fileID: 0}
-  lineRenderer: {fileID: 0}
 --- !u!4 &1238943399 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9014170783809206335, guid: 895f6f3c2d334633b5800312285058d2, type: 3}
@@ -4799,7 +4706,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5423,4 +5330,3 @@ SceneRoots:
   - {fileID: 1707614421}
   - {fileID: 1713053652}
   - {fileID: 1691501547}
-  - {fileID: 206656985}
