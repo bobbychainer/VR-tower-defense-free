@@ -15,7 +15,8 @@ public class GameManager : MonoBehaviour {
     private int currentRound;
     private int baseCurrHealth;
     private int baseMaxHealth;
-    private int playerCoins; // TODO: implement tower placement with buyable towers from coins 
+    private int playerCoins; 
+    public bool canBuy = true; //TODO: implement
     private int playerCurrHealth;
     private int playerMaxHealth;
 
@@ -41,7 +42,6 @@ public class GameManager : MonoBehaviour {
 
         playerMaxHealth = 100;
         playerCurrHealth = playerMaxHealth;
-
         
         UpdateHighScore();
     }
@@ -52,6 +52,15 @@ public class GameManager : MonoBehaviour {
             currentTimer -= Time.deltaTime;
             UIManager.instance.UpdateTimerText(currentTimer);
         }
+    }
+
+    public void AddCoins(int coins) {
+        playerCoins += coins;
+        UIManager.instance.UpdatePlayerCoinsText(playerCoins);
+    }
+    public void RemoveCoins(int coins) {
+        playerCoins -= coins;
+        UIManager.instance.UpdatePlayerCoinsText(playerCoins);
     }
 
     // switches between preparation and attack state

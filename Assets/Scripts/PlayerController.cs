@@ -8,7 +8,8 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
     public Transform initialLocation;
-    public InputActionProperty triggerAction;
+    public InputActionProperty returnTriggerAction;
+    public InputActionProperty shootTriggerAction;
 
     public bool disableMovement = false;
     public ActionBasedContinuousMoveProvider moveProvider;
@@ -32,12 +33,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //TODO: Implement VR Controller Button as Input
-        if (Input.GetKeyDown(KeyCode.P) && Time.time >= nextFireTime)
-        {
-            Debug.Log("KeyCodeP");
-            ShootBullet();
-            nextFireTime = Time.time + fireRate;
-        }
+
 
 
     }
@@ -52,17 +48,28 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        triggerAction.action.performed += OnTriggerPressed;
+        returnTriggerAction.action.performed += OnReturnTriggerPressed;
+        shootTriggerAction.action.performed += OnShootTriggerPressed;
     }
 
     private void OnDisable()
     {
-        triggerAction.action.performed -= OnTriggerPressed;
+        returnTriggerAction.action.performed -= OnReturnTriggerPressed;
+        shootTriggerAction.action.performed -= OnShootTriggerPressed;
     }
 
-    private void OnTriggerPressed(InputAction.CallbackContext context)
+    private void OnReturnTriggerPressed(InputAction.CallbackContext context)
     {
         MovePlayerToLocation();
+    }
+
+        private void OnShootTriggerPressed(InputAction.CallbackContext context)
+    {        
+        if (Time.time >= nextFireTime)
+        {
+            ShootBullet();
+            nextFireTime = Time.time + fireRate;
+        }
     }
 
     private void MovePlayerToLocation()
