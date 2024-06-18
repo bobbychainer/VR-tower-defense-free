@@ -25,7 +25,7 @@ public class BuildController : MonoBehaviour {
 	void Start() {
 		//cam = GetComponent<Camera>();
 		gameManager = FindObjectOfType<GameManager>();
-		spawnPosition = new Vector3(0, dragHeight, 5);
+		spawnPosition = new Vector3(0, dragHeight, 15);
 		objectHeightPlane = new Plane(Vector3.up * dragHeight, Vector3.up);
 	}
 
@@ -41,15 +41,6 @@ public class BuildController : MonoBehaviour {
 			
 			// mouse realeased. Place tower and reset dragTarget
 			if (Input.GetMouseButtonUp(0)) {
-				// place dragTarget
-				if (dragTarget != null) {
-					TowerController towerController = dragTarget.GetComponent<TowerController>();
-					if (towerController != null) {
-						towerController.PlaceTower();
-						spawnedTowerButNotPlaced = false;
-					}
-					Debug.Log("Drag Released");
-				}
 				// reset drag
 				isDragging = false;
 				dragTarget = null;
@@ -68,8 +59,14 @@ public class BuildController : MonoBehaviour {
 			RaycastHit hit;
 
 			if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
-				Debug.Log("Hit: " + hit.collider.gameObject.name);
-				return hit.collider.gameObject;
+				TowerController towerController = hit.collider.gameObject.GetComponent<TowerController>();
+				if (towerController) {
+					if (!towerController.hasBeenPlaced()) {
+						return hit.collider.gameObject;
+					} else {
+						Debug.Log("Tower already placed.");
+					}
+				}
 			}
 		}
 		return null;
@@ -96,6 +93,11 @@ public class BuildController : MonoBehaviour {
 				spawnedTowerButNotPlaced =  true;
 			}
 		}
+	}
+	
+	public void TowerButtonPressed() {
+		Debug.Log("Button Pressed");
+		spawnedTowerButNotPlaced = false;
 	}
 	
 	// create a SmallTower at spawnposition
