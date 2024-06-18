@@ -9,7 +9,7 @@ public class BuildController : MonoBehaviour {
     public GameObject smallTowerPrefab;
     public GameObject rapidTowerPrefab;
     public GameObject laserTowerPrefab;
-    private GameManager gameManager;
+    private TowerController towerController;
     public Camera cam;
     private GameObject dragTarget;
     private Vector3 spawnPosition;
@@ -20,11 +20,11 @@ public class BuildController : MonoBehaviour {
     private Plane objectHeightPlane;
     public XRRayInteractor rightRayInteractor;
     public InputActionProperty triggerAction; // New input action property for the trigger
-
+    private int dragTargetPrice;
     protected bool isDragging = false;
 
     void Start() {
-        gameManager = FindObjectOfType<GameManager>();
+        towerController = FindObjectOfType<TowerController>();
         spawnPosition = new Vector3(0, dragHeight, 5);
         objectHeightPlane = new Plane(Vector3.up * dragHeight, Vector3.up);
     }
@@ -94,7 +94,7 @@ public class BuildController : MonoBehaviour {
 	
 	private void SpawnTower(GameObject towerPrefab, Vector3 position) {
 		// if game state is preparation (building) spawn a tower
-		if (gameManager.IsPreparationGameState()) {
+		if (GameManager.instance.IsPreparationGameState()) {
 			// avoid spawning multiple tower
 			if (!spawnedTowerButNotPlaced) {
 				Instantiate(towerPrefab, position, towerPrefab.transform.rotation);
@@ -103,24 +103,29 @@ public class BuildController : MonoBehaviour {
 		}
 	}
 	
-	public void TowerButtonPressed() {
-		Debug.Log("Button Pressed");
+	public void TowerAcceptButtonPressed() {
+		Debug.Log("Accept Button Pressed");
+		spawnedTowerButNotPlaced = false;
+        GameManager.instance.RemoveCoins(dragTargetPrice);
+	}
+    public void TowerCancelButtonPressed() {
+		Debug.Log("Cancel Button Pressed");
 		spawnedTowerButNotPlaced = false;
 	}
 	
 	// create a SmallTower at spawnposition
 	public void SpawnSmallTower() { 
 		SpawnTower(smallTowerPrefab, spawnPosition); 
-		GameManager.instance.RemoveCoins(smallTowerPrefab.GetComponent<SmallTower>().smallTowerPrice);
+		dragTargetPrice = GameManager.instance.towerPrices["SMALL"];
 	}
 	// create a SmallTower at spawnposition
 	public void SpawnRapidTower() { 
 		SpawnTower(rapidTowerPrefab, spawnPosition); 
-		GameManager.instance.RemoveCoins(rapidTowerPrefab.GetComponent<RapidTower>().rapidTowerPrice);
+		dragTargetPrice = GameManager.instance.towerPrices["RAPID"];
 	}
 	// create a SmallTower at spawnposition
 	public void SpawnLaserTower() { 
 		SpawnTower(laserTowerPrefab, spawnPosition); 
-		GameManager.instance.RemoveCoins(laserTowerPrefab.GetComponent<LaserTower>().laserTowerPrice);
+		dragTargetPrice = GameManager.instance.towerPrices["LASER"];
 	}
 }

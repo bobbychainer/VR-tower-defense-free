@@ -8,7 +8,6 @@ public class SmallTower : TowerController {
 	private float attackRadius;
 	public GameObject bulletPrefab;
 	private Vector3 attackStartPosition;
-	public int smallTowerPrice = 100;
 	
 	// initialize tower
 	protected override void Initialize() {

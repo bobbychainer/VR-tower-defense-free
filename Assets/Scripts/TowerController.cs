@@ -17,6 +17,7 @@ public class TowerController: MonoBehaviour {
 	protected GameObject healthObject;
 	protected GameObject acceptObject;
 	protected GameObject cancelObject;
+	public int towerBasePrice = 100;
 	
 	protected virtual void Start() {
 		healthObject = gameObject.transform.Find("TowerPanel/HealthBar/Background/Anchor/Health").gameObject;
@@ -65,18 +66,24 @@ public class TowerController: MonoBehaviour {
 		Debug.Log("Place Tower");
 		Initialize();
 		placed = true;
-		ButtonPressedBehavior();
+		ButtonAcceptPressedBehavior();
 	}
 	
 	public void CancelPressed() {
 		Debug.Log("Placement Canceled");
 		Destroy(gameObject);
-		ButtonPressedBehavior();
+		ButtonCancelPressedBehavior();
 	}
 	
-	private void ButtonPressedBehavior() {
+	private void ButtonAcceptPressedBehavior() {
 		BuildController buildController = FindObjectOfType<BuildController>();
-		buildController.TowerButtonPressed();
+		buildController.TowerAcceptButtonPressed();
+		acceptObject.SetActive(false);
+		cancelObject.SetActive(false);
+	}
+	private void ButtonCancelPressedBehavior() {
+		BuildController buildController = FindObjectOfType<BuildController>();
+		buildController.TowerCancelButtonPressed();
 		acceptObject.SetActive(false);
 		cancelObject.SetActive(false);
 	}

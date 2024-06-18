@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance;
     private Spawner enemySpawner;
     public enum GameState { PREPARATION, ATTACK }
+    public Dictionary<string, int> towerPrices = new Dictionary<string, int>();
     public GameState currentState;
     public bool isTimerRunning = false; 
     public float timer = 10f;
@@ -16,7 +17,7 @@ public class GameManager : MonoBehaviour {
     private int baseCurrHealth;
     private int baseMaxHealth;
     private int playerCoins; 
-    public bool canBuy = true; //TODO: implement
+    public bool canBuy = true;
     private int playerCurrHealth;
     private int playerMaxHealth;
 
@@ -38,12 +39,17 @@ public class GameManager : MonoBehaviour {
         currentState = GameState.PREPARATION;
         baseMaxHealth = 300;
         baseCurrHealth = baseMaxHealth;
-        playerCoins = 100;
+        playerCoins = 500;
 
         playerMaxHealth = 100;
         playerCurrHealth = playerMaxHealth;
         
         UpdateHighScore();
+
+        // DICT
+        towerPrices.Add("SMALL", 100);
+        towerPrices.Add("RAPID", 100);
+        towerPrices.Add("LASER", 200);
     }
 
     // runs the timer
@@ -76,6 +82,7 @@ public class GameManager : MonoBehaviour {
             // unfreeze player
             // switch camera
         } else if (currentState == GameState.ATTACK) { // Next is PREP
+            playerCoins += 200;
             baseCurrHealth = baseMaxHealth;
             currentState = GameState.PREPARATION;
             isTimerRunning = false;
@@ -90,6 +97,9 @@ public class GameManager : MonoBehaviour {
     }
 
     public int GetPlayerScore() { return playerScore; }
+    public int GetPlayerCoins() { return playerCoins; }
+    public int GetPlayerHealth() { return playerCurrHealth; }
+    
 
     void UpdateHighScore() { UIManager.instance.UpdatePlayerHighScoreText(playerHighScore); }
 

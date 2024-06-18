@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour {
     public static UIManager instance;
     private GameObject buildUI;
     private GameObject playerUI;
+    private GameObject gameUI;
     private bool isPlayerUIOpen = true;
     private bool isBuildUIOpen = true;
     public TMP_Text scoreText;
@@ -33,16 +34,17 @@ public class UIManager : MonoBehaviour {
     private void Start() { // TODO: change buildUI
         playerUI = GameObject.Find("PlayerUI");
         buildUI = GameObject.Find("BuildUI");
-        if (buildUI == null || playerUI == null) Debug.Log("UIs not found");
+        gameUI = GameObject.Find("GameUI");
+        if (buildUI == null || playerUI == null|| gameUI == null) Debug.Log("UIs not found");
         buildUI.SetActive(isBuildUIOpen);
         playerUI.SetActive(isPlayerUIOpen);
 
         scoreText.text = "Score: " + "0".ToString();
         roundText.text = "Round: " + "1".ToString();
-        stateText.text = " - Preparation".ToString();
+        stateText.text = "State: " + "Preparation".ToString();
         baseHealthText.text = "Base Health: " + "20".ToString();
-        playerHealthText.text = "Player Health: " + "100".ToString();
-        playerCoinsText.text = "Player Coins: " + "100".ToString();
+        playerHealthText.text = "Player Health: " + GameManager.instance.GetPlayerHealth().ToString();
+        playerCoinsText.text = "Player Coins: " + GameManager.instance.GetPlayerCoins().ToString();
 		
 		buildController = FindObjectOfType<BuildController>();
     } 
@@ -82,7 +84,7 @@ public class UIManager : MonoBehaviour {
     public void UpdatePlayerScoreText(int score) { scoreText.text = "Score: " + score.ToString(); }
     public void UpdatePlayerHighScoreText(int highScore) { highScoreText.text = "Highscore: " + highScore.ToString(); }
     public void UpdateRound(int round) { roundText.text = "Round: " + round.ToString(); }
-    public void UpdateGameState(string state) { stateText.text = " - " + state; }
+    public void UpdateGameState(string state) { stateText.text = "State " + state; }
     public void UpdateTimerText(float time) {
         if (time <= 0) {
             timerText.text = "Timer: 0";
@@ -94,10 +96,32 @@ public class UIManager : MonoBehaviour {
     }
 
     // instatiate small tower
-	public void SmallTowerButtonPressed() { Debug.Log("S pressed");buildController.SpawnSmallTower(); }
+	public void SmallTowerButtonPressed() { 
+        Debug.Log("S pressed");
+        if (GameManager.instance.GetPlayerCoins() >= GameManager.instance.towerPrices["SMALL"]) {
+            buildController.SpawnSmallTower(); 
+        } else {
+            Debug.Log("Not enough Coins to Buy");
+        }
+        
+    }
 	// instatiate rapid tower
-	public void RapidTowerButtonPressed() { Debug.Log("R pressed");buildController.SpawnRapidTower(); }
+	public void RapidTowerButtonPressed() { 
+        Debug.Log("R pressed");
+        if (GameManager.instance.GetPlayerCoins() >= GameManager.instance.towerPrices["RAPID"]) {
+            buildController.SpawnRapidTower(); 
+        } else {
+            Debug.Log("Not enough Coins to Buy");
+        }
+     }
 	// instatiate laser tower
-	public void LaserTowerButtonPressed() { Debug.Log("L pressed");buildController.SpawnLaserTower(); }
+	public void LaserTowerButtonPressed() { 
+        Debug.Log("L pressed");
+        if (GameManager.instance.GetPlayerCoins() >= GameManager.instance.towerPrices["LASER"]) {
+            buildController.SpawnLaserTower(); 
+        } else {
+            Debug.Log("Not enough Coins to Buy");
+        }
+     }
 
 }
