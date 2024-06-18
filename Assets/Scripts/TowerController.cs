@@ -59,7 +59,6 @@ public class TowerController: MonoBehaviour {
 	
 	
 	public void AcceptPressed() {
-		
 		// check if tower can be placed there
 		// GameManager.checkPosition(transform.position);
 		// if () 
