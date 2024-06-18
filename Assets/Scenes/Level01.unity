@@ -170,6 +170,7 @@ MonoBehaviour:
   currentState: 0
   isTimerRunning: 0
   timer: 30
+  canBuy: 1
 --- !u!1 &60684067
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,75 +357,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 178499413}
   m_CullTransparentMesh: 1
---- !u!1001 &206656985
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 372916327534868910, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_TagString
-      value: Tower
-      objectReference: {fileID: 0}
-    - target: {fileID: 1455434713090379368, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_Name
-      value: RapidTower (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 1455434713090379368, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1455434713090379368, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239639985064391170, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 16.49
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239639985064391170, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239639985064391170, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239639985064391170, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239639985064391170, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239639985064391170, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239639985064391170, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239639985064391170, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239639985064391170, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239639985064391170, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
 --- !u!1 &209638280
 GameObject:
   m_ObjectHideFlags: 0
@@ -2509,11 +2441,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803edce0201f574f923fd9d10e5b30a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!120 &1047576416 stripped
-LineRenderer:
-  m_CorrespondingSourceObject: {fileID: 3083712949795922327, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
-  m_PrefabInstance: {fileID: 961505302}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1075278202 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2736478854845186207, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
@@ -2711,17 +2638,16 @@ MonoBehaviour:
     m_Bits: 64
   smallTowerPrefab: {fileID: 5507405810073356762, guid: 55191675ee912104ea304821713a4789, type: 3}
   rapidTowerPrefab: {fileID: 1455434713090379368, guid: 528e99e71096b8a4a9094ad116a19561, type: 3}
-  laserTowerPrefab: {fileID: 6626505868054740830, guid: d026027acc0cd5e4892773b3220290fb, type: 3}
+  laserTowerPrefab: {fileID: 1739369934043734528, guid: 0e35ffd48947ab84e88b00955fdc6446, type: 3}
   cam: {fileID: 1765754571}
-  leftRayInteractor: {fileID: 1047576413}
-  lineRenderer: {fileID: 1047576416}
+  rightRayInteractor: {fileID: 1047576413}
   triggerAction:
     m_UseReference: 1
     m_Action:
       m_Name: Trigger
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: a710b6ab-5013-4696-99d0-38e326942ace
+      m_Id: 3d18118b-5ae8-43c8-80e0-13be61ca7e6c
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -3824,7 +3750,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.21144104}
+  m_AnchoredPosition: {x: 0, y: 0.42288208}
   m_SizeDelta: {x: 100, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1688396763
@@ -3926,7 +3852,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1691501545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4783,6 +4709,5 @@ SceneRoots:
   - {fileID: 748258985}
   - {fileID: 1707614421}
   - {fileID: 1691501547}
-  - {fileID: 206656985}
   - {fileID: 1981712892}
   - {fileID: 961505302}

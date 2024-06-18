@@ -18,8 +18,7 @@ public class BuildController : MonoBehaviour {
     private float dragXOffset = 0.5f;
     private float dragZOffset = 0.5f;
     private Plane objectHeightPlane;
-    public XRRayInteractor leftRayInteractor;
-    public LineRenderer lineRenderer;
+    public XRRayInteractor rightRayInteractor;
     public InputActionProperty triggerAction; // New input action property for the trigger
 
     protected bool isDragging = false;
@@ -57,39 +56,36 @@ public class BuildController : MonoBehaviour {
     }
 
     private void OnTriggerReleased(InputAction.CallbackContext context) {
-        // place dragTarget
-        if (dragTarget != null) {
-            TowerController towerController = dragTarget.GetComponent<TowerController>();
-            if (towerController != null) {
-                towerController.PlaceTower();
-                spawnedTowerButNotPlaced = false;
-            }
-            Debug.Log("Drag Released");
-        }
         // reset drag
         isDragging = false;
         dragTarget = null;
     }
 
     private GameObject PerformRaycast() {
-        if (leftRayInteractor != null) {
+        if (rightRayInteractor != null) {
             // Perform raycast using XRRayInteractor
-            Ray ray = new Ray(leftRayInteractor.transform.position, leftRayInteractor.transform.forward);
+            Ray ray = new Ray(rightRayInteractor.transform.position, rightRayInteractor.transform.forward);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
-                Debug.Log("Hit: " + hit.collider.gameObject.name);
-                return hit.collider.gameObject;
-            }
-        }
-        return null;
+			if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
+				TowerController towerController = hit.collider.gameObject.GetComponent<TowerController>();
+				if (towerController) {
+					if (!towerController.hasBeenPlaced()) {
+						return hit.collider.gameObject;
+					} else {
+						Debug.Log("Tower already placed.");
+					}
+				}
+			}
+		}
+		return null;
     }
 
     // move target to mouse position
     private void DragTargetToMouse(){
         // get intersection with objectHeightPlane and move target to that point
         float distance;
-        Ray ray = new Ray(leftRayInteractor.transform.position, leftRayInteractor.transform.forward);
+        Ray ray = new Ray(rightRayInteractor.transform.position, rightRayInteractor.transform.forward);
         if (objectHeightPlane.Raycast(ray, out distance)) {
             Vector3 point = ray.GetPoint(distance);
             dragTarget.transform.position = new Vector3(Mathf.Round(point.x - dragXOffset), Mathf.Round(dragHeight), Mathf.Round(point.z - dragZOffset)); // Set y to 2
@@ -105,6 +101,11 @@ public class BuildController : MonoBehaviour {
 				spawnedTowerButNotPlaced =  true;
 			}
 		}
+	}
+	
+	public void TowerButtonPressed() {
+		Debug.Log("Button Pressed");
+		spawnedTowerButNotPlaced = false;
 	}
 	
 	// create a SmallTower at spawnposition

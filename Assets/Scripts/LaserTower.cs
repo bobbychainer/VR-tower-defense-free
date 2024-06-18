@@ -9,6 +9,7 @@ public class LaserTower : TowerController {
 	private Vector3 attackStartPosition;
 	//target position
 	private Vector3 attackEndPosition;
+	private Vector3[] attackEndPositions;
 	public int laserTowerPrice = 100;
 	
 	// initialize tower
@@ -18,43 +19,60 @@ public class LaserTower : TowerController {
 		damage = 1;
 		// RapidTower initialization
 		attackDistance = 10f;
-		attackStartPosition = transform.Find("Canon").position;
-		// set board edge position by extending the attackStartPosition and frontPosition vector
-		Vector3 frontPosition = transform.Find("Front").position;
-		attackEndPosition = GetEndPosition(frontPosition);
+		attackStartPosition = transform.Find("Canons/Center").position;
+		
+		attackEndPositions = GetAxisAlignedEndPositions();
 	}
 	
 	// return true if raycast on enemyLayer detects enemy 
 	protected override bool TargetDetected() {
-		Vector3 attackDirection = attackEndPosition - attackStartPosition;
-		return Physics.Raycast(attackStartPosition, attackDirection, attackDistance, enemyLayer);
+		foreach (Vector3 attackEndPosition in attackEndPositions) {
+			Vector3 attackDirection = attackEndPosition - attackStartPosition;
+			if (Physics.Raycast(attackStartPosition, attackDirection, attackDistance, enemyLayer)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	// shot LaserTowerBullet towards attackEndPosition
 	protected override void Attack() {
+		CreateBullet(attackEndPositions[0], Quaternion.identity);
+		CreateBullet(attackEndPositions[1], Quaternion.identity);
+		CreateBullet(attackEndPositions[2], Quaternion.Euler(0, 0, 90));
+		CreateBullet(attackEndPositions[3], Quaternion.Euler(0, 0, 90));
+	}
+
+	private void CreateBullet(Vector3 endPosition, Quaternion additionalRotation) {
 		GameObject towerBullet = Instantiate(bulletPrefab, attackStartPosition, Quaternion.identity);
-		towerBullet.transform.rotation = transform.rotation;// * bulletPrefab.transform.rotation;
+		
+		// Apply the base rotation and the additional rotation
+		towerBullet.transform.rotation = bulletPrefab.transform.rotation * additionalRotation;
 		
 		LaserTowerBullet bullet = towerBullet.GetComponent<LaserTowerBullet>();
-		if (bullet != null) bullet.Initialize(attackEndPosition, damage);
+		if (bullet != null) bullet.Initialize(endPosition, damage);
 	}
 	
-	private Vector3 GetEndPosition(Vector3 frontPosition) {
-		// get normalized direction
-		Vector3 attackVector = (frontPosition - attackStartPosition).normalized;
-		// set x or z to {50,-50} depending on the direction
-		if (attackVector.x == 0 && attackVector.z != 0) {
-			return new Vector3(attackStartPosition.x, attackStartPosition.y, (attackVector.z + 1f) * 25f);
-		} else if (attackVector.x != 0 && attackVector.z == 0) {
-			return new Vector3((attackVector.x + 1f) * 25f, attackStartPosition.y, attackStartPosition.z);
-		}
-		return frontPosition;
+	private Vector3[] GetAxisAlignedEndPositions() {
+		Vector3 frontPosition1 = transform.Find("Canons/Front1").position;
+		Vector3 frontPosition2 = transform.Find("Canons/Front2").position;
+		Vector3 frontPosition3 = transform.Find("Canons/Front3").position;
+		Vector3 frontPosition4 = transform.Find("Canons/Front4").position;
+				
+		Vector3 endPosition1 = new Vector3(frontPosition1.x, frontPosition1.y, 0f);
+		Vector3 endPosition2 = new Vector3(frontPosition2.x, frontPosition2.y, 50f);
+		Vector3 endPosition3 = new Vector3(0f, frontPosition3.y, frontPosition3.z);
+		Vector3 endPosition4 = new Vector3(50f, frontPosition4.y, frontPosition4.z);
+
+		return new Vector3[] { endPosition1, endPosition2, endPosition3, endPosition4 };
 	}
 	
 	private void OnDrawGizmosSelected() {
 		Gizmos.color = Color.red;
-		Vector3 attackDirection = attackEndPosition - attackStartPosition;
-		Gizmos.DrawRay(attackStartPosition, attackDirection);
+		foreach (Vector3 attackEndPosition in attackEndPositions) {
+			Vector3 attackDirection = attackEndPosition - attackStartPosition;
+			Gizmos.DrawRay(attackStartPosition, attackDirection);
+		}
 	}
 
 }
