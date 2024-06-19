@@ -17,13 +17,20 @@ public class TowerController: MonoBehaviour {
 	protected GameObject healthObject;
 	protected GameObject acceptObject;
 	protected GameObject cancelObject;
-	public int towerBasePrice = 100;
+	
+	protected GameObject baseObject;
+	public Material blockedMaterial;
+	private GenerateCubes generateCubes;
 	
 	protected virtual void Start() {
 		healthObject = gameObject.transform.Find("TowerPanel/HealthBar/Background/Anchor/Health").gameObject;
 		acceptObject = gameObject.transform.Find("TowerPanel/Accept").gameObject;
 		cancelObject = gameObject.transform.Find("TowerPanel/Cancel").gameObject;
 		Debug.Log(healthObject);
+		
+		baseObject =  gameObject.transform.Find("Base").gameObject;
+		
+		generateCubes = FindObjectOfType<GenerateCubes>();
 	}
 
 	protected virtual void Update() {
@@ -58,34 +65,34 @@ public class TowerController: MonoBehaviour {
 		return;
 	}
 	
-	
 	public void AcceptPressed() {
 		// check if tower can be placed there
-		// GameManager.checkPosition(transform.position);
-		// if () 
-		Debug.Log("Place Tower");
-		Initialize();
-		placed = true;
-		ButtonAcceptPressedBehavior();
+		Vector3 basePosition = baseObject.transform.position;
+		bool groundBlocked = generateCubes.TryBlockGroundAtPosition(basePosition.x, basePosition.z);
+		
+		if (groundBlocked) {
+			Debug.Log("Place Tower");
+			Initialize();
+			placed = true;
+			BuildController buildController = ClearTowerInfoElements();
+			buildController.TowerAcceptButtonPressed();
+		} else {
+			Debug.Log("GROUND BLOCKED");
+		}
 	}
 	
 	public void CancelPressed() {
 		Debug.Log("Placement Canceled");
 		Destroy(gameObject);
-		ButtonCancelPressedBehavior();
+		BuildController buildController = ClearTowerInfoElements();
+		buildController.TowerCancelButtonPressed();
 	}
 	
-	private void ButtonAcceptPressedBehavior() {
+	private BuildController ClearTowerInfoElements() {
 		BuildController buildController = FindObjectOfType<BuildController>();
-		buildController.TowerAcceptButtonPressed();
 		acceptObject.SetActive(false);
 		cancelObject.SetActive(false);
-	}
-	private void ButtonCancelPressedBehavior() {
-		BuildController buildController = FindObjectOfType<BuildController>();
-		buildController.TowerCancelButtonPressed();
-		acceptObject.SetActive(false);
-		cancelObject.SetActive(false);
+		return buildController;
 	}
 	
 	// activate tower
@@ -94,13 +101,14 @@ public class TowerController: MonoBehaviour {
 		placed = true;
 	}
 
-    private void OnTriggerEnter(Collider other) { //TODO: Add LifeBar
+    private void OnTriggerEnter(Collider other) {
 		//Collision EnemyBullet -> Tower
-        if (other.gameObject.tag == "EnemyBullet")
-        {
+        if (other.gameObject.tag == "EnemyBullet") {
+			
             BulletController bulletController = other.gameObject.GetComponent<BulletController>();
-            if (bulletController != null)
-            {
+			
+            if (bulletController != null) {
+				
                 int damage = bulletController.GetDamage();
                 bulletController.TargetHit();
                 TakeDamage(damage);
@@ -139,6 +147,5 @@ public class TowerController: MonoBehaviour {
     }
 	
 	public bool hasBeenPlaced() { return placed; }
-
 
 }

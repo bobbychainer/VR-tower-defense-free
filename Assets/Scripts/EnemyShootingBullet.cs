@@ -23,12 +23,6 @@ public class EnemyShootingBullet : BulletController
     // Move bullet towards the target
     protected override void MoveToTarget()
     {
-        if (target == null)
-        {
-            Destroy(gameObject); // Destroy the bullet if target is lost
-            return;
-        }
-
         Vector3 targetPosition = target.position + towerTargetOffset;
         Vector3 direction = targetPosition - transform.position;
         float distanceThisFrame = bulletSpeed * Time.deltaTime;
