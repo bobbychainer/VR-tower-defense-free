@@ -28,6 +28,10 @@ public class MenuController : MonoBehaviour {
         Debug.Log("LoadGameOverScene()");
         SceneManager.LoadScene("GameOver");
     }
+    public void LoadCreditsScene() {
+        Debug.Log("LoadCreditsScene()");
+        SceneManager.LoadScene("Credits");
+    }
 
     public void Quit() {
         Debug.Log("Quit()");
@@ -37,9 +41,5 @@ public class MenuController : MonoBehaviour {
         #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
         #endif
-    }
-
-    public void Test() {
-        Debug.Log("Test()");
     }
 }
