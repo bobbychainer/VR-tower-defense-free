@@ -105,6 +105,7 @@ public class UIManager : MonoBehaviour {
         }
         
     }
+
 	// instatiate rapid tower
 	public void RapidTowerButtonPressed() { 
         Debug.Log("R pressed");
@@ -113,7 +114,8 @@ public class UIManager : MonoBehaviour {
         } else {
             Debug.Log("Not enough Coins to Buy");
         }
-     }
+    }
+
 	// instatiate laser tower
 	public void LaserTowerButtonPressed() { 
         Debug.Log("L pressed");
@@ -122,6 +124,6 @@ public class UIManager : MonoBehaviour {
         } else {
             Debug.Log("Not enough Coins to Buy");
         }
-     }
+    }
 
 }
