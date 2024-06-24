@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     }
 
         private void OnShootTriggerPressed(InputAction.CallbackContext context) {        
-        if (Time.time >= nextFireTime) {
+        if (Time.time >= nextFireTime && GameManager.instance.IsAttackGameState()) {
             ShootBullet();
             nextFireTime = Time.time + fireRate;
         }
