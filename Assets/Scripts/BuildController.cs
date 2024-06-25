@@ -9,12 +9,11 @@ public class BuildController : MonoBehaviour {
     public GameObject smallTowerPrefab;
     public GameObject rapidTowerPrefab;
     public GameObject laserTowerPrefab;
-    private TowerController towerController;
     public Camera cam;
     private GameObject dragTarget;
     private Vector3 spawnPosition;
     private bool spawnedTowerButNotPlaced = false;
-    private float dragHeight = 1f;
+    private float dragHeight = 1.1f;
     private float dragXOffset = 0.5f;
     private float dragZOffset = 0.5f;
     private Plane objectHeightPlane;
@@ -22,10 +21,11 @@ public class BuildController : MonoBehaviour {
     public InputActionProperty triggerAction; // New input action property for the trigger
     private int dragTargetPrice;
     protected bool isDragging = false;
+	public GameObject activeTowerListObject;
+	private GameObject spawnedTower;
 
     void Start() {
-        towerController = FindObjectOfType<TowerController>();
-        spawnPosition = new Vector3(0, dragHeight, 5);
+        spawnPosition = new Vector3(0, dragHeight, 15);
         objectHeightPlane = new Plane(Vector3.up * dragHeight, Vector3.up);
     }
 
@@ -88,7 +88,7 @@ public class BuildController : MonoBehaviour {
         Ray ray = new Ray(rightRayInteractor.transform.position, rightRayInteractor.transform.forward);
         if (objectHeightPlane.Raycast(ray, out distance)) {
             Vector3 point = ray.GetPoint(distance);
-            dragTarget.transform.position = new Vector3(Mathf.Round(point.x - dragXOffset), Mathf.Round(dragHeight), Mathf.Round(point.z - dragZOffset)); // Set y to 2
+            dragTarget.transform.position = new Vector3(Mathf.Round(point.x - dragXOffset), dragHeight, Mathf.Round(point.z - dragZOffset)); // Set y to 2
         }
     }
 	
@@ -97,20 +97,10 @@ public class BuildController : MonoBehaviour {
 		if (GameManager.instance.IsPreparationGameState()) {
 			// avoid spawning multiple tower
 			if (!spawnedTowerButNotPlaced) {
-				Instantiate(towerPrefab, position, towerPrefab.transform.rotation);
+				spawnedTower = Instantiate(towerPrefab, position, towerPrefab.transform.rotation, activeTowerListObject.transform);
 				spawnedTowerButNotPlaced =  true;
 			}
 		}
-	}
-	
-	public void TowerAcceptButtonPressed() {
-		Debug.Log("Accept Button Pressed");
-		spawnedTowerButNotPlaced = false;
-        GameManager.instance.RemoveCoins(dragTargetPrice);
-	}
-    public void TowerCancelButtonPressed() {
-		Debug.Log("Cancel Button Pressed");
-		spawnedTowerButNotPlaced = false;
 	}
 	
 	// create a SmallTower at spawnposition
@@ -128,4 +118,50 @@ public class BuildController : MonoBehaviour {
 		SpawnTower(laserTowerPrefab, spawnPosition); 
 		dragTargetPrice = GameManager.instance.towerPrices["LASER"];
 	}
+	
+	public void TowerAcceptButtonPressed() {
+		Debug.Log("Accept Button Pressed");
+		spawnedTowerButNotPlaced = false;
+		spawnedTower = null;
+        GameManager.instance.RemoveCoins(dragTargetPrice);
+	}
+    public void TowerCancelButtonPressed() {
+		Debug.Log("Cancel Button Pressed");
+		spawnedTowerButNotPlaced = false;
+		spawnedTower = null;
+	}
+	
+	// show tower
+	public void ToggleTowerActive(bool isVisible) {
+		for (int i = 0; i < activeTowerListObject.transform.childCount; i++) {
+			Transform child = activeTowerListObject.transform.GetChild(i);
+			if (child.tag == "Tower"){
+				TowerController towerController = child.gameObject.GetComponent<TowerController>();
+				if (towerController) {
+					if (towerController.hasBeenPlaced()) {
+						child.gameObject.SetActive(isVisible);
+					}
+				}
+			}
+		}
+	}
+	
+	public void DeleteSpawnedTower() {
+		if (spawnedTowerButNotPlaced) {
+			Destroy(spawnedTower);
+			spawnedTowerButNotPlaced = false;
+			spawnedTower = null;
+		}
+	}
+	
+	public void ShowTowerPressed() {
+		ToggleTowerActive(true);
+	}
+	
+	public void HideTowerPressed() {
+		if (GameManager.instance.IsPreparationGameState()) {
+			ToggleTowerActive(false);
+		}
+	}
+	
 }

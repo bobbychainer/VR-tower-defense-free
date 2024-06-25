@@ -8,7 +8,6 @@ public class RapidTower : TowerController {
 	private float attackRadius;
 	public GameObject bulletPrefab;
 	private Vector3 attackStartPosition;
-	public int rapidTowerPrice = 100;
 	
 	// initialize tower
 	protected override void Initialize() {

@@ -526,8 +526,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8760253970063205740}
   - component: {fileID: 7543464749405602255}
-  - component: {fileID: 1196361978220477019}
   - component: {fileID: 8686868314501880978}
+  - component: {fileID: 1196361978220477019}
   m_Layer: 6
   m_Name: LaserTower
   m_TagString: Tower
@@ -580,6 +580,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 4, z: 1}
   m_Center: {x: 0.5, y: 2, z: 0.5}
+--- !u!114 &8686868314501880978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1739369934043734528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c6b571898d92cd44a12432236402d06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  blockedMaterial: {fileID: 2100000, guid: f78609c6bcdc9c546a3fe8de824b2b84, type: 2}
+  bulletPrefab: {fileID: 3667859402150790785, guid: 36af621c4621a4948b4c526488b6d52f, type: 3}
 --- !u!54 &1196361978220477019
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -607,22 +624,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &8686868314501880978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1739369934043734528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c6b571898d92cd44a12432236402d06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  bulletPrefab: {fileID: 3667859402150790785, guid: 36af621c4621a4948b4c526488b6d52f, type: 3}
 --- !u!1 &1998932891373950865
 GameObject:
   m_ObjectHideFlags: 0

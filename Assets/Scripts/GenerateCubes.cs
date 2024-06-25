@@ -8,6 +8,8 @@ public class GenerateCubes : MonoBehaviour {
     public Vector2 gridSize; // grid size
     public Material pathMaterial; // Material for cubes on the path
     public Material transparentMaterial; // Material for cubes not on the path
+	public Material blockedMaterial;
+	public Material buildMaterial;
     public Transform[] waypoints; // Waypoints for the path, included in scene
     private GameObject spawnObject;
     private GameObject baseObject;
@@ -34,7 +36,7 @@ public class GenerateCubes : MonoBehaviour {
 
             for (float z = 0.5f; z < gridSize.y; z++) {
                 GameObject cube = Instantiate(cubePrefab, new Vector3(x, 1f + (height / 2), z), Quaternion.identity);
-                cube.name = "Cube " + (x + 0.5f).ToString("00") + "-" + (z + 0.5f).ToString("00");
+                cube.name = CoordinatesToStringOffset(x,z);
                 cube.AddComponent<BoxCollider>().isTrigger = true;
                 
                 Renderer renderer = cube.GetComponent<Renderer>();
@@ -45,6 +47,14 @@ public class GenerateCubes : MonoBehaviour {
         }
         Debug.Log("Cubes successfully generated");
     }
+	
+	private string CoordinatesToStringOffset(float x, float z) {
+		return "Cube " + (x + 0.5f).ToString("00") + "-" + (z + 0.5f).ToString("00");
+	}
+	
+	private string CoordinatesToString(float x, float z) {
+		return "Cube " + x.ToString("00") + "-" + z.ToString("00");
+	}
 
     // adds spawn and base to waypoints
     void AddSpawnAndBaseAsWaypoints() {
@@ -82,7 +92,7 @@ public class GenerateCubes : MonoBehaviour {
     private void ColorCubeAtPosition(Vector3 position) {
         // Check if the position is within the grid bounds
         if (position.x >= 0 && position.x < gridSize.x && position.z >= 0 && position.z < gridSize.y) {
-            string cubeName = "Cube " + position.x.ToString("00") + "-" + position.z.ToString("00");
+			string cubeName = CoordinatesToString(position.x, position.z);
             GameObject cube = GameObject.Find(cubeName);
             if (cube != null) {
                 cube.tag = "Path";
@@ -91,4 +101,21 @@ public class GenerateCubes : MonoBehaviour {
             }
         }
     }
+	
+	public bool TryBlockGroundAtPosition(float x, float z) {
+		
+		string cubeName = CoordinatesToStringOffset(x, z);
+		GameObject cube = GameObject.Find(cubeName);
+		
+		if (cube != null) {
+			if (cube.tag == "Ground") {
+				Renderer renderer = cube.GetComponent<Renderer>();
+				if (renderer != null) renderer.material = blockedMaterial;
+				cube.tag = "Blocked";
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }
