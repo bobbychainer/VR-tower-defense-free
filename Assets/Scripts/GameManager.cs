@@ -64,10 +64,6 @@ public class GameManager : MonoBehaviour {
         playerCoins += coins;
         UIManager.instance.UpdatePlayerCoinsText(playerCoins);
     }
-    public void RemoveCoins(int coins) {
-        playerCoins -= coins;
-        UIManager.instance.UpdatePlayerCoinsText(playerCoins);
-    }
 
     // switches between preparation and attack state
     public void ChangeGameState() {
@@ -79,8 +75,6 @@ public class GameManager : MonoBehaviour {
             enemySpawner.StartEnemySpawn();
             UIManager.instance.UpdateGameState("Attack"); 
             UIManager.instance.ToggleReadyButton(false);
-            // unfreeze player
-            // switch camera
         } else if (currentState == GameState.ATTACK) { // Next is PREP
             playerCoins += 200;
             baseCurrHealth = baseMaxHealth;
@@ -91,15 +85,20 @@ public class GameManager : MonoBehaviour {
             UIManager.instance.UpdateRound(currentRound);
             UIManager.instance.UpdateGameState("Preparation"); 
             UIManager.instance.ToggleReadyButton(true);
-            // switch camera
-            // freeze player
         }
     }
 
     public int GetPlayerScore() { return playerScore; }
     public int GetPlayerCoins() { return playerCoins; }
     public int GetPlayerHealth() { return playerCurrHealth; }
-    
+
+	public bool IsPreparationGameState() { return currentState == GameState.PREPARATION; }
+	public bool IsAttackGameState() { return currentState == GameState.ATTACK; }
+
+    public void RemoveCoins(int coins) {
+        playerCoins -= coins;
+        UIManager.instance.UpdatePlayerCoinsText(playerCoins);
+    }
 
     void UpdateHighScore() { UIManager.instance.UpdatePlayerHighScoreText(playerHighScore); }
 
@@ -118,26 +117,20 @@ public class GameManager : MonoBehaviour {
         Debug.Log("BH: " + baseCurrHealth);
         baseCurrHealth -= dmg;
         UIManager.instance.UpdateBaseHealthText(baseCurrHealth);
-        //baseCurrHealth = Mathf.Clamp(baseCurrHealth, 0, baseMaxHealth); // sorgt dafuer, dass currHealth immer zwischen 0 und maxHealth ist
         if (baseCurrHealth <= 0) {
-            Debug.Log("Base Health 0");
+            Debug.Log("Base Health 0, Load GameOverScene");
             MenuController.instance.LoadGameOverScene();
         }
     }
 
-    public void TakePlayerDamage(int dmg)
-    {
+    public void TakePlayerDamage(int dmg) {
         playerCurrHealth -= dmg;
-        playerCurrHealth = Mathf.Clamp(playerCurrHealth, 0, playerMaxHealth);
+        if (playerCurrHealth <= 0) {
+            Debug.Log("Player Health 0, Freeze Player");
+            // TODO: FreezePlayer
+        }
         UIManager.instance.UpdatePlayerHealthText(playerCurrHealth);
     }
 	
-	public bool IsPreparationGameState() {
-		return currentState == GameState.PREPARATION;
-	}
-	
-	public bool IsAttackGameState() {
-		return currentState == GameState.ATTACK;
-	}
 
 }
