@@ -31,7 +31,7 @@ public class UIManager : MonoBehaviour {
         }
     }
 
-    private void Start() { // TODO: change buildUI
+    private void Start() { 
         playerUI = GameObject.Find("PlayerUI");
         buildUI = GameObject.Find("BuildUI");
         gameUI = GameObject.Find("GameUI");
@@ -42,7 +42,7 @@ public class UIManager : MonoBehaviour {
         scoreText.text = "Score: " + "0".ToString();
         roundText.text = "Round: " + "1".ToString();
         stateText.text = "State: " + "Preparation".ToString();
-        baseHealthText.text = "Base Health: " + "20".ToString();
+        baseHealthText.text = "Base Health: " + "100".ToString();
         playerHealthText.text = "Player Health: " + GameManager.instance.GetPlayerHealth().ToString();
         playerCoinsText.text = "Player Coins: " + GameManager.instance.GetPlayerCoins().ToString();
 		

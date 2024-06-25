@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
     public static GameManager instance;
+    private PlayerController playerController;
     private Spawner enemySpawner;
     public enum GameState { PREPARATION, ATTACK }
     public Dictionary<string, int> towerPrices = new Dictionary<string, int>();
@@ -31,17 +32,19 @@ public class GameManager : MonoBehaviour {
 
     void Start() {
         enemySpawner = FindObjectOfType<Spawner>();
+        playerController = FindObjectOfType<PlayerController>();
+        if (enemySpawner == null || playerController == null) Debug.Log("Scripts in GM not found.");
         // initialize game variables
         playerScore = 0;
         playerHighScore = PlayerPrefs.GetInt("HighScore", 0);
         currentRound = 1;
         currentTimer = timer;
         currentState = GameState.PREPARATION;
-        baseMaxHealth = 300;
+        baseMaxHealth = 100;
         baseCurrHealth = baseMaxHealth;
         playerCoins = 500;
 
-        playerMaxHealth = 100;
+        playerMaxHealth = 10;
         playerCurrHealth = playerMaxHealth;
         
         UpdateHighScore();
@@ -76,6 +79,7 @@ public class GameManager : MonoBehaviour {
             UIManager.instance.UpdateGameState("Attack"); 
             UIManager.instance.ToggleReadyButton(false);
         } else if (currentState == GameState.ATTACK) { // Next is PREP
+            playerController.freezePlayer = false;
             playerCoins += 200;
             baseCurrHealth = baseMaxHealth;
             currentState = GameState.PREPARATION;
@@ -113,7 +117,7 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public void TakeBaseDamage(int dmg) {// TODO: Fix Nullref
+    public void TakeBaseDamage(int dmg) {
         Debug.Log("BH: " + baseCurrHealth);
         baseCurrHealth -= dmg;
         UIManager.instance.UpdateBaseHealthText(baseCurrHealth);
@@ -127,7 +131,8 @@ public class GameManager : MonoBehaviour {
         playerCurrHealth -= dmg;
         if (playerCurrHealth <= 0) {
             Debug.Log("Player Health 0, Freeze Player");
-            // TODO: FreezePlayer
+            playerController.freezePlayer = true;
+            Debug.Log("FROZEN");
         }
         UIManager.instance.UpdatePlayerHealthText(playerCurrHealth);
     }

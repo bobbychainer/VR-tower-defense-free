@@ -5,12 +5,13 @@ using System.Diagnostics;
 using Debug = UnityEngine.Debug;
 using System.Collections;
 
+ // TODO: Freeze Interaction/Teleport -> in prep muss wieder alles funktionieren
 public class PlayerController : MonoBehaviour
 {
     public Transform initialLocation;
     public InputActionProperty returnTriggerAction;
     public InputActionProperty shootTriggerAction;
-    public bool disableMovement = false;
+    public bool freezePlayer = false;
     public ActionBasedContinuousMoveProvider moveProvider;
     public GameObject bulletPrefab;   // The bullet prefab to instantiate
     public float bulletSpeed = 20f;   // Speed of the bullet
@@ -19,9 +20,9 @@ public class PlayerController : MonoBehaviour
     public GameObject bulletSpawnPoint; //Position where Bullet should come out
   
     void Update() { 
-        if (disableMovement && moveProvider.enabled) {
+        if (freezePlayer && moveProvider.enabled) {
             moveProvider.enabled = false;
-        } else if (!disableMovement && !moveProvider.enabled) {
+        } else if (!freezePlayer && !moveProvider.enabled) {
             moveProvider.enabled = true;
         }
         //TODO: Implement VR Controller Button as Input
@@ -42,7 +43,7 @@ public class PlayerController : MonoBehaviour
     }
 
         private void OnShootTriggerPressed(InputAction.CallbackContext context) {        
-        if (Time.time >= nextFireTime && GameManager.instance.IsAttackGameState()) {
+        if (Time.time >= nextFireTime && GameManager.instance.IsAttackGameState() && !freezePlayer) {
             ShootBullet();
             nextFireTime = Time.time + fireRate;
         }
@@ -61,11 +62,11 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         //Check Collision EnemyBullet -> Player
         if (other.gameObject.tag == "EnemyBullet") {
-            Debug.Log("Hit EnemyBullet -> Player" + other.gameObject);
+            //Debug.Log("Hit EnemyBullet -> Player" + other.gameObject);
             BulletController bulletController = other.gameObject.GetComponent<BulletController>();
 
             if (bulletController != null) {
-                Debug.Log("bullCon != null");
+                //Debug.Log("bullCon != null");
                 int damage = bulletController.GetDamage();
                 bulletController.TargetHit();
                 TakeDamage(damage);
@@ -95,7 +96,7 @@ public class PlayerController : MonoBehaviour
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         if (rb != null) {
             rb.velocity = bulletSpawnPoint.transform.forward * bulletSpeed;
-            Debug.Log("Bullet velocity set to: " + rb.velocity);
+            //Debug.Log("Bullet velocity set to: " + rb.velocity);
         } else {
             Debug.LogError("Bullet Rigidbody not found!");
         }

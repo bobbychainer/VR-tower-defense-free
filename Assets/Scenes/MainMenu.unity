@@ -1721,7 +1721,7 @@ MonoBehaviour:
   triggerAction:
     m_UseReference: 0
     m_Action:
-      m_Name: 
+      m_Name: Trigger
       m_Type: 0
       m_ExpectedControlType: 
       m_Id: babb3e97-34fe-429e-9772-801fba83b2ea
@@ -1730,6 +1730,7 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 0}
+  activeTowerListObject: {fileID: 0}
 --- !u!114 &1782587421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1838,7 +1839,7 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 0}
-  disableMovement: 0
+  freezePlayer: 0
   moveProvider: {fileID: 1782587418}
   bulletPrefab: {fileID: 0}
   bulletSpeed: 20

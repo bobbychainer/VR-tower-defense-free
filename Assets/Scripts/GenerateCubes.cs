@@ -102,6 +102,7 @@ public class GenerateCubes : MonoBehaviour {
         }
     }
 	
+    // Only can place on ground
 	public bool TryBlockGroundAtPosition(float x, float z) {
 		
 		string cubeName = CoordinatesToStringOffset(x, z);

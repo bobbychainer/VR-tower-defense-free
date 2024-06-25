@@ -86,8 +86,12 @@ public class BuildController : MonoBehaviour {
         // get intersection with objectHeightPlane and move target to that point
         float distance;
         Ray ray = new Ray(rightRayInteractor.transform.position, rightRayInteractor.transform.forward);
-        if (objectHeightPlane.Raycast(ray, out distance)) {
+        if (objectHeightPlane.Raycast(ray, out distance)) { // TODO: Fix posis
             Vector3 point = ray.GetPoint(distance);
+			if (point.x < 1) point.x = 1;
+			if (point.x > 49) point.x = 49;
+			if (point.z < 1) point.z = 1;
+			if (point.z > 49) point.z = 49;
             dragTarget.transform.position = new Vector3(Mathf.Round(point.x - dragXOffset), dragHeight, Mathf.Round(point.z - dragZOffset)); // Set y to 2
         }
     }

@@ -898,7 +898,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 50, y: -49}
-  m_SizeDelta: {x: 600, y: 50}
+  m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1772967694
 MonoBehaviour:
@@ -920,7 +920,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Implementation: Emin, Julia, Khlid und Max'
+  m_text: "Implementation: \nEmin, Julia, Khalid und Max"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1221,6 +1221,7 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 0}
+  activeTowerListObject: {fileID: 0}
 --- !u!114 &1782587421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1329,7 +1330,7 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 0}
-  disableMovement: 0
+  freezePlayer: 0
   moveProvider: {fileID: 1782587418}
   bulletPrefab: {fileID: 0}
   bulletSpeed: 20

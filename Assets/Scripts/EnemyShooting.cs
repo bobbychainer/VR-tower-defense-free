@@ -67,17 +67,17 @@ public class EnemyShooting : EnemyController
         if (playersInRange.Length > 0)
         {
             targetPlayer = playersInRange[0].transform;  // Assuming there's only one player
-            Debug.Log("Player detected!");
+            //Debug.Log("Player detected!");
         }
         else
         {
             targetPlayer = null;
-            Debug.Log("No player detected.");
+            //Debug.Log("No player detected.");
         }
 
         if (targetPlayer != null)
         {
-            Debug.Log("Targeting player");
+            //Debug.Log("Targeting player");
             return true;
         }
 
@@ -91,7 +91,7 @@ public class EnemyShooting : EnemyController
 
         if (targetEnemy != null)
         {
-            Debug.Log("Targeting enemy");
+            //Debug.Log("Targeting enemy");
             return true;
         }
 
