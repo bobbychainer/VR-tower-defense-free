@@ -4,8 +4,9 @@ using UnityEngine.InputSystem;
 using System.Diagnostics;
 using Debug = UnityEngine.Debug;
 using System.Collections;
+using System.Numerics;
 
- // TODO: Freeze Interaction/Teleport -> in prep muss wieder alles funktionieren
+// TODO: Freeze Interaction/Teleport -> in prep muss wieder alles funktionieren
 public class PlayerController : MonoBehaviour
 {
     public Transform initialLocation;
@@ -17,7 +18,8 @@ public class PlayerController : MonoBehaviour
     public float bulletSpeed = 20f;   // Speed of the bullet
     public float fireRate = 2f;     // Rate of fire in seconds
     private float nextFireTime = 1f;  // Time until the next shot can be fired
-    private Vector3 respawnPoint = new Vector3(7.3f, 1.25f, 14f); // Respawn for player
+    private UnityEngine.Vector3 respawnPoint = new UnityEngine.Vector3(7.3f, 1.25f, 14f); // Respawn for player
+    public UnityEngine.Vector3 initialPoint = new UnityEngine.Vector3(0, 5.25f, 0); // Respawn for player
     public GameObject bulletSpawnPoint; //Position where Bullet should come out
   
     void Update() { 
@@ -76,7 +78,7 @@ public class PlayerController : MonoBehaviour
         }
         // Killbox Collision
         if (other.gameObject.tag == "Killbox") {
-            RespawnPlayer();
+            RespawnPlayer(respawnPoint);
             Debug.Log("Player hit Killbox");
         }
     }
@@ -106,5 +108,5 @@ public class PlayerController : MonoBehaviour
     }
     public void TakeDamage(int damage) { GameManager.instance.TakePlayerDamage(damage); }
 
-    public void RespawnPlayer() { transform.position = respawnPoint; }
+    public void RespawnPlayer(UnityEngine.Vector3 posi) { transform.position = posi; }
 }
