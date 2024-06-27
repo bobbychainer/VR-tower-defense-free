@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour {
     private Spawner enemySpawner;
     public enum GameState { PREPARATION, ATTACK }
     public Dictionary<string, int> towerPrices = new Dictionary<string, int>();
+    private List<int> lastTenHighScores = new List<int>();
     public GameState currentState;
     public bool isTimerRunning = false; 
     public float timer = 10f;
@@ -34,19 +35,10 @@ public class GameManager : MonoBehaviour {
         enemySpawner = FindObjectOfType<Spawner>();
         playerController = FindObjectOfType<PlayerController>();
         if (enemySpawner == null || playerController == null) Debug.Log("Scripts in GM not found.");
-        // initialize game variables
-        playerScore = 0;
-        playerHighScore = PlayerPrefs.GetInt("HighScore", 0);
-        currentRound = 1;
-        currentTimer = timer;
-        currentState = GameState.PREPARATION;
-        baseMaxHealth = 100;
-        baseCurrHealth = baseMaxHealth;
-        playerCoins = 500;
-
-        playerMaxHealth = 10;
-        playerCurrHealth = playerMaxHealth;
         
+        // initialize game variables
+        playerHighScore = PlayerPrefs.GetInt("HighScore", 0);
+        LoadHighScores(); 
         UpdateHighScore();
 
         // DICT
@@ -61,6 +53,24 @@ public class GameManager : MonoBehaviour {
             currentTimer -= Time.deltaTime;
             UIManager.instance.UpdateTimerText(currentTimer);
         }
+    }
+
+    // starts the game after button clicked
+    public void StartGame() {
+        Debug.Log("StartGame");
+        playerController.freezePlayer = false;
+        playerController.RespawnPlayer(playerController.initialPoint);
+        UIManager.instance.playerUI.SetActive(true);
+        playerScore = 0;
+        currentRound = 1;
+        currentTimer = timer;
+        currentState = GameState.PREPARATION;
+        baseMaxHealth = 100;
+        baseCurrHealth = baseMaxHealth;
+        playerCoins = 500;
+
+        playerMaxHealth = 10;
+        playerCurrHealth = playerMaxHealth;
     }
 
     public void AddCoins(int coins) {
@@ -113,9 +123,27 @@ public class GameManager : MonoBehaviour {
         if (playerScore > playerHighScore) {
             playerHighScore = playerScore;
             PlayerPrefs.SetInt("HighScore", playerHighScore); // safe new highscore
+            AddHighScore(playerScore); // add the new highscore to the list
             UpdateHighScore();
         }
     }
+    void AddHighScore(int score) {
+        lastTenHighScores.Add(score);
+        if (lastTenHighScores.Count > 10) lastTenHighScores.RemoveAt(0);  
+        SaveHighScores();
+    }
+    void SaveHighScores() {
+        for (int i = 0; i < lastTenHighScores.Count; i++) PlayerPrefs.SetInt("HighScore" + i, lastTenHighScores[i]);
+        PlayerPrefs.SetInt("HighScoreCount", lastTenHighScores.Count);
+    }
+
+    void LoadHighScores() {
+        lastTenHighScores.Clear();
+        int count = PlayerPrefs.GetInt("HighScoreCount", 0);
+        for (int i = 0; i < count; i++) lastTenHighScores.Add(PlayerPrefs.GetInt("HighScore" + i, 0));
+    }
+
+    public List<int> GetLastTenHighScores() { return new List<int>(lastTenHighScores); }
 
     public void TakeBaseDamage(int dmg) {
         Debug.Log("BH: " + baseCurrHealth);
