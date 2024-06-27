@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public float bulletSpeed = 20f;   // Speed of the bullet
     public float fireRate = 2f;     // Rate of fire in seconds
     private float nextFireTime = 1f;  // Time until the next shot can be fired
+    private Vector3 respawnPoint = new Vector3(7.3f, 1.25f, 14f); // Respawn for player
     public GameObject bulletSpawnPoint; //Position where Bullet should come out
   
     void Update() { 
@@ -73,11 +74,13 @@ public class PlayerController : MonoBehaviour
                 Destroy(other.gameObject);
             }
         }
+        // Killbox Collision
+        if (other.gameObject.tag == "Killbox") {
+            RespawnPlayer();
+            Debug.Log("Player hit Killbox");
+        }
     }
 
-    public void TakeDamage(int damage) {
-        GameManager.instance.TakePlayerDamage(damage);
-    }
 
     void ShootBullet() {
         if (bulletPrefab == null) {
@@ -101,4 +104,7 @@ public class PlayerController : MonoBehaviour
             Debug.LogError("Bullet Rigidbody not found!");
         }
     }
+    public void TakeDamage(int damage) { GameManager.instance.TakePlayerDamage(damage); }
+
+    public void RespawnPlayer() { transform.position = respawnPoint; }
 }

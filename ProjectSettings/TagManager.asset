@@ -15,6 +15,7 @@ TagManager:
   - EnemyBullet
   - PlayerBullet
   - Blocked
+  - Killbox
   layers:
   - Default
   - TransparentFX
