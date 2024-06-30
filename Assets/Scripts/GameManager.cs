@@ -5,8 +5,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
     public static GameManager instance;
     private PlayerController playerController;
+    private GameObject pauseMenu;
     private Spawner enemySpawner;
-    public enum GameState { PREPARATION, ATTACK }
+    public enum GameState { PREPARATION, ATTACK, PAUSED}
     public Dictionary<string, int> towerPrices = new Dictionary<string, int>();
     private List<int> lastTenHighScores = new List<int>();
     public GameState currentState;
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour {
     void Start() {
         enemySpawner = FindObjectOfType<Spawner>();
         playerController = FindObjectOfType<PlayerController>();
+        pauseMenu = GameObject.Find("PauseMenu");
         if (enemySpawner == null || playerController == null) Debug.Log("Scripts in GM not found.");
         
         // initialize game variables
@@ -45,14 +47,45 @@ public class GameManager : MonoBehaviour {
         towerPrices.Add("SMALL", 100);
         towerPrices.Add("RAPID", 100);
         towerPrices.Add("LASER", 200);
+        pauseMenu.SetActive(false);
     }
 
     // runs the timer
     private void Update() {
-        if (isTimerRunning) {
+        if (Input.GetKeyDown(KeyCode.P)) { // TODO: Khalid change button
+            if (currentState == GameState.ATTACK) {
+                PauseGame();
+            } else if (currentState == GameState.PAUSED) {
+                ResumeGame();
+            }
+        }
+
+        if (currentState == GameState.ATTACK && isTimerRunning) {
             currentTimer -= Time.deltaTime;
             UIManager.instance.UpdateTimerText(currentTimer);
+            if (currentTimer <= 0) {
+                currentTimer = 0;
+                UIManager.instance.UpdateTimerText(currentTimer);
+                isTimerRunning = false;
+                ChangeGameState();
+            }
         }
+    }
+
+    private void PauseGame() {
+        currentState = GameState.PAUSED;
+        isTimerRunning = false;
+        Time.timeScale = 0f;
+        pauseMenu.SetActive(true);
+        UIManager.instance.UpdateGameState("Paused");
+    }
+
+    private void ResumeGame() {
+        currentState = GameState.ATTACK;
+        isTimerRunning = true;
+        Time.timeScale = 1f;
+        pauseMenu.SetActive(false);
+        UIManager.instance.UpdateGameState("Attack");
     }
 
     // starts the game after button clicked
@@ -105,7 +138,6 @@ public class GameManager : MonoBehaviour {
     public int GetPlayerScore() { return playerScore; }
     public int GetPlayerCoins() { return playerCoins; }
     public int GetPlayerHealth() { return playerCurrHealth; }
-
 	public bool IsPreparationGameState() { return currentState == GameState.PREPARATION; }
 	public bool IsAttackGameState() { return currentState == GameState.ATTACK; }
 

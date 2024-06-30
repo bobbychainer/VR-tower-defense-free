@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     public float fireRate = 2f;     // Rate of fire in seconds
     private float nextFireTime = 1f;  // Time until the next shot can be fired
     private UnityEngine.Vector3 respawnPoint = new UnityEngine.Vector3(7.3f, 1.25f, 14f); // Respawn for player
-    public UnityEngine.Vector3 initialPoint = new UnityEngine.Vector3(0, 5.25f, 0); // Respawn for player
+    public UnityEngine.Vector3 initialPoint = new UnityEngine.Vector3(0, 0, 0); // Respawn for player
     public GameObject bulletSpawnPoint; //Position where Bullet should come out
   
     void Update() { 
@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
         }
         // Killbox Collision
         if (other.gameObject.tag == "Killbox") {
-            RespawnPlayer(respawnPoint);
+            RespawnPlayer(initialPoint);
             Debug.Log("Player hit Killbox");
         }
     }
