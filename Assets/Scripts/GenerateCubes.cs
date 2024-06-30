@@ -4,16 +4,16 @@ using UnityEngine;
 
 // class for implement the game field with ground an path
 public class GenerateCubes : MonoBehaviour {
-    public GameObject cubePrefab; // prefab
-    public Vector2 gridSize; // grid size
-    public Material pathMaterial; // Material for cubes on the path
-    public Material transparentMaterial; // Material for cubes not on the path
-	public Material blockedMaterial;
-	public Material buildMaterial;
+    private Vector2 gridSize = new Vector2(50, 50); // grid size
+    [SerializeField] private  GameObject cubePrefab; // prefab
+    [SerializeField] private Material pathMaterial; // Material for cubes on the path
+    [SerializeField] private  Material transparentMaterial; // Material for cubes not on the path
+	[SerializeField] private  Material blockedMaterial;
+	[SerializeField] private  Material buildMaterial;
     public Transform[] waypoints; // Waypoints for the path, included in scene
     private GameObject spawnObject;
     private GameObject baseObject;
-    public float height = 0.1f;
+    private float height = 0.1f;
 
     void Start() {
         spawnObject = GameObject.FindGameObjectWithTag("Spawn");
