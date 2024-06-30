@@ -57,15 +57,7 @@ public class UIManager : MonoBehaviour {
     public void UpdatePlayerHighScoreText(int highScore) { highScoreText.text = "Highscore: " + highScore.ToString(); }
     public void UpdateRound(int round) { roundText.text = "Round: " + round.ToString(); }
     public void UpdateGameState(string state) { stateText.text = "State " + state; }
-    public void UpdateTimerText(float time) {
-        if (time <= 0) {
-            timerText.text = "Timer: 0";
-            GameManager.instance.isTimerRunning = false;
-            GameManager.instance.ChangeGameState(); // start next round
-        } else {
-            timerText.text = "Timer: " + Mathf.RoundToInt(time).ToString();
-        }
-    }
+    public void UpdateTimerText(float time) {timerText.text = "Timer: " + Mathf.RoundToInt(time).ToString(); }
 
     // instatiate small tower
 	public void SmallTowerButtonPressed() { 
