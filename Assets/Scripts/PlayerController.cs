@@ -21,6 +21,19 @@ public class PlayerController : MonoBehaviour
     private UnityEngine.Vector3 respawnPoint = new UnityEngine.Vector3(7.3f, 1.25f, 14f); // Respawn for player
     public UnityEngine.Vector3 initialPoint = new UnityEngine.Vector3(0, 0, 0); // Respawn for player
     public GameObject bulletSpawnPoint; //Position where Bullet should come out
+
+
+    public AudioSource damageAS;
+    public AudioSource shootAS;
+
+    public void Start(){
+
+        AudioSource[] audioSources = GetComponents<AudioSource>();
+        damageAS = audioSources[0];
+        shootAS = audioSources[1];
+    }
+
+
   
     void Update() { 
         if (freezePlayer && moveProvider.enabled) {
@@ -101,12 +114,19 @@ public class PlayerController : MonoBehaviour
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         if (rb != null) {
             rb.velocity = bulletSpawnPoint.transform.forward * bulletSpeed;
+
+            shootAS.Play();
+
             //Debug.Log("Bullet velocity set to: " + rb.velocity);
         } else {
             Debug.LogError("Bullet Rigidbody not found!");
         }
     }
-    public void TakeDamage(int damage) { GameManager.instance.TakePlayerDamage(damage); }
+
+    public void TakeDamage(int damage) {
+         GameManager.instance.TakePlayerDamage(damage); 
+         damageAS.Play();
+    }
 
     public void RespawnPlayer(UnityEngine.Vector3 posi) { transform.position = posi; }
 }
