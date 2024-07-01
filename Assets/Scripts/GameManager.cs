@@ -12,7 +12,8 @@ public class GameManager : MonoBehaviour {
     public enum GameState { PREPARATION, ATTACK, PAUSED}
     public Dictionary<string, int> towerPrices = new Dictionary<string, int>();
     private List<int> lastTenHighScores = new List<int>();
-    public GameState currentStatadd_e;
+    //public GameState currentStatadd_e;
+    public GameState currentState;
     public bool isTimerRunning = false; 
     public float timer = 10f;
     private float currentTimer;
