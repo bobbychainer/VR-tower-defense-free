@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
     public static GameManager instance;
+    private GenerateCubes generateCubes;
     private PlayerController playerController;
     private GameObject pauseMenu;
     private Spawner enemySpawner;
@@ -12,7 +13,7 @@ public class GameManager : MonoBehaviour {
     private List<int> lastTenHighScores = new List<int>();
     public GameState currentState;
     public bool isTimerRunning = false; 
-    public float timer = 10f;
+    public float timer = 60f;
     private float currentTimer;
     private int playerScore;
     private int playerHighScore;
@@ -35,8 +36,9 @@ public class GameManager : MonoBehaviour {
     void Start() {
         enemySpawner = FindObjectOfType<Spawner>();
         playerController = FindObjectOfType<PlayerController>();
+        generateCubes = FindObjectOfType<GenerateCubes>();
         pauseMenu = GameObject.Find("PauseMenu");
-        if (enemySpawner == null || playerController == null) Debug.Log("Scripts in GM not found.");
+        if (enemySpawner == null || playerController == null || generateCubes == null) Debug.Log("Scripts in GM not found.");
         
         // initialize game variables
         playerHighScore = PlayerPrefs.GetInt("HighScore", 0);
@@ -94,6 +96,7 @@ public class GameManager : MonoBehaviour {
         playerController.freezePlayer = false;
         playerController.RespawnPlayer(playerController.initialPoint);
         UIManager.instance.playerUI.SetActive(true);
+        UIManager.instance.UpdateRound(currentRound);
         playerScore = 0;
         currentRound = 1;
         currentTimer = timer;
@@ -122,6 +125,7 @@ public class GameManager : MonoBehaviour {
             UIManager.instance.UpdateGameState("Attack"); 
             UIManager.instance.ToggleReadyButton(false);
         } else if (currentState == GameState.ATTACK) { // Next is PREP
+            generateCubes.ExtendPath(currentRound);
             playerController.freezePlayer = false;
             playerCoins += 200;
             baseCurrHealth = baseMaxHealth;

@@ -631,7 +631,7 @@ Transform:
   m_GameObject: {fileID: 59189992}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.86, y: 0, z: -9.05}
+  m_LocalPosition: {x: -0.05, y: 0, z: -6.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5979,7 +5979,7 @@ Transform:
   m_GameObject: {fileID: 771773100}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.8, y: 0, z: -4.7}
+  m_LocalPosition: {x: -5.99, y: 0, z: -4.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10360,7 +10360,7 @@ Transform:
   m_GameObject: {fileID: 1284242660}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.67, y: 0, z: -1.29}
+  m_LocalPosition: {x: 7.94, y: 0, z: 5.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11153,7 +11153,7 @@ Transform:
   m_GameObject: {fileID: 1313799801}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -15.83, y: 0, z: -3.7}
+  m_LocalPosition: {x: -13.76, y: 0, z: -3.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13130,9 +13130,7 @@ MonoBehaviour:
   transparentMaterial: {fileID: 2100000, guid: f375772995f7a8b4db2fffb24b6ff158, type: 2}
   blockedMaterial: {fileID: 2100000, guid: f78609c6bcdc9c546a3fe8de824b2b84, type: 2}
   buildMaterial: {fileID: 2100000, guid: 1be907de5ac19fb4fbd25f2daba841e5, type: 2}
-  waypoints:
-  - {fileID: 1568266966}
-  - {fileID: 554804546}
+  waypointsParent: {fileID: 621064346}
 --- !u!33 &1573425221
 MeshFilter:
   m_ObjectHideFlags: 10

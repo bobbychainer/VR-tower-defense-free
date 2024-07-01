@@ -11,11 +11,13 @@ public class EnemyController : MonoBehaviour {
     protected NavMeshAgent agent;
     protected int enemyHealth = 1; // health to destroy
     protected int enemyValue = 1; // score for player and damage to base
+    protected Transform[] waypoints;
 
     protected float enemySpeed = 8f;
 
     protected virtual void Start() {
         generateCubes = FindObjectOfType<GenerateCubes>(); // Find the GenerateCubes script
+        waypoints = generateCubes.GetWaypoints(); // Initialize waypoints
         agent = GetComponent<NavMeshAgent>();
         gameManager = FindObjectOfType<GameManager>(); // Find the GenerateCubes script
 
@@ -27,7 +29,7 @@ public class EnemyController : MonoBehaviour {
         if (agent.remainingDistance <= agent.stoppingDistance + 0.2) {
             // Move to the next waypoint
             currentWaypointIndex++;
-            if (currentWaypointIndex < generateCubes.waypoints.Length) {
+            if (currentWaypointIndex < waypoints.Length) {
                 SetDestinationToNextWaypoint();
             } else {
                 // Reached the last waypoint (Base), destroy the enemy
@@ -70,7 +72,7 @@ public class EnemyController : MonoBehaviour {
 
     // Check if there are waypoints remaining
     protected virtual void SetDestinationToNextWaypoint() {
-        if (currentWaypointIndex < generateCubes.waypoints.Length) agent.SetDestination(generateCubes.waypoints[currentWaypointIndex].position);
+        if (currentWaypointIndex < waypoints.Length) agent.SetDestination(waypoints[currentWaypointIndex].position);
     }
 	
     // enemy takes damage from bullet and player gets score
