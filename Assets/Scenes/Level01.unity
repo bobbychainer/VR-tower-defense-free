@@ -7171,10 +7171,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefabs:
-  - {fileID: 8235772313742901243, guid: e71ae31c4da88e74fa41fe8bbce094a7, type: 3}
-  - {fileID: 5196961611457245738, guid: b43a1c4f107b02946a86422d3e2587b6, type: 3}
-  - {fileID: 8235772313742901243, guid: 945bc18edd49d014f85d12c87f3604f0, type: 3}
-  - {fileID: 5196961611457245738, guid: c6b4712cb012af14bbf8239d6e8b0020, type: 3}
+  - {fileID: 7427070853888570003, guid: 5b3cea2dc74d2e54cabace0e573e6fa6, type: 3}
+  - {fileID: 7153141402127884706, guid: e6791d2508a6753489584198426abe7f, type: 3}
+  - {fileID: 6753617674297473082, guid: d5a363d93ae1c414cb08639d728a6919, type: 3}
+  - {fileID: 264213370537990050, guid: 9cc41790805c0e14b8ccd5fd1a5b61e8, type: 3}
   spawnInterval: 2
 --- !u!1 &874988153
 GameObject:
