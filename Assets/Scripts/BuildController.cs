@@ -5,7 +5,8 @@ using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.InputSystem;
 
 public class BuildController : MonoBehaviour {
-    public LayerMask layerMask;
+    public LayerMask towerLayerMask;
+	public LayerMask optionLayerMask;
     public GameObject smallTowerPrefab;
     public GameObject rapidTowerPrefab;
     public GameObject laserTowerPrefab;
@@ -23,6 +24,10 @@ public class BuildController : MonoBehaviour {
     protected bool isDragging = false;
 	public GameObject activeTowerListObject;
 	private GameObject spawnedTower;
+	
+	private GameObject selectedTarget;
+	private TowerController.SelectState towerstate;
+	
 
     void Start() {
         spawnPosition = new Vector3(0, dragHeight, 15);
@@ -47,12 +52,46 @@ public class BuildController : MonoBehaviour {
     }
 
     private void OnTriggerPressed(InputAction.CallbackContext context) {
-        dragTarget = PerformRaycast();
-        if (dragTarget != null) {
-            isDragging = true;
-            Debug.Log("Drag Started");
-            Debug.Log("Dragging " + dragTarget);
-        }
+		
+		if (spawnedTowerButNotPlaced) {
+			
+			dragTarget = PerformRaycastOnTower();
+			Debug.Log("DRAG TARGET: "+dragTarget);
+			
+			if (dragTarget != null) {
+			
+				TowerController towerController = dragTarget.gameObject.GetComponent<TowerController>();
+				if (towerController) {				
+					if (!towerController.hasBeenPlaced()) {
+						isDragging = true;
+						Debug.Log("Drag Started");
+						Debug.Log("Dragging " + dragTarget);
+					}
+				}
+			}
+		} else {
+			
+			GameObject selectedTargetNew = PerformRaycastOnTower();
+			if (!GameObject.ReferenceEquals(selectedTargetNew, selectedTarget)) {
+				GameObject optionMenuItem = PerformRaycastOnOption();
+				if (optionMenuItem == null) {
+					ResetInformationMenuOfSelectedTarget();
+					
+					selectedTarget = selectedTargetNew;
+					Debug.Log("SELECTED TARGET: "+selectedTarget);
+					
+					if (selectedTarget != null) {
+						
+						TowerController towerController = selectedTarget.gameObject.GetComponent<TowerController>();
+						if (towerController) {
+							towerController.ShowInformationMenu();
+						}
+					}
+				} else {
+					Debug.Log("OPTION MENU ITEM optionMenuItem = "+optionMenuItem);
+				}
+			}
+		}
     }
 
     private void OnTriggerReleased(InputAction.CallbackContext context) {
@@ -61,25 +100,31 @@ public class BuildController : MonoBehaviour {
         dragTarget = null;
     }
 
-    private GameObject PerformRaycast() {
+    private GameObject PerformRaycastOnTower() {
         if (rightRayInteractor != null) {
             // Perform raycast using XRRayInteractor
             Ray ray = new Ray(rightRayInteractor.transform.position, rightRayInteractor.transform.forward);
             RaycastHit hit;
 
-			if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
-				TowerController towerController = hit.collider.gameObject.GetComponent<TowerController>();
-				if (towerController) {
-					if (!towerController.hasBeenPlaced()) {
-						return hit.collider.gameObject;
-					} else {
-						Debug.Log("Tower already placed.");
-					}
-				}
+			if (Physics.Raycast(ray, out hit, Mathf.Infinity, towerLayerMask)) {
+				return hit.collider.gameObject;
 			}
 		}
 		return null;
     }
+	
+	private GameObject PerformRaycastOnOption() {
+		if (rightRayInteractor != null) {
+            // Perform raycast using XRRayInteractor
+            Ray ray = new Ray(rightRayInteractor.transform.position, rightRayInteractor.transform.forward);
+            RaycastHit hit;
+
+			if (Physics.Raycast(ray, out hit, Mathf.Infinity, optionLayerMask)) {
+				return hit.collider.gameObject;
+			}
+		}
+		return null;
+	}
 
     // move target to mouse position
     private void DragTargetToMouse(){
@@ -96,11 +141,24 @@ public class BuildController : MonoBehaviour {
         }
     }
 	
+	private void ResetInformationMenuOfSelectedTarget() {
+		if (selectedTarget != null) {
+			TowerController towerController = selectedTarget.gameObject.GetComponent<TowerController>();
+			if (towerController) {
+				if (towerController.hasBeenPlaced()) {
+					towerController.CloseInformationMenu();
+				}
+			}
+		}
+		towerstate = TowerController.SelectState.NONE;
+	}
+	
 	private void SpawnTower(GameObject towerPrefab, Vector3 position) {
 		// if game state is preparation (building) spawn a tower
 		if (GameManager.instance.IsPreparationGameState()) {
 			// avoid spawning multiple tower
 			if (!spawnedTowerButNotPlaced) {
+				ResetInformationMenuOfSelectedTarget();
 				spawnedTower = Instantiate(towerPrefab, position, towerPrefab.transform.rotation, activeTowerListObject.transform);
 				spawnedTowerButNotPlaced =  true;
 			}
@@ -110,17 +168,17 @@ public class BuildController : MonoBehaviour {
 	// create a SmallTower at spawnposition
 	public void SpawnSmallTower() { 
 		SpawnTower(smallTowerPrefab, spawnPosition); 
-		dragTargetPrice = GameManager.instance.towerPrices["SMALL"];
+		dragTargetPrice = GameManager.instance.GetTowerCosts("SMALL",1);
 	}
 	// create a SmallTower at spawnposition
 	public void SpawnRapidTower() { 
-		SpawnTower(rapidTowerPrefab, spawnPosition); 
-		dragTargetPrice = GameManager.instance.towerPrices["RAPID"];
+		SpawnTower(rapidTowerPrefab, spawnPosition);
+		dragTargetPrice = GameManager.instance.GetTowerCosts("RAPID",1);
 	}
 	// create a SmallTower at spawnposition
 	public void SpawnLaserTower() { 
 		SpawnTower(laserTowerPrefab, spawnPosition); 
-		dragTargetPrice = GameManager.instance.towerPrices["LASER"];
+		dragTargetPrice = GameManager.instance.GetTowerCosts("LASER",1);
 	}
 	
 	public void TowerAcceptButtonPressed() {
@@ -134,6 +192,21 @@ public class BuildController : MonoBehaviour {
 		spawnedTowerButNotPlaced = false;
 		spawnedTower = null;
 	}
+	
+	public bool TowerUpgradeButtonPressed(string towerName, int level) {
+		Debug.Log("Upgrade Button Pressed");
+		
+		int currCoins = GameManager.instance.GetPlayerCoins();
+		int towerCosts = GameManager.instance.GetTowerCosts(towerName, level);
+		
+		if (currCoins >= towerCosts) {
+			GameManager.instance.RemoveCoins(towerCosts);
+			return true;
+		}
+		return false;
+	}
+	
+	
 	
 	// show tower
 	public void ToggleTowerActive(bool isVisible) {

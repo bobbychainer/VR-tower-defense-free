@@ -98,7 +98,8 @@ public class UIManager : MonoBehaviour {
     // instatiate small tower
 	public void SmallTowerButtonPressed() { 
         Debug.Log("S pressed");
-        if (GameManager.instance.GetPlayerCoins() >= GameManager.instance.towerPrices["SMALL"]) {
+		int towerPrice = GameManager.instance.GetTowerCosts("SMALL", 0);
+        if (GameManager.instance.GetPlayerCoins() >= towerPrice) {
             buildController.SpawnSmallTower(); 
         } else {
             Debug.Log("Not enough Coins to Buy");
@@ -109,7 +110,8 @@ public class UIManager : MonoBehaviour {
 	// instatiate rapid tower
 	public void RapidTowerButtonPressed() { 
         Debug.Log("R pressed");
-        if (GameManager.instance.GetPlayerCoins() >= GameManager.instance.towerPrices["RAPID"]) {
+		int towerPrice = GameManager.instance.GetTowerCosts("RAPID", 0);
+        if (GameManager.instance.GetPlayerCoins() >= towerPrice) {
             buildController.SpawnRapidTower(); 
         } else {
             Debug.Log("Not enough Coins to Buy");
@@ -119,7 +121,8 @@ public class UIManager : MonoBehaviour {
 	// instatiate laser tower
 	public void LaserTowerButtonPressed() { 
         Debug.Log("L pressed");
-        if (GameManager.instance.GetPlayerCoins() >= GameManager.instance.towerPrices["LASER"]) {
+		int towerPrice = GameManager.instance.GetTowerCosts("LASER", 0);
+        if (GameManager.instance.GetPlayerCoins() >= towerPrice) {
             buildController.SpawnLaserTower(); 
         } else {
             Debug.Log("Not enough Coins to Buy");

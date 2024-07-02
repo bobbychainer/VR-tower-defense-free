@@ -12,10 +12,11 @@ public class SmallTower : TowerController {
 	// initialize tower
 	protected override void Initialize() {
 		// TowerController initialization
+		towerName = "SMALL";
 		damage = 1;
 		// RapidTower initialization
 		// get top position of tower (CenterSphere)
-		attackStartPosition = gameObject.transform.Find("TopSpheres/CenterSphere").position;
+		attackStartPosition = gameObject.transform.Find("CanonTopSphere").position;
 		attackRadius = 10f;
 	}
 	

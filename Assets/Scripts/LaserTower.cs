@@ -14,11 +14,12 @@ public class LaserTower : TowerController {
 	// initialize tower
 	protected override void Initialize() {
 		// TowerController initialization
+		towerName = "LASER";
 		attackCooldown = 5f;
 		damage = 1;
 		// RapidTower initialization
 		attackDistance = 10f;
-		attackStartPosition = transform.Find("Canons/Center").position;
+		attackStartPosition = transform.Find("Canons/AttackStart").position;
 		
 		attackEndPositions = GetAxisAlignedEndPositions();
 	}
@@ -53,10 +54,10 @@ public class LaserTower : TowerController {
 	}
 	
 	private Vector3[] GetAxisAlignedEndPositions() {
-		Vector3 frontPosition1 = transform.Find("Canons/Front1").position;
-		Vector3 frontPosition2 = transform.Find("Canons/Front2").position;
-		Vector3 frontPosition3 = transform.Find("Canons/Front3").position;
-		Vector3 frontPosition4 = transform.Find("Canons/Front4").position;
+		Vector3 frontPosition1 = transform.Find("Canons/Canon1/Ring").position;
+		Vector3 frontPosition2 = transform.Find("Canons/Canon2/Ring").position;
+		Vector3 frontPosition3 = transform.Find("Canons/Canon3/Ring").position;
+		Vector3 frontPosition4 = transform.Find("Canons/Canon4/Ring").position;
 				
 		Vector3 endPosition1 = new Vector3(frontPosition1.x, frontPosition1.y, 0f);
 		Vector3 endPosition2 = new Vector3(frontPosition2.x, frontPosition2.y, 50f);

@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour {
     private PlayerController playerController;
     private Spawner enemySpawner;
     public enum GameState { PREPARATION, ATTACK }
-    public Dictionary<string, int> towerPrices = new Dictionary<string, int>();
+    public Dictionary<string, List<int>> towerPrices = new Dictionary<string, List<int>>();
     public GameState currentState;
     public bool isTimerRunning = false; 
     public float timer = 10f;
@@ -50,9 +50,9 @@ public class GameManager : MonoBehaviour {
         UpdateHighScore();
 
         // DICT
-        towerPrices.Add("SMALL", 100);
-        towerPrices.Add("RAPID", 100);
-        towerPrices.Add("LASER", 200);
+        towerPrices.Add("SMALL", new List<int> {100, 100, 200, 300});
+        towerPrices.Add("RAPID", new List<int> {100, 100, 200, 300});
+        towerPrices.Add("LASER", new List<int> {100, 100, 200, 300});
     }
 
     // runs the timer
@@ -137,5 +137,10 @@ public class GameManager : MonoBehaviour {
         UIManager.instance.UpdatePlayerHealthText(playerCurrHealth);
     }
 	
+	
+	public int GetTowerCosts(string name, int level)  {
+		List<int> towerPriceList = towerPrices[name];
+		return towerPriceList[level];
+	}
 
 }

@@ -7,6 +7,8 @@ using Debug = UnityEngine.Debug;
 
 public class TowerController: MonoBehaviour {
 	public LayerMask enemyLayer;
+	protected string towerName = "DEFAULT";
+	protected int level = 1;
 	protected float lastAttackTime = 0f;
 	protected int damage = 1;
 	protected int towerPrice = 100;
@@ -14,23 +16,23 @@ public class TowerController: MonoBehaviour {
 	protected int currentTowerHealth = 100;
 	protected float attackCooldown = 1f;
 	protected bool placed = false;
+	public enum SelectState { NONE , DRAGGABLE , SELECTED , OPTION_UPGRADE , OPTION_DELETE }
+	protected SelectState state;
 	protected GameObject healthObject;
-	protected GameObject acceptObject;
-	protected GameObject cancelObject;
 	
-	protected GameObject baseObject;
-	public Material blockedMaterial;
+	//public Material blockedMaterial;
 	private GenerateCubes generateCubes;
+	private BuildController buildController;
 	
 	protected virtual void Start() {
-		healthObject = gameObject.transform.Find("TowerPanel/HealthBar/Background/Anchor/Health").gameObject;
-		acceptObject = gameObject.transform.Find("TowerPanel/Accept").gameObject;
-		cancelObject = gameObject.transform.Find("TowerPanel/Cancel").gameObject;
-		Debug.Log(healthObject);
-		
-		baseObject =  gameObject.transform.Find("Base").gameObject;
+		healthObject = gameObject.transform.Find("TowerPanel/HealthBar/Background/Anchor/Health").gameObject;		
 		
 		generateCubes = FindObjectOfType<GenerateCubes>();
+		buildController = FindObjectOfType<BuildController>();
+		
+		state = SelectState.DRAGGABLE;
+		ToggleTowerOptionList(false);
+		ToggleTowerOptionControlls(false);
 	}
 
 	protected virtual void Update() {
@@ -67,14 +69,14 @@ public class TowerController: MonoBehaviour {
 	
 	public void AcceptPressed() {
 		// check if tower can be placed there
-		Vector3 basePosition = baseObject.transform.position;
-		bool groundBlocked = generateCubes.TryBlockGroundAtPosition(basePosition.x, basePosition.z);
+		Vector3 basePosition = gameObject.transform.Find("Base").transform.position;
+		bool groundBlocked = generateCubes.TryCubeGroundAtPosition(basePosition.x, basePosition.z);
 		
 		if (groundBlocked) {
 			Debug.Log("Place Tower");
 			Initialize();
 			placed = true;
-			BuildController buildController = ClearTowerInfoElements();
+			ClearTowerInfoElements();
 			buildController.TowerAcceptButtonPressed();
 		} else {
 			Debug.Log("GROUND BLOCKED");
@@ -84,15 +86,79 @@ public class TowerController: MonoBehaviour {
 	public void CancelPressed() {
 		Debug.Log("Placement Canceled");
 		Destroy(gameObject);
-		BuildController buildController = ClearTowerInfoElements();
+		ClearTowerInfoElements();
 		buildController.TowerCancelButtonPressed();
 	}
 	
-	private BuildController ClearTowerInfoElements() {
-		BuildController buildController = FindObjectOfType<BuildController>();
+	public void UpgradePressed() {
+		Debug.Log("UPGRADE TOWER Pressed");
+		if (placed) {
+			state = SelectState.OPTION_UPGRADE;
+			Debug.Log("UPGRADE TOWER - State = "+state);
+			
+			ToggleTowerOptionList(false);
+			ToggleTowerOptionControlls(true);
+		}
+	}
+	
+	public void DeletePressed() {
+		Debug.Log("DELETE TOWER Pressed");
+		if (placed) {
+			state = SelectState.OPTION_DELETE;
+			Debug.Log("DELETE TOWER");
+			
+			ToggleTowerOptionList(false);
+			ToggleTowerOptionControlls(true);
+		}
+	}
+	
+	public void OptionAcceptPressed() {
+		
+		Debug.Log("PRESSED OptionAcceptPressed - State = "+state);
+		
+		if (state == SelectState.OPTION_UPGRADE) {
+			if (towerName != "DEFAULT") {
+				bool upgradeCoinCheckSuccessful = buildController.TowerUpgradeButtonPressed(towerName, level);
+				if (upgradeCoinCheckSuccessful) {
+					// TODO UPGRADES on tower
+					Debug.Log("UPGRADE SUCCESSFUL");
+				}
+			}
+		} else if (state == SelectState.OPTION_DELETE) {
+			Debug.Log("DELETE TOWER");
+			Vector3 basePosition = gameObject.transform.Find("Base").transform.position;
+			generateCubes.ResetCubeGroundAtPosition(basePosition.x, basePosition.z);
+			Destroy(gameObject);
+			//TODO get money back TODO
+		}
+		
+		ToggleTowerOptionList(true);
+		ToggleTowerOptionControlls(false);
+		
+		state = SelectState.SELECTED;
+	}
+	
+	public void OptionCancelPressed() {
+		ToggleTowerOptionControlls(false);
+		ToggleTowerOptionList(true);
+		state = SelectState.SELECTED;
+	}
+	
+	private void ToggleTowerOptionList(bool isVisible) {
+		GameObject optionListObject = gameObject.transform.Find("TowerPanel/OptionMenu/List").gameObject;
+		if (optionListObject != null) optionListObject.SetActive(isVisible);
+	}
+	
+	private void ToggleTowerOptionControlls(bool isVisible) {
+		GameObject optionControllObject = gameObject.transform.Find("TowerPanel/OptionMenu/Controlls").gameObject;
+		if (optionControllObject != null) optionControllObject.SetActive(isVisible);
+	}
+	
+	private void ClearTowerInfoElements() {
+		GameObject acceptObject = gameObject.transform.Find("TowerPanel/Accept").gameObject;
+		GameObject cancelObject = gameObject.transform.Find("TowerPanel/Cancel").gameObject;
 		acceptObject.SetActive(false);
 		cancelObject.SetActive(false);
-		return buildController;
 	}
 	
 	// activate tower
@@ -146,6 +212,19 @@ public class TowerController: MonoBehaviour {
         }
     }
 	
+	public void CloseInformationMenu() {
+		state = SelectState.NONE;
+		ToggleTowerOptionList(false);
+		ToggleTowerOptionControlls(false);
+	}
+	
+	public void ShowInformationMenu() {
+		state = SelectState.SELECTED;
+		ToggleTowerOptionList(true);
+	}
+	
 	public bool hasBeenPlaced() { return placed; }
+	
+	public SelectState GetSelectState() { return state;	}
 
 }

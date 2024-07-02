@@ -12,11 +12,12 @@ public class RapidTower : TowerController {
 	// initialize tower
 	protected override void Initialize() {
 		// TowerController initialization
+		towerName = "RAPID";
 		attackCooldown = 0.5f;
 		damage = 1;
 		// RapidTower initialization
 		// get top position of tower (CenterSphere)
-		attackStartPosition = gameObject.transform.Find("TopSpheres/CenterSphere").position;
+		attackStartPosition = gameObject.transform.Find("Canon").position;
 		attackRadius = 8f;
 	}
 	
