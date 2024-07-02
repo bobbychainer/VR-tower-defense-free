@@ -16,6 +16,8 @@ public class EnemyShooting : EnemyController
     public GameObject bulletPrefab;
     private Vector3 attackStartPosition;
 
+    private Animator animator;
+
     protected override void Start()
     {
         base.Start();
@@ -27,6 +29,8 @@ public class EnemyShooting : EnemyController
         damage = 1;
 
         attackStartPosition = gameObject.transform.position;
+
+        animator = GetComponent<Animator>();
     }
 
     protected override void Update()
@@ -110,10 +114,18 @@ public class EnemyShooting : EnemyController
             if (targetPlayer != null)
             {
                 bullet.Initialize(targetPlayer, damage);
+
+                if (animator != null) {
+                    animator.SetTrigger("Shoot");
+                }
             }
             else if (targetEnemy != null)
             {
                 bullet.Initialize(targetEnemy, damage);
+                
+                if (animator != null) {
+                    animator.SetTrigger("Shoot");
+                }
             }
         }
     }

@@ -4,8 +4,9 @@ using UnityEngine.InputSystem;
 using System.Diagnostics;
 using Debug = UnityEngine.Debug;
 using System.Collections;
+using System.Numerics;
 
- // TODO: Freeze Interaction/Teleport -> in prep muss wieder alles funktionieren
+// TODO: Freeze Interaction/Teleport -> in prep muss wieder alles funktionieren
 public class PlayerController : MonoBehaviour
 {
     public Transform initialLocation;
@@ -17,7 +18,22 @@ public class PlayerController : MonoBehaviour
     public float bulletSpeed = 20f;   // Speed of the bullet
     public float fireRate = 2f;     // Rate of fire in seconds
     private float nextFireTime = 1f;  // Time until the next shot can be fired
+    private UnityEngine.Vector3 respawnPoint = new UnityEngine.Vector3(7.3f, 1.25f, 14f); // Respawn for player
+    public UnityEngine.Vector3 initialPoint = new UnityEngine.Vector3(0, 0, 0); // Respawn for player
     public GameObject bulletSpawnPoint; //Position where Bullet should come out
+
+
+    private AudioSource damageAS;
+    private AudioSource shootAS;
+
+    public void Start(){
+
+        AudioSource[] audioSources = GetComponents<AudioSource>();
+        damageAS = audioSources[0];
+        shootAS = audioSources[1];
+    }
+
+
   
     void Update() { 
         if (freezePlayer && moveProvider.enabled) {
@@ -73,11 +89,13 @@ public class PlayerController : MonoBehaviour
                 Destroy(other.gameObject);
             }
         }
+        // Killbox Collision
+        if (other.gameObject.tag == "Killbox") {
+            RespawnPlayer(initialPoint);
+            Debug.Log("Player hit Killbox");
+        }
     }
 
-    public void TakeDamage(int damage) {
-        GameManager.instance.TakePlayerDamage(damage);
-    }
 
     void ShootBullet() {
         if (bulletPrefab == null) {
@@ -96,9 +114,19 @@ public class PlayerController : MonoBehaviour
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         if (rb != null) {
             rb.velocity = bulletSpawnPoint.transform.forward * bulletSpeed;
+
+            shootAS.Play();
+
             //Debug.Log("Bullet velocity set to: " + rb.velocity);
         } else {
             Debug.LogError("Bullet Rigidbody not found!");
         }
     }
+
+    public void TakeDamage(int damage) {
+         GameManager.instance.TakePlayerDamage(damage); 
+         damageAS.Play();
+    }
+
+    public void RespawnPlayer(UnityEngine.Vector3 posi) { transform.position = posi; }
 }

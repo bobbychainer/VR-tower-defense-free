@@ -1,16 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour {
     public static GameManager instance;
+    private GenerateCubes generateCubes;
     private PlayerController playerController;
+    private GameObject pauseMenu;
     private Spawner enemySpawner;
-    public enum GameState { PREPARATION, ATTACK }
     public Dictionary<string, List<int>> towerPrices = new Dictionary<string, List<int>>();
+    public enum GameState { PREPARATION, ATTACK, PAUSED}
+    private List<int> lastTenHighScores = new List<int>();
+    //public GameState currentStatadd_e;
     public GameState currentState;
     public bool isTimerRunning = false; 
-    public float timer = 10f;
+    public float timer = 60f;
     private float currentTimer;
     private int playerScore;
     private int playerHighScore;
@@ -21,6 +27,8 @@ public class GameManager : MonoBehaviour {
     public bool canBuy = true;
     private int playerCurrHealth;
     private int playerMaxHealth;
+    
+    public InputActionProperty pauseTriggerAction;
 
     void Awake() {
         if (instance == null) {
@@ -33,10 +41,76 @@ public class GameManager : MonoBehaviour {
     void Start() {
         enemySpawner = FindObjectOfType<Spawner>();
         playerController = FindObjectOfType<PlayerController>();
-        if (enemySpawner == null || playerController == null) Debug.Log("Scripts in GM not found.");
+        generateCubes = FindObjectOfType<GenerateCubes>();
+        pauseMenu = GameObject.Find("PauseMenu");
+        if (enemySpawner == null || playerController == null || generateCubes == null) Debug.Log("Scripts in GM not found.");
+        
         // initialize game variables
-        playerScore = 0;
         playerHighScore = PlayerPrefs.GetInt("HighScore", 0);
+        LoadHighScores(); 
+        UpdateHighScore();
+
+        // DICT
+        towerPrices.Add("SMALL", new List<int> {100, 100, 200, 300});
+        towerPrices.Add("RAPID", new List<int> {100, 100, 200, 300});
+        towerPrices.Add("LASER", new List<int> {100, 100, 200, 300});
+        pauseMenu.SetActive(false);
+    }
+
+    // runs the timer
+    private void Update() {
+        if (currentState == GameState.ATTACK && isTimerRunning) {
+            currentTimer -= Time.deltaTime;
+            UIManager.instance.UpdateTimerText(currentTimer);
+            if (currentTimer <= 0) {
+                currentTimer = 0;
+                UIManager.instance.UpdateTimerText(currentTimer);
+                isTimerRunning = false;
+                ChangeGameState();
+            }
+        }
+    }
+
+    private void OnEnable() {
+        pauseTriggerAction.action.performed += OnPauseTriggerPressed;
+    }
+
+    private void OnDisable() {
+        pauseTriggerAction.action.performed -= OnPauseTriggerPressed;
+    }
+
+    private void OnPauseTriggerPressed(InputAction.CallbackContext context) {
+            if (currentState == GameState.ATTACK) {
+                PauseGame();
+            } else if (currentState == GameState.PAUSED) {
+                ResumeGame();
+            }
+    }
+
+    private void PauseGame() {
+        currentState = GameState.PAUSED;
+        isTimerRunning = false;
+        Time.timeScale = 0f;
+        pauseMenu.SetActive(true);
+        UIManager.instance.UpdateGameState("Paused");
+    }
+
+    private void ResumeGame() {
+        currentState = GameState.ATTACK;
+        isTimerRunning = true;
+        Time.timeScale = 1f;
+        pauseMenu.SetActive(false);
+        UIManager.instance.UpdateGameState("Attack");
+    }
+
+    // starts the game after button clicked
+    public void StartGame() {
+        Debug.Log("StartGame");
+        playerController.freezePlayer = false;
+        playerController.RespawnPlayer(playerController.initialPoint);
+        UIManager.instance.playerUI.SetActive(true);
+        UIManager.instance.UpdateRound(currentRound);
+        playerScore = 0;
         currentRound = 1;
         currentTimer = timer;
         currentState = GameState.PREPARATION;
@@ -49,19 +123,8 @@ public class GameManager : MonoBehaviour {
         
         UpdateHighScore();
 
-        // DICT
-        towerPrices.Add("SMALL", new List<int> {100, 100, 200, 300});
-        towerPrices.Add("RAPID", new List<int> {100, 100, 200, 300});
-        towerPrices.Add("LASER", new List<int> {100, 100, 200, 300});
     }
 
-    // runs the timer
-    private void Update() {
-        if (isTimerRunning) {
-            currentTimer -= Time.deltaTime;
-            UIManager.instance.UpdateTimerText(currentTimer);
-        }
-    }
 
     public void AddCoins(int coins) {
         playerCoins += coins;
@@ -79,6 +142,7 @@ public class GameManager : MonoBehaviour {
             UIManager.instance.UpdateGameState("Attack"); 
             UIManager.instance.ToggleReadyButton(false);
         } else if (currentState == GameState.ATTACK) { // Next is PREP
+            generateCubes.ExtendPath(currentRound);
             playerController.freezePlayer = false;
             playerCoins += 200;
             baseCurrHealth = baseMaxHealth;
@@ -95,7 +159,6 @@ public class GameManager : MonoBehaviour {
     public int GetPlayerScore() { return playerScore; }
     public int GetPlayerCoins() { return playerCoins; }
     public int GetPlayerHealth() { return playerCurrHealth; }
-
 	public bool IsPreparationGameState() { return currentState == GameState.PREPARATION; }
 	public bool IsAttackGameState() { return currentState == GameState.ATTACK; }
 
@@ -113,9 +176,27 @@ public class GameManager : MonoBehaviour {
         if (playerScore > playerHighScore) {
             playerHighScore = playerScore;
             PlayerPrefs.SetInt("HighScore", playerHighScore); // safe new highscore
+            AddHighScore(playerScore); // add the new highscore to the list
             UpdateHighScore();
         }
     }
+    void AddHighScore(int score) {
+        lastTenHighScores.Add(score);
+        if (lastTenHighScores.Count > 10) lastTenHighScores.RemoveAt(0);  
+        SaveHighScores();
+    }
+    void SaveHighScores() {
+        for (int i = 0; i < lastTenHighScores.Count; i++) PlayerPrefs.SetInt("HighScore" + i, lastTenHighScores[i]);
+        PlayerPrefs.SetInt("HighScoreCount", lastTenHighScores.Count);
+    }
+
+    void LoadHighScores() {
+        lastTenHighScores.Clear();
+        int count = PlayerPrefs.GetInt("HighScoreCount", 0);
+        for (int i = 0; i < count; i++) lastTenHighScores.Add(PlayerPrefs.GetInt("HighScore" + i, 0));
+    }
+
+    public List<int> GetLastTenHighScores() { return new List<int>(lastTenHighScores); }
 
     public void TakeBaseDamage(int dmg) {
         Debug.Log("BH: " + baseCurrHealth);
