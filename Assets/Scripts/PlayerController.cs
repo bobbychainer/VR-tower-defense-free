@@ -23,8 +23,8 @@ public class PlayerController : MonoBehaviour
     public GameObject bulletSpawnPoint; //Position where Bullet should come out
 
 
-    public AudioSource damageAS;
-    public AudioSource shootAS;
+    private AudioSource damageAS;
+    private AudioSource shootAS;
 
     public void Start(){
 
