@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour {
     public static GameManager instance;
@@ -11,6 +13,7 @@ public class GameManager : MonoBehaviour {
     public enum GameState { PREPARATION, ATTACK, PAUSED}
     public Dictionary<string, int> towerPrices = new Dictionary<string, int>();
     private List<int> lastTenHighScores = new List<int>();
+    //public GameState currentStatadd_e;
     public GameState currentState;
     public bool isTimerRunning = false; 
     public float timer = 60f;
@@ -24,6 +27,8 @@ public class GameManager : MonoBehaviour {
     public bool canBuy = true;
     private int playerCurrHealth;
     private int playerMaxHealth;
+    
+    public InputActionProperty pauseTriggerAction;
 
     void Awake() {
         if (instance == null) {
@@ -54,14 +59,6 @@ public class GameManager : MonoBehaviour {
 
     // runs the timer
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.P)) { // TODO: Khalid change button
-            if (currentState == GameState.ATTACK) {
-                PauseGame();
-            } else if (currentState == GameState.PAUSED) {
-                ResumeGame();
-            }
-        }
-
         if (currentState == GameState.ATTACK && isTimerRunning) {
             currentTimer -= Time.deltaTime;
             UIManager.instance.UpdateTimerText(currentTimer);
@@ -72,6 +69,22 @@ public class GameManager : MonoBehaviour {
                 ChangeGameState();
             }
         }
+    }
+
+    private void OnEnable() {
+        pauseTriggerAction.action.performed += OnPauseTriggerPressed;
+    }
+
+    private void OnDisable() {
+        pauseTriggerAction.action.performed -= OnPauseTriggerPressed;
+    }
+
+    private void OnPauseTriggerPressed(InputAction.CallbackContext context) {
+            if (currentState == GameState.ATTACK) {
+                PauseGame();
+            } else if (currentState == GameState.PAUSED) {
+                ResumeGame();
+            }
     }
 
     private void PauseGame() {
