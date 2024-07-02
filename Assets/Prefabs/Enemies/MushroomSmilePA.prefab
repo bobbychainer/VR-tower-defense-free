@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 6510545819770773655}
   - component: {fileID: -4801667976917772961}
   - component: {fileID: 7609607073847926678}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: MushroomSmilePA
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,8 +78,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.6
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!54 &6510545819770773655
 Rigidbody:
   m_ObjectHideFlags: 0
