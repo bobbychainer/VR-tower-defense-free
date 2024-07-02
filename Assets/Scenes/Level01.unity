@@ -591,9 +591,9 @@ MonoBehaviour:
   timer: 30
   canBuy: 1
   pauseTriggerAction:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
-      m_Name: 
+      m_Name: Pause Trigger
       m_Type: 0
       m_ExpectedControlType: 
       m_Id: a4e5a156-dfcc-462d-84c1-db8f31632829
@@ -601,7 +601,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 0}
+    m_Reference: {fileID: -3742484312079769484, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!4 &45510656 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4c62afe8d7ab38144866fe4612c90e4b, type: 3}
@@ -6110,7 +6110,7 @@ Transform:
   m_GameObject: {fileID: 625559430}
   serializedVersion: 2
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 9.26, y: 31.57, z: 18.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9972,7 +9972,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2736478854845186207, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_EnableStrafe
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2853412522427425234, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_MaxRaycastDistance
@@ -9998,6 +9998,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3332500879931428239, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3462571325970164592, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 25
@@ -10013,6 +10017,10 @@ PrefabInstance:
     - target: {fileID: 3462571325970164595, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3493248765950572095, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4592956391713993908, guid: 65eb6b98091a5734ba9d9ca871cef69a, type: 3}
       propertyPath: m_Name
@@ -11549,7 +11557,7 @@ Transform:
   m_GameObject: {fileID: 1115680107}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -42.9, y: 3.83, z: -3.1}
+  m_LocalPosition: {x: -42.9, y: 3.6, z: -3.1}
   m_LocalScale: {x: 5.5, y: 5.5, z: 5.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14342,7 +14350,7 @@ Transform:
   m_GameObject: {fileID: 1440736617}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 27.8, y: 1.14, z: 24.2}
+  m_LocalPosition: {x: 27.8, y: 1, z: 24.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -15952,7 +15960,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1573425218}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -16832,7 +16840,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 8805446975887201342, guid: 7400b26d95fbc2f40b277d80b848798d, type: 3}
   bulletSpeed: 20
   fireRate: 2
-  initialPoint: {x: 0, y: 0, z: 0}
+  initialPoint: {x: 25, y: 25, z: 25}
   bulletSpawnPoint: {fileID: 1402145556}
 --- !u!82 &1675218984
 AudioSource:
@@ -18230,7 +18238,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1786431920
 Transform:
   m_ObjectHideFlags: 0
