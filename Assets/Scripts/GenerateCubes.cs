@@ -142,7 +142,7 @@ public class GenerateCubes : MonoBehaviour {
     }
 	
     // Only can place on ground
-	public bool TryBlockGroundAtPosition(float x, float z) {
+	public bool TryCubeGroundAtPosition(float x, float z) {
 		
 		string cubeName = CoordinatesToStringOffset(x, z);
 		GameObject cube = GameObject.Find(cubeName);
@@ -156,6 +156,17 @@ public class GenerateCubes : MonoBehaviour {
 			}
 		}
 		return false;
+	}
+	
+	public void ResetCubeGroundAtPosition(float x, float z) {
+		string cubeName = CoordinatesToStringOffset(x, z);
+		GameObject cube = GameObject.Find(cubeName);
+		
+		if (cube != null) {
+			Renderer renderer = cube.GetComponent<Renderer>();
+			if (renderer != null) renderer.material = transparentMaterial;
+			cube.tag = "Ground";
+		}
 	}
 	
 }

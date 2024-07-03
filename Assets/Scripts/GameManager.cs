@@ -10,8 +10,11 @@ public class GameManager : MonoBehaviour {
     private PlayerController playerController;
     private GameObject pauseMenu;
     private Spawner enemySpawner;
+    public Dictionary<string, List<int>> towerPrices = new Dictionary<string, List<int>>();
+	public Dictionary<string, List<int>> damageUpgrades = new Dictionary<string, List<int>>();
+	public Dictionary<string, List<float>> attackCooldownUpgrades = new Dictionary<string, List<float>>();
+	public Dictionary<string, List<float>> attackRadiusUpgrades = new Dictionary<string, List<float>>();
     public enum GameState { PREPARATION, ATTACK, PAUSED}
-    public Dictionary<string, int> towerPrices = new Dictionary<string, int>();
     private List<int> lastTenHighScores = new List<int>();
     //public GameState currentStatadd_e;
     public GameState currentState;
@@ -50,11 +53,25 @@ public class GameManager : MonoBehaviour {
         LoadHighScores(); 
         UpdateHighScore();
 
-        // DICT
-        towerPrices.Add("SMALL", 100);
-        towerPrices.Add("RAPID", 100);
-        towerPrices.Add("LASER", 200);
-        pauseMenu.SetActive(false);
+        // Tower Prices
+        towerPrices.Add("SMALL", new List<int> { 10, 10, 20, 30, 40, 50, 60 });
+        towerPrices.Add("RAPID", new List<int> { 10, 10, 20, 30, 40, 50 });
+        towerPrices.Add("LASER", new List<int> { 10, 10, 20, 30, 40 });
+
+        // Damage Upgrades
+        damageUpgrades.Add("SMALL", new List<int> { 0, 2, 0, 0, 4, 0, 0 });
+        damageUpgrades.Add("RAPID", new List<int> { 0, 0, 2, 0, 3, 0 });
+        damageUpgrades.Add("LASER", new List<int> { 0, 2, 4, 0, 6 });
+
+        // Attack Cooldown Upgrades
+        attackCooldownUpgrades.Add("SMALL", new List<float> { 0f, 0f, 0.9f, 0.8f, 0f, 0.7f, 0f });
+        attackCooldownUpgrades.Add("RAPID", new List<float> { 0f, 0.6f, 0f, 0.5f, 0f, 0.3f });
+        attackCooldownUpgrades.Add("LASER", new List<float> { 0f, 0f, 4f, 3f, 0f });
+
+        // Attack Radius Upgrades
+        attackRadiusUpgrades.Add("SMALL", new List<float> { 0f, 0f, 0f, 14f, 0f, 18f, 22f });
+        attackRadiusUpgrades.Add("RAPID", new List<float> { 0f, 0f, 0f, 12f, 16f, 0f });
+        attackRadiusUpgrades.Add("LASER", new List<float> { 0f, 0f, 0f, 14f, 18f });
     }
 
     // runs the timer
@@ -120,7 +137,11 @@ public class GameManager : MonoBehaviour {
 
         playerMaxHealth = 10;
         playerCurrHealth = playerMaxHealth;
+        
+        UpdateHighScore();
+
     }
+
 
     public void AddCoins(int coins) {
         playerCoins += coins;
@@ -214,5 +235,24 @@ public class GameManager : MonoBehaviour {
         UIManager.instance.UpdatePlayerHealthText(playerCurrHealth);
     }
 	
-
+	
+	public int GetTowerCosts(string name, int level)  {
+		List<int> towerPriceList = towerPrices[name];
+		return towerPriceList[level];
+	}
+	
+	public int GetDamageUpgrade(string name, int level) {
+		List<int> upgradeList = damageUpgrades[name];
+		return upgradeList[level];
+	}
+	
+	public float GetAttackCooldownUpgrade(string name, int level) {
+		List<float> upgradeList = attackCooldownUpgrades[name];
+		return upgradeList[level];
+	}
+	
+	public float GetAttackRadiusUpgrade(string name, int level) {
+		List<float> upgradeList = attackRadiusUpgrades[name];
+		return upgradeList[level];
+	}
 }

@@ -5,19 +5,24 @@ using UnityEngine;
 public class RapidTower : TowerController {
     // target transform object
 	private Transform targetEnemy;
-	private float attackRadius;
 	public GameObject bulletPrefab;
 	private Vector3 attackStartPosition;
+	
+	private int upgradeLevelIndex;
 	
 	// initialize tower
 	protected override void Initialize() {
 		// TowerController initialization
-		attackCooldown = 0.5f;
+		towerName = "RAPID";
 		damage = 1;
+		attackCooldown = 0.7f;
+		attackRadius = 8f;
+		maxLevel = 6;
 		// RapidTower initialization
 		// get top position of tower (CenterSphere)
-		attackStartPosition = gameObject.transform.Find("TopSpheres/CenterSphere").position;
-		attackRadius = 8f;
+		attackStartPosition = gameObject.transform.Find("Canon").position;
+		// RapidTower upgrades
+		upgradeLevelIndex = level - 1;
 	}
 	
 	// return true if target got set
@@ -38,9 +43,18 @@ public class RapidTower : TowerController {
 		if (bullet != null) bullet.Initialize(targetEnemy, damage);
 	}
 	
+	protected override void UpgradeTower() {
+		base.UpgradeTower();
+		upgradeLevelIndex += 1;
+		Debug.Log("Upgrade Stats");
+		UpgradeStates();
+		Debug.Log("Upgrade Design");
+		UpgradeDesign();
+	}
+	
 	// get enemie collider in sphere with attackradius
 	private Collider[] EnemiesInRange() {
-		return Physics.OverlapSphere(transform.position, attackRadius, enemyLayer);
+		return Physics.OverlapSphere(baseObject.transform.position, attackRadius, enemyLayer);
 	}
 	
 	// return true if targetEnemy is out of range
@@ -60,7 +74,7 @@ public class RapidTower : TowerController {
 		float shortestDistance = Mathf.Infinity;
 
 		foreach (Collider collider in enemyColliders) {
-			float distanceToEnemy = Vector3.Distance(transform.position, collider.transform.position);
+			float distanceToEnemy = Vector3.Distance(baseObject.transform.position, collider.transform.position);
 			if (distanceToEnemy < shortestDistance) {
 				shortestDistance = distanceToEnemy;
 				nearestEnemy = collider.transform;
@@ -69,8 +83,28 @@ public class RapidTower : TowerController {
 		return nearestEnemy;
 	}
 	
+	private void UpgradeStates() {
+		Debug.Log("Upgrade Index = "+upgradeLevelIndex);
+		var upgrades = buildController.GetAllUpgrades(towerName,upgradeLevelIndex);
+		if (upgrades.damage != 0) damage = upgrades.damage;
+		if (upgrades.attackCooldown != 0f) attackCooldown = upgrades.attackCooldown;
+		if (upgrades.attackRadius != 0f) attackRadius = upgrades.attackRadius;
+
+		Debug.Log("Damage : " + damage);
+		Debug.Log("AttackCooldown : " + attackCooldown);
+		Debug.Log("AttackRadius : " + attackRadius);
+	}
+	
+	private void UpgradeDesign() {
+		string levelObjectName = "Level"+upgradeLevelIndex.ToString();
+		Debug.Log("Upgrade Object Name = "+levelObjectName);
+		GameObject levelObject = transform.Find(levelObjectName).gameObject;
+		if (levelObject != null) levelObject.SetActive(true);
+		// TODO SET TEXT WINDOW
+	}
+	
 	private void OnDrawGizmosSelected() {
 		Gizmos.color = Color.red;
-		Gizmos.DrawWireSphere(transform.position, attackRadius);
+		Gizmos.DrawWireSphere(baseObject.transform.position, attackRadius);
 	}
 }
