@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 9150744395393624586}
   - component: {fileID: 8515838377807422099}
   m_Layer: 0
-  m_Name: RapidTpwerBulletNew
+  m_Name: RapidTowerBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

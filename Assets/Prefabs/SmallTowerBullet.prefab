@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 6383827791422658481}
   - component: {fileID: 10474337474150801}
   m_Layer: 0
-  m_Name: SmallTowerBulletNew
+  m_Name: SmallTowerBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

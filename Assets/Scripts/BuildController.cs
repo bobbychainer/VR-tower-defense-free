@@ -26,7 +26,6 @@ public class BuildController : MonoBehaviour {
 	private GameObject spawnedTower;
 	
 	private GameObject selectedTarget;
-	private TowerController.SelectState towerstate;
 	
 
     void Start() {
@@ -150,7 +149,6 @@ public class BuildController : MonoBehaviour {
 				}
 			}
 		}
-		towerstate = TowerController.SelectState.NONE;
 	}
 	
 	private void SpawnTower(GameObject towerPrefab, Vector3 position) {
@@ -206,6 +204,12 @@ public class BuildController : MonoBehaviour {
 		return false;
 	}
 	
+	public (int damage, float attackCooldown, float attackRadius) GetAllUpgrades(string name, int level) {
+        int damage = GameManager.instance.GetDamageUpgrade(name, level);
+        float attackCooldown = GameManager.instance.GetAttackCooldownUpgrade(name, level);
+        float attackRadius = GameManager.instance.GetAttackRadiusUpgrade(name, level);
+        return (damage, attackCooldown, attackRadius);
+    }
 	
 	
 	// show tower
