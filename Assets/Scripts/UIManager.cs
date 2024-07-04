@@ -36,12 +36,12 @@ public class UIManager : MonoBehaviour {
         buildUI.SetActive(true);
         playerUI.SetActive(false);
 
-        scoreText.text = "Score: " + "0".ToString();
-        roundText.text = "Round: " + "1".ToString();
-        stateText.text = "State: " + "Preparation".ToString();
-        baseHealthText.text = "Base Health: " + "100".ToString();
-        playerHealthText.text = "Player Health: " + GameManager.instance.GetPlayerHealth().ToString();
-        playerCoinsText.text = "Player Coins: " + GameManager.instance.GetPlayerCoins().ToString();
+        //scoreText.text = "Score: " + GameManager.instance.GetPlayerScore().ToString();
+        //roundText.text = "Round: " + GameManager.instance.GetRound().ToString();
+        //stateText.text = "State: " + GameManager.instance.GetState().ToString();
+        //baseHealthText.text = "Base Health: " + GameManager.instance.GetBaseHealth().ToString();
+        //playerHealthText.text = "Player Health: " + GameManager.instance.GetPlayerHealth().ToString();
+        //playerCoinsText.text = "Player Coins: " + GameManager.instance.GetPlayerCoins().ToString();
 		
 		buildController = FindObjectOfType<BuildController>();
     }

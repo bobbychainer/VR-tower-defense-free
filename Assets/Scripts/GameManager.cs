@@ -16,10 +16,9 @@ public class GameManager : MonoBehaviour {
 	public Dictionary<string, List<float>> attackRadiusUpgrades = new Dictionary<string, List<float>>();
     public enum GameState { PREPARATION, ATTACK, PAUSED}
     private List<int> lastTenHighScores = new List<int>();
-    //public GameState currentStatadd_e;
     public GameState currentState;
     public bool isTimerRunning = false; 
-    public float timer = 60f;
+    private float timer = 60f;
     private float currentTimer;
     private int playerScore;
     private int playerHighScore;
@@ -52,6 +51,7 @@ public class GameManager : MonoBehaviour {
         playerHighScore = PlayerPrefs.GetInt("HighScore", 0);
         LoadHighScores(); 
         UpdateHighScore();
+        pauseMenu.SetActive(false);
 
         // Tower Prices
         towerPrices.Add("SMALL", new List<int> { 10, 10, 20, 30, 40, 50, 60 });
@@ -88,20 +88,100 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    private void OnEnable() {
-        pauseTriggerAction.action.performed += OnPauseTriggerPressed;
+    // starts the game after button clicked
+    public void StartGame() {
+        Debug.Log("StartGame");
+        playerController.freezePlayer = false;
+        playerController.RespawnPlayer();
+        UIManager.instance.playerUI.SetActive(true);
+        
+        playerScore = 0;
+        currentRound = 1;
+        currentTimer = timer;
+        currentState = GameState.PREPARATION;
+        baseMaxHealth = 100;
+        baseCurrHealth = baseMaxHealth;
+        playerCoins = 200;
+        playerMaxHealth = 5;
+        playerCurrHealth = playerMaxHealth;
+        UIManager.instance.UpdateRound(currentRound);
+        UIManager.instance.UpdatePlayerScoreText(playerScore);  
+        UIManager.instance.UpdatePlayerCoinsText(playerCoins);  
+        UIManager.instance.UpdateBaseHealthText(baseCurrHealth);    
+        UIManager.instance.UpdatePlayerHealthText(playerCurrHealth);
+        UIManager.instance.UpdateGameState("Preparation");
+        pauseMenu.SetActive(false);
+        UpdateHighScore();
     }
 
-    private void OnDisable() {
-        pauseTriggerAction.action.performed -= OnPauseTriggerPressed;
+    // switches between preparation and attack state
+    public void ChangeGameState() {
+        Debug.Log("ChangeGameState");
+        if (currentState == GameState.PREPARATION) { // Next is ATTACK
+            isTimerRunning = true;
+            currentTimer = timer;
+            currentState = GameState.ATTACK;
+            enemySpawner.StartEnemySpawn();
+            UIManager.instance.UpdateGameState("Attack"); 
+            UIManager.instance.ToggleReadyButton(false);
+        } else if (currentState == GameState.ATTACK) { // Next is PREP
+            generateCubes.ExtendPath(currentRound);
+            playerController.freezePlayer = false;
+            playerCoins += 200;
+            playerCurrHealth = playerMaxHealth;
+            currentState = GameState.PREPARATION;
+            isTimerRunning = false;
+            enemySpawner.StopEnemySpawn();
+            currentRound++; 
+            UIManager.instance.UpdateRound(currentRound);
+            UIManager.instance.UpdateGameState("Preparation"); 
+            UIManager.instance.ToggleReadyButton(true);
+        }
     }
 
+    // GETTER AND IS FUNCTIONS /////////////////////////////////////////////////////////////////////////
+    public int GetPlayerScore() { return playerScore; }
+    public int GetPlayerCoins() { return playerCoins; }
+    public int GetPlayerHealth() { return playerCurrHealth; }
+    public int GetBaseHealth() { return baseCurrHealth; }
+    public int GetRound() { return currentRound; }
+    public GameState GetState() { return currentState; }
+    
+	public int GetTowerCosts(string name, int level)  {
+		List<int> towerPriceList = towerPrices[name];
+		return towerPriceList[level];
+	}
+	
+	public int GetDamageUpgrade(string name, int level) {
+		List<int> upgradeList = damageUpgrades[name];
+		return upgradeList[level];
+	}
+	
+	public float GetAttackCooldownUpgrade(string name, int level) {
+		List<float> upgradeList = attackCooldownUpgrades[name];
+		return upgradeList[level];
+	}
+	
+	public float GetAttackRadiusUpgrade(string name, int level) {
+		List<float> upgradeList = attackRadiusUpgrades[name];
+		return upgradeList[level];
+	}
+
+	public bool IsPreparationGameState() { return currentState == GameState.PREPARATION; }
+	public bool IsAttackGameState() { return currentState == GameState.ATTACK; }
+
+    private void OnEnable() { pauseTriggerAction.action.performed += OnPauseTriggerPressed; }
+
+    private void OnDisable() { pauseTriggerAction.action.performed -= OnPauseTriggerPressed; }
+
+
+    // PASUE /////////////////////////////////////////////////////////////////////////
     private void OnPauseTriggerPressed(InputAction.CallbackContext context) {
-            if (currentState == GameState.ATTACK) {
-                PauseGame();
-            } else if (currentState == GameState.PAUSED) {
-                ResumeGame();
-            }
+        if (currentState == GameState.ATTACK) {
+            PauseGame();
+        } else if (currentState == GameState.PAUSED) {
+            ResumeGame();
+        }
     }
 
     private void PauseGame() {
@@ -120,71 +200,17 @@ public class GameManager : MonoBehaviour {
         UIManager.instance.UpdateGameState("Attack");
     }
 
-    // starts the game after button clicked
-    public void StartGame() {
-        Debug.Log("StartGame");
-        playerController.freezePlayer = false;
-        playerController.RespawnPlayer(playerController.initialPoint);
-        UIManager.instance.playerUI.SetActive(true);
-        UIManager.instance.UpdateRound(currentRound);
-        playerScore = 0;
-        currentRound = 1;
-        currentTimer = timer;
-        currentState = GameState.PREPARATION;
-        baseMaxHealth = 100;
-        baseCurrHealth = baseMaxHealth;
-        playerCoins = 500;
 
-        playerMaxHealth = 10;
-        playerCurrHealth = playerMaxHealth;
-        
-        UpdateHighScore();
-
-    }
-
-
+    // SCORES AND COINS /////////////////////////////////////////////////////////////////////////
     public void AddCoins(int coins) {
         playerCoins += coins;
         UIManager.instance.UpdatePlayerCoinsText(playerCoins);
     }
-
-    // switches between preparation and attack state
-    public void ChangeGameState() {
-        Debug.Log("ChangeGameState");
-        if (currentState == GameState.PREPARATION) { // Next is ATTACK
-            isTimerRunning = true;
-            currentTimer = timer;
-            currentState = GameState.ATTACK;
-            enemySpawner.StartEnemySpawn();
-            UIManager.instance.UpdateGameState("Attack"); 
-            UIManager.instance.ToggleReadyButton(false);
-        } else if (currentState == GameState.ATTACK) { // Next is PREP
-            generateCubes.ExtendPath(currentRound);
-            playerController.freezePlayer = false;
-            playerCoins += 200;
-            baseCurrHealth = baseMaxHealth;
-            currentState = GameState.PREPARATION;
-            isTimerRunning = false;
-            enemySpawner.StopEnemySpawn();
-            currentRound++; 
-            UIManager.instance.UpdateRound(currentRound);
-            UIManager.instance.UpdateGameState("Preparation"); 
-            UIManager.instance.ToggleReadyButton(true);
-        }
-    }
-
-    public int GetPlayerScore() { return playerScore; }
-    public int GetPlayerCoins() { return playerCoins; }
-    public int GetPlayerHealth() { return playerCurrHealth; }
-	public bool IsPreparationGameState() { return currentState == GameState.PREPARATION; }
-	public bool IsAttackGameState() { return currentState == GameState.ATTACK; }
-
+    void UpdateHighScore() { UIManager.instance.UpdatePlayerHighScoreText(playerHighScore); }
     public void RemoveCoins(int coins) {
         playerCoins -= coins;
         UIManager.instance.UpdatePlayerCoinsText(playerCoins);
     }
-
-    void UpdateHighScore() { UIManager.instance.UpdatePlayerHighScoreText(playerHighScore); }
 
     public void UpdatePlayerScore(int score) {
         playerScore += score;
@@ -215,44 +241,39 @@ public class GameManager : MonoBehaviour {
 
     public List<int> GetLastTenHighScores() { return new List<int>(lastTenHighScores); }
 
+    // DAMAGE /////////////////////////////////////////////////////////////////////////
     public void TakeBaseDamage(int dmg) {
         Debug.Log("BH: " + baseCurrHealth);
         baseCurrHealth -= dmg;
         UIManager.instance.UpdateBaseHealthText(baseCurrHealth);
         if (baseCurrHealth <= 0) {
-            Debug.Log("Base Health 0, Load GameOverScene");
-            MenuController.instance.LoadGameOverScene();
+            //Debug.Log("Base Health 0, Load GameOverScene");
+            //MenuController.instance.LoadGameOverScene();
+            StopGame();
+
         }
+    }
+
+    public void StopGame() { // TODO: Fix GameOver behavior
+        Debug.Log("StopGame");
+        //playerController.freezePlayer = true;
+        //playerController.moveProvider.enabled = false;
+        playerController.RespawnPlayer();
+        MenuController.instance.LoadMainMenuScene();
+        currentState = GameState.PREPARATION;
+        isTimerRunning = false;
+        Time.timeScale = 0f;
     }
 
     public void TakePlayerDamage(int dmg) {
         playerCurrHealth -= dmg;
         if (playerCurrHealth <= 0) {
             Debug.Log("Player Health 0, Freeze Player");
-            playerController.freezePlayer = true;
+            playerController.freezePlayer = true; // TODO: check if its really working on VR
             Debug.Log("FROZEN");
         }
         UIManager.instance.UpdatePlayerHealthText(playerCurrHealth);
     }
 	
 	
-	public int GetTowerCosts(string name, int level)  {
-		List<int> towerPriceList = towerPrices[name];
-		return towerPriceList[level];
-	}
-	
-	public int GetDamageUpgrade(string name, int level) {
-		List<int> upgradeList = damageUpgrades[name];
-		return upgradeList[level];
-	}
-	
-	public float GetAttackCooldownUpgrade(string name, int level) {
-		List<float> upgradeList = attackCooldownUpgrades[name];
-		return upgradeList[level];
-	}
-	
-	public float GetAttackRadiusUpgrade(string name, int level) {
-		List<float> upgradeList = attackRadiusUpgrades[name];
-		return upgradeList[level];
-	}
 }

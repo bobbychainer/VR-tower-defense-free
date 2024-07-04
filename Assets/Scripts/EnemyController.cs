@@ -12,8 +12,7 @@ public class EnemyController : MonoBehaviour {
     protected int enemyHealth = 1; // health to destroy
     protected int enemyValue = 1; // score for player and damage to base
     protected Transform[] waypoints;
-
-    protected float enemySpeed = 8f;
+    protected float enemySpeed = 5f;
 
     protected virtual void Start() {
         generateCubes = FindObjectOfType<GenerateCubes>(); // Find the GenerateCubes script

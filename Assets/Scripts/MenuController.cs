@@ -9,7 +9,7 @@ public class MenuController : MonoBehaviour {
     private PlayerController playerController;
     private GameObject mainMenu;
     private GameObject creditsMenu;
-    private GameObject highscoreMenu;
+    private GameObject gameOverMenu;
     public TMP_Text highScoresText;
     
     void Awake() {
@@ -23,20 +23,12 @@ public class MenuController : MonoBehaviour {
     void Start() {
         mainMenu = GameObject.Find("MainMenu");
         creditsMenu = GameObject.Find("CreditsMenu");
-        highscoreMenu = GameObject.Find("HighscoreMenu");
-        if (mainMenu == null || creditsMenu == null || highscoreMenu == null ) Debug.Log("Menus not found");
+        gameOverMenu = GameObject.Find("GameOverMenu");
+        if (mainMenu == null || creditsMenu == null || gameOverMenu == null ) Debug.Log("Menus not found");
         mainMenu.SetActive(true);
         creditsMenu.SetActive(false);
-        highscoreMenu.SetActive(false);
+        gameOverMenu.SetActive(false);
     }
-
-    void DisplayHighScores() {
-        List<int> highScores = GameManager.instance.GetLastTenHighScores();
-        highScoresText.text = "Highscores:\n";
-        for (int i = 0; i < highScores.Count; i++) highScoresText.text += (i + 1) + ": " + highScores[i] + "\n";
-        Debug.Log(highScoresText.text);
-    }
-
 
     public void StartFirstLevel() {
         Debug.Log("StartFirstLevel()");
@@ -45,29 +37,23 @@ public class MenuController : MonoBehaviour {
 
     public void LoadGameOverScene() {
         Debug.Log("LoadGameOverScene()");
-        SceneManager.LoadScene("GameOver");
+        mainMenu.SetActive(false);
+        creditsMenu.SetActive(false);
+        gameOverMenu.SetActive(true);
     }
 
-    
     public void LoadMainMenuScene() {
         Debug.Log("LoadMainMenuScene()");
         mainMenu.SetActive(true);
         creditsMenu.SetActive(false);
-        highscoreMenu.SetActive(false);
+        gameOverMenu.SetActive(false);
     }
 
     public void LoadCreditsScene() {
         Debug.Log("LoadCreditsScene()");
         mainMenu.SetActive(false);
         creditsMenu.SetActive(true);
-        highscoreMenu.SetActive(false);
-    }
-    public void LoadHighscoresScene() {
-        Debug.Log("LoadHighscoresScene()");
-        DisplayHighScores();
-        mainMenu.SetActive(false);
-        creditsMenu.SetActive(false);
-        highscoreMenu.SetActive(true);
+        gameOverMenu.SetActive(false);
     }
     
 
