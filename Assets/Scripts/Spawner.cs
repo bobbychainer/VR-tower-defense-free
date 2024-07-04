@@ -6,7 +6,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour {
     public List<GameObject> enemyPrefabs;
     private bool spawningEnabled = false;
-    public float spawnInterval = 3f; 
+    private float spawnInterval = 0.5f; 
 
     IEnumerator SpawnEnemies() {
         while (spawningEnabled) {
