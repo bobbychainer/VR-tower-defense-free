@@ -18,17 +18,17 @@ public class GameManager : MonoBehaviour {
     private List<int> lastTenHighScores = new List<int>();
     public GameState currentState;
     public bool isTimerRunning = false; 
-    private float timer = 60f;
+    private float timer = 10f;
     private float currentTimer;
-    private int playerScore;
-    private int playerHighScore;
+    private float playerScore;
+    private float playerHighScore;
     private int currentRound;
-    private int baseCurrHealth;
-    private int baseMaxHealth;
-    private int playerCoins; 
+    private float baseCurrHealth;
+    private float baseMaxHealth;
+    private float playerCoins; 
     public bool canBuy = true;
-    private int playerCurrHealth;
-    private int playerMaxHealth;
+    private float playerCurrHealth;
+    private float playerMaxHealth;
     
     public InputActionProperty pauseTriggerAction;
 
@@ -125,6 +125,8 @@ public class GameManager : MonoBehaviour {
             UIManager.instance.UpdateGameState("Attack"); 
             UIManager.instance.ToggleReadyButton(false);
         } else if (currentState == GameState.ATTACK) { // Next is PREP
+            enemySpawner.IncreaseSpawnRate(currentRound);
+            EnemyController.IncreaseEnemyStats();
             generateCubes.ExtendPath(currentRound);
             playerController.freezePlayer = false;
             playerCoins += 200;
@@ -140,10 +142,10 @@ public class GameManager : MonoBehaviour {
     }
 
     // GETTER AND IS FUNCTIONS /////////////////////////////////////////////////////////////////////////
-    public int GetPlayerScore() { return playerScore; }
-    public int GetPlayerCoins() { return playerCoins; }
-    public int GetPlayerHealth() { return playerCurrHealth; }
-    public int GetBaseHealth() { return baseCurrHealth; }
+    public float GetPlayerScore() { return playerScore; }
+    public float GetPlayerCoins() { return playerCoins; }
+    public float GetPlayerHealth() { return playerCurrHealth; }
+    public float GetBaseHealth() { return baseCurrHealth; }
     public int GetRound() { return currentRound; }
     public GameState GetState() { return currentState; }
     
@@ -202,7 +204,7 @@ public class GameManager : MonoBehaviour {
 
 
     // SCORES AND COINS /////////////////////////////////////////////////////////////////////////
-    public void AddCoins(int coins) {
+    public void AddCoins(float coins) {
         playerCoins += coins;
         UIManager.instance.UpdatePlayerCoinsText(playerCoins);
     }
@@ -212,25 +214,15 @@ public class GameManager : MonoBehaviour {
         UIManager.instance.UpdatePlayerCoinsText(playerCoins);
     }
 
-    public void UpdatePlayerScore(int score) {
+    public void UpdatePlayerScore(float score) {
         playerScore += score;
         UIManager.instance.UpdatePlayerScoreText(playerScore);
         // check if new highscore
         if (playerScore > playerHighScore) {
             playerHighScore = playerScore;
-            PlayerPrefs.SetInt("HighScore", playerHighScore); // safe new highscore
-            AddHighScore(playerScore); // add the new highscore to the list
+            PlayerPrefs.SetInt("HighScore", (int)playerHighScore); // safe new highscore
             UpdateHighScore();
         }
-    }
-    void AddHighScore(int score) {
-        lastTenHighScores.Add(score);
-        if (lastTenHighScores.Count > 10) lastTenHighScores.RemoveAt(0);  
-        SaveHighScores();
-    }
-    void SaveHighScores() {
-        for (int i = 0; i < lastTenHighScores.Count; i++) PlayerPrefs.SetInt("HighScore" + i, lastTenHighScores[i]);
-        PlayerPrefs.SetInt("HighScoreCount", lastTenHighScores.Count);
     }
 
     void LoadHighScores() {
@@ -242,7 +234,7 @@ public class GameManager : MonoBehaviour {
     public List<int> GetLastTenHighScores() { return new List<int>(lastTenHighScores); }
 
     // DAMAGE /////////////////////////////////////////////////////////////////////////
-    public void TakeBaseDamage(int dmg) {
+    public void TakeBaseDamage(float dmg) {
         Debug.Log("BH: " + baseCurrHealth);
         baseCurrHealth -= dmg;
         UIManager.instance.UpdateBaseHealthText(baseCurrHealth);

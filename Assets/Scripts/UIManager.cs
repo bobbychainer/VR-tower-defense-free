@@ -50,11 +50,11 @@ public class UIManager : MonoBehaviour {
     public void ToggleReadyButton(bool isVisible) { readyButton.gameObject.SetActive(isVisible); }
 
     // update ui texts
-    public void UpdatePlayerHealthText(int playerHealth) { playerHealthText.text = "Player Health: " + playerHealth.ToString(); }
-    public void UpdatePlayerCoinsText(int playerCoins) { playerCoinsText.text = "Player Coins: " + playerCoins.ToString(); }
-    public void UpdateBaseHealthText(int baseHealth) { baseHealthText.text = "Base Health: " + baseHealth.ToString(); }
-    public void UpdatePlayerScoreText(int score) { scoreText.text = "Score: " + score.ToString(); }
-    public void UpdatePlayerHighScoreText(int highScore) { highScoreText.text = "Highscore: " + highScore.ToString(); }
+    public void UpdatePlayerHealthText(float playerHealth) { playerHealthText.text = "Player Health: " + playerHealth.ToString(); }
+    public void UpdatePlayerCoinsText(float playerCoins) { playerCoinsText.text = "Player Coins: " + playerCoins.ToString(); }
+    public void UpdateBaseHealthText(float baseHealth) { baseHealthText.text = "Base Health: " + baseHealth.ToString(); }
+    public void UpdatePlayerScoreText(float score) { scoreText.text = "Score: " + score.ToString(); }
+    public void UpdatePlayerHighScoreText(float highScore) { highScoreText.text = "Highscore: " + highScore.ToString(); }
     public void UpdateRound(int round) { roundText.text = "Round: " + round.ToString(); }
     public void UpdateGameState(string state) { stateText.text = "State " + state; }
     public void UpdateTimerText(float time) {timerText.text = "Timer: " + Mathf.RoundToInt(time).ToString(); }

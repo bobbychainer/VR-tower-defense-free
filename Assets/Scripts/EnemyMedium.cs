@@ -5,8 +5,8 @@ using UnityEngine;
 public class EnemyMedium : EnemyController {
     protected override void Start() {
         base.Start();
-        enemyHealth = 2;
-        enemyValue = 2;
-        enemySpeed = 3f;
+        enemyHealth = 2 + healthIncrease;
+        enemyValue = 2 + valueIncrease;
+        enemySpeed = 3f + speedIncrease;
     }
 }

@@ -20,10 +20,10 @@ public class EnemyShooting : EnemyController
 
     protected override void Start() {
         base.Start();
-        enemyHealth = 3;
-        enemyValue = 3;
-        enemySpeed = 1f;
-        attackCooldown = 4f;
+        enemyHealth = 3 + healthIncrease;
+        enemyValue = 3 + valueIncrease;
+        enemySpeed = 1f + speedIncrease;
+        attackCooldown = 5f;
         damage = 1;
         attackStartPosition = gameObject.transform.position;
         animator = GetComponent<Animator>();

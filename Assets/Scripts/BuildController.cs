@@ -194,7 +194,7 @@ public class BuildController : MonoBehaviour {
 	public bool TowerUpgradeButtonPressed(string towerName, int level) {
 		Debug.Log("Upgrade Button Pressed");
 		
-		int currCoins = GameManager.instance.GetPlayerCoins();
+		float currCoins = GameManager.instance.GetPlayerCoins();
 		int towerCosts = GameManager.instance.GetTowerCosts(towerName, level);
 		
 		if (currCoins >= towerCosts) {
