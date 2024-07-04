@@ -5,14 +5,18 @@ using UnityEngine.AI;
 
 // parent class for all enemies
 public class EnemyController : MonoBehaviour {
+    protected static float healthIncrease = 0.5f;
+    protected static float valueIncrease = 0.5f;
+    protected static float speedIncrease = 0.1f;
     protected GenerateCubes generateCubes; // Reference to the GenerateCubes script
     protected GameManager gameManager; //Reference to the GameManager script
     protected int currentWaypointIndex = 0;
     protected NavMeshAgent agent;
-    protected int enemyHealth = 1; // health to destroy
-    protected int enemyValue = 1; // score for player and damage to base
+    protected float enemyHealth = 1; // health to destroy
+    protected float enemyValue = 1; // score for player and damage to base
     protected Transform[] waypoints;
-    protected float enemySpeed = 5f;
+    protected float enemySpeed = 4f;
+    
 
     protected virtual void Start() {
         generateCubes = FindObjectOfType<GenerateCubes>(); // Find the GenerateCubes script
@@ -32,7 +36,7 @@ public class EnemyController : MonoBehaviour {
                 SetDestinationToNextWaypoint();
             } else {
                 // Reached the last waypoint (Base), destroy the enemy
-                Debug.Log("Enemy reached Base.");
+                //Debug.Log("Enemy reached Base.");
                 // rufe GM auf für base dmg 
                 gameManager.TakeBaseDamage(enemyValue);
                 Destroy(gameObject);
@@ -40,28 +44,30 @@ public class EnemyController : MonoBehaviour {
         }
         //In Update Methode, damit später slows oder sogar speedups implementiert werden können
         agent.speed = enemySpeed;
-
     }
 
-    public int GetEnemyValue() { return enemyValue; }
+    // increase enemy stats for spawner
+    public static void IncreaseEnemyStats() {
+        healthIncrease++;
+        valueIncrease++;
+        speedIncrease += 0.1f;
+    }
+
+    public float GetEnemyValue() { return enemyValue; }
 
     // Check collision
-    private void OnTriggerEnter(Collider other)
-    {
+    private void OnTriggerEnter(Collider other) {
         //Collision Towerbullet -> Enemy
-        if (other.gameObject.tag == "Bullet")
-        {
+        if (other.gameObject.tag == "Bullet") {
             BulletController bulletController = other.gameObject.GetComponent<BulletController>();
-            if (bulletController != null)
-            {
+            if (bulletController != null) {
                 int damage = bulletController.GetDamage();
                 bulletController.TargetHit();
                 TakeDamage(damage);
             }
         }
         //Collision PlayerBullet -> Enemy
-        if (other.gameObject.tag == "PlayerBullet")
-        {
+        if (other.gameObject.tag == "PlayerBullet") {
             int damage = other.gameObject.GetComponent<PlayerBullet>().GetDamage();
             TakeDamage(damage);
             Destroy(other.gameObject);
@@ -70,16 +76,14 @@ public class EnemyController : MonoBehaviour {
     }
 
     // Check if there are waypoints remaining
-    protected virtual void SetDestinationToNextWaypoint() {
-        if (currentWaypointIndex < waypoints.Length) agent.SetDestination(waypoints[currentWaypointIndex].position);
-    }
+    protected virtual void SetDestinationToNextWaypoint() { if (currentWaypointIndex < waypoints.Length) agent.SetDestination(waypoints[currentWaypointIndex].position);  }
 	
     // enemy takes damage from bullet and player gets score
     public void TakeDamage(int damage) {
         enemyHealth -= damage;
         if (enemyHealth <= 0) {
             Destroy(gameObject);
-            Debug.Log("Enemy destroyed.");
+            //Debug.Log("Enemy destroyed.");
             GameManager.instance.UpdatePlayerScore(enemyValue);
         }
     }
