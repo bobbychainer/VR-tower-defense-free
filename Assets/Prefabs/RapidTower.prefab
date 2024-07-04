@@ -423,7 +423,7 @@ Transform:
   m_GameObject: {fileID: 133492534378828610}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 1, z: -0.5}
+  m_LocalPosition: {x: -1.5, y: 0.7, z: -0.5}
   m_LocalScale: {x: 0.01, y: 0.01, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -970,7 +970,7 @@ Transform:
   m_GameObject: {fileID: 363688020388553583}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 0, y: 2.7, z: 0}
   m_LocalScale: {x: 0.005, y: 0.005, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2031,7 +2031,7 @@ Transform:
   m_GameObject: {fileID: 1393285144399209683}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.5, z: 0}
+  m_LocalPosition: {x: 0, y: 2.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3149,7 +3149,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2604716389029652932}
-  - component: {fileID: 8047816159689892431}
+  - component: {fileID: 2287857750614250254}
   m_Layer: 0
   m_Name: TowerPanel
   m_TagString: Untagged
@@ -3166,7 +3166,7 @@ Transform:
   m_GameObject: {fileID: 2348960516195384544}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.7, z: 0.5}
+  m_LocalPosition: {x: 0.5, y: 1, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3178,7 +3178,7 @@ Transform:
   - {fileID: 8235815858364321515}
   m_Father: {fileID: 5851522983594832817}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8047816159689892431
+--- !u!114 &2287857750614250254
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3190,6 +3190,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 233aeadb475094d4b8becbb85d936d9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}
+  minScale: 0.5
+  maxScale: 2
+  minDistance: 2
+  maxDistance: 20
 --- !u!1 &2539106090479362266
 GameObject:
   m_ObjectHideFlags: 0
@@ -23375,7 +23380,7 @@ Transform:
   m_GameObject: {fileID: 4811547033504640383}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5, y: 1, z: -0.5}
+  m_LocalPosition: {x: 1.5, y: 0.7, z: -0.5}
   m_LocalScale: {x: 0.01, y: 0.01, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -24308,7 +24313,7 @@ Transform:
   m_GameObject: {fileID: 5668744764381539688}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.2, z: -0.4}
+  m_LocalPosition: {x: 0, y: 4.9, z: -0.4}
   m_LocalScale: {x: 0.01, y: 0.01, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -35056,7 +35061,7 @@ Transform:
   m_GameObject: {fileID: 7688609270463123307}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.5, z: -0.5}
+  m_LocalPosition: {x: 0, y: 3.2, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
