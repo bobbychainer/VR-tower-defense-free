@@ -16,6 +16,7 @@ TagManager:
   - PlayerBullet
   - Blocked
   - Killbox
+  - TowerSpawn
   layers:
   - Default
   - TransparentFX
