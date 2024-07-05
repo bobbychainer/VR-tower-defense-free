@@ -10,6 +10,7 @@ public class MenuController : MonoBehaviour {
     private GameObject mainMenu;
     private GameObject creditsMenu;
     private GameObject gameOverMenu;
+    private GameObject settingsMenu;
     public TMP_Text highScoresText;
     
     void Awake() {
@@ -24,10 +25,12 @@ public class MenuController : MonoBehaviour {
         mainMenu = GameObject.Find("MainMenu");
         creditsMenu = GameObject.Find("CreditsMenu");
         gameOverMenu = GameObject.Find("GameOverMenu");
-        if (mainMenu == null || creditsMenu == null || gameOverMenu == null ) Debug.Log("Menus not found");
+        settingsMenu = GameObject.Find("SettingsMenu");
+        if (mainMenu == null || creditsMenu == null || gameOverMenu == null|| settingsMenu == null ) Debug.Log("Menus not found");
         mainMenu.SetActive(true);
         creditsMenu.SetActive(false);
         gameOverMenu.SetActive(false);
+        settingsMenu.SetActive(false);
     }
 
     public void StartFirstLevel() {
@@ -39,6 +42,7 @@ public class MenuController : MonoBehaviour {
         Debug.Log("LoadGameOverScene()");
         mainMenu.SetActive(false);
         creditsMenu.SetActive(false);
+        settingsMenu.SetActive(false);
         gameOverMenu.SetActive(true);
     }
 
@@ -46,6 +50,7 @@ public class MenuController : MonoBehaviour {
         Debug.Log("LoadMainMenuScene()");
         mainMenu.SetActive(true);
         creditsMenu.SetActive(false);
+        settingsMenu.SetActive(false);
         gameOverMenu.SetActive(false);
     }
 
@@ -53,9 +58,17 @@ public class MenuController : MonoBehaviour {
         Debug.Log("LoadCreditsScene()");
         mainMenu.SetActive(false);
         creditsMenu.SetActive(true);
+        settingsMenu.SetActive(false);
         gameOverMenu.SetActive(false);
     }
     
+    public void LoadSettingsScene() {
+        Debug.Log("LoadCreditsScene()");
+        mainMenu.SetActive(false);
+        creditsMenu.SetActive(false);
+        settingsMenu.SetActive(true);
+        gameOverMenu.SetActive(false);
+    }
 
     public void Quit() {
         Debug.Log("Quit()");

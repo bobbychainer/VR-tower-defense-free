@@ -17,6 +17,8 @@ public class EnemyController : MonoBehaviour {
     protected Transform[] waypoints;
     protected float enemySpeed = 4f;
     
+    private AudioManager audioManager;
+
 
     protected virtual void Start() {
         generateCubes = FindObjectOfType<GenerateCubes>(); // Find the GenerateCubes script
@@ -25,6 +27,9 @@ public class EnemyController : MonoBehaviour {
         gameManager = FindObjectOfType<GameManager>(); // Find the GenerateCubes script
 
         SetDestinationToNextWaypoint();
+
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
     }
 
     protected virtual void Update() {
@@ -80,6 +85,7 @@ public class EnemyController : MonoBehaviour {
         enemyHealth -= damage;
         if (enemyHealth <= 0) {
             Destroy(gameObject);
+            audioManager.PlaySFX(audioManager.enemyDeadSound);
             //Debug.Log("Enemy destroyed.");
             GameManager.instance.UpdatePlayerScore(enemyValue);
         }

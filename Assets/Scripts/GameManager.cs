@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour {
     public bool canBuy = true;
     private float playerCurrHealth;
     private float playerMaxHealth;
+
+    private AudioManager audioManager;
     
     public InputActionProperty pauseTriggerAction;
 
@@ -72,6 +74,8 @@ public class GameManager : MonoBehaviour {
         attackRadiusUpgrades.Add("SMALL", new List<float> { 0f, 0f, 0f, 14f, 0f, 18f, 22f });
         attackRadiusUpgrades.Add("RAPID", new List<float> { 0f, 0f, 0f, 12f, 16f, 0f });
         attackRadiusUpgrades.Add("LASER", new List<float> { 0f, 0f, 0f, 14f, 18f });
+
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     // runs the timer
@@ -118,6 +122,7 @@ public class GameManager : MonoBehaviour {
     public void ChangeGameState() {
         Debug.Log("ChangeGameState");
         if (currentState == GameState.PREPARATION) { // Next is ATTACK
+            audioManager.ChangeBGM(audioManager.attackPhase);
             isTimerRunning = true;
             currentTimer = timer;
             currentState = GameState.ATTACK;
@@ -125,6 +130,7 @@ public class GameManager : MonoBehaviour {
             UIManager.instance.UpdateGameState("Attack"); 
             UIManager.instance.ToggleReadyButton(false);
         } else if (currentState == GameState.ATTACK) { // Next is PREP
+            audioManager.ChangeBGM(audioManager.background);
             enemySpawner.IncreaseSpawnRate(currentRound);
             EnemyController.IncreaseEnemyStats();
             generateCubes.ExtendPath(currentRound);
@@ -210,6 +216,7 @@ public class GameManager : MonoBehaviour {
     }
     void UpdateHighScore() { UIManager.instance.UpdatePlayerHighScoreText(playerHighScore); }
     public void RemoveCoins(int coins) {
+        audioManager.PlaySFX(audioManager.coinsSound);
         playerCoins -= coins;
         UIManager.instance.UpdatePlayerCoinsText(playerCoins);
     }
@@ -241,6 +248,8 @@ public class GameManager : MonoBehaviour {
         if (baseCurrHealth <= 0) {
             //Debug.Log("Base Health 0, Load GameOverScene");
             //MenuController.instance.LoadGameOverScene();
+            audioManager.PlaySFX(audioManager.gameOverSound);
+            audioManager.PlaySFX(audioManager.gameOverVoice);
             StopGame();
 
         }
