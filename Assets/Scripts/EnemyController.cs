@@ -32,15 +32,7 @@ public class EnemyController : MonoBehaviour {
         if (agent.remainingDistance <= agent.stoppingDistance + 0.2) {
             // Move to the next waypoint
             currentWaypointIndex++;
-            if (currentWaypointIndex < waypoints.Length) {
-                SetDestinationToNextWaypoint();
-            } else {
-                // Reached the last waypoint (Base), destroy the enemy
-                //Debug.Log("Enemy reached Base.");
-                // rufe GM auf für base dmg 
-                gameManager.TakeBaseDamage(enemyValue);
-                Destroy(gameObject);
-            }
+            SetDestinationToNextWaypoint();
         }
         //In Update Methode, damit später slows oder sogar speedups implementiert werden können
         agent.speed = enemySpeed;
@@ -71,8 +63,13 @@ public class EnemyController : MonoBehaviour {
             int damage = other.gameObject.GetComponent<PlayerBullet>().GetDamage();
             TakeDamage(damage);
             Destroy(other.gameObject);
-            
         }
+		//Coll PlayerBullet -> Base
+		if (other.gameObject.tag == "Base") {
+			// base takes damage
+			gameManager.TakeBaseDamage(enemyValue);
+			Destroy(gameObject);
+		}
     }
 
     // Check if there are waypoints remaining

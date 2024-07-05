@@ -35,17 +35,16 @@ public class SmallTower : TowerController {
 	// attack nearest enemie with SmallTowerBullet
 	protected override void Attack() {
 		GameObject towerBullet = Instantiate(bulletPrefab, attackStartPosition, Quaternion.identity);
-		
+		// initialize bullet with target and damage
 		SmallTowerBullet bullet = towerBullet.GetComponent<SmallTowerBullet>();
 		if (bullet != null) bullet.Initialize(targetEnemy, damage);
 	}
 	
+	// upgrade tower stats and design
 	protected override void UpgradeTower() {
 		base.UpgradeTower();
 		upgradeLevelIndex += 1;
-		Debug.Log("Upgrade Stats");
 		UpgradeStates();
-		Debug.Log("Upgrade Design");
 		UpgradeDesign();
 	}
 	
@@ -72,24 +71,21 @@ public class SmallTower : TowerController {
 		return nearestEnemy;
 	}
 	
+	// upgrade tower stats if upgrade avaible for a stat
 	private void UpgradeStates() {
-		Debug.Log("Upgrade Index = "+upgradeLevelIndex);
 		var upgrades = buildController.GetAllUpgrades(towerName,upgradeLevelIndex);
 		if (upgrades.damage != 0) damage = upgrades.damage;
 		if (upgrades.attackCooldown != 0f) attackCooldown = upgrades.attackCooldown;
 		if (upgrades.attackRadius != 0f) attackRadius = upgrades.attackRadius;
-
-		Debug.Log("Damage : " + damage);
-		Debug.Log("AttackCooldown : " + attackCooldown);
-		Debug.Log("AttackRadius : " + attackRadius);
 	}
 	
+	// upgrade tower design if design is given
 	private void UpgradeDesign() {
+		// get level tower object
 		string levelObjectName = "Level"+upgradeLevelIndex.ToString();
-		Debug.Log("Upgrade Object Name = "+levelObjectName);
+		// show level tower object
 		GameObject levelObject = transform.Find(levelObjectName).gameObject;
 		if (levelObject != null) levelObject.SetActive(true);
-		// TODO SET TEXT WINDOW
 	}
 	
 	private void OnDrawGizmosSelected() {

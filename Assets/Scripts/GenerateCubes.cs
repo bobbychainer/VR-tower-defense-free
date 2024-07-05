@@ -25,29 +25,26 @@ public class GenerateCubes : MonoBehaviour {
             CalculatePathCubes();
         } else {
             Debug.LogError("Spawn or Base object not found.");
-        }
+        }		
     }
 
     // get wayoints from parentand initialize spawn and base
-    void InitializeWaypoints() { // TODO: Fix, dass die base nicht sofort ans ende angefügt wird
+    void InitializeWaypoints() {
         if (waypointsParent != null) {
-            waypoints = new Transform[waypointsParent.childCount + 2]; // Increase the size by 2 to accommodate spawn and base objects
+			// Increase the size by 2 to accommodate spawn and base objects
+            waypoints = new Transform[waypointsParent.childCount + 1];
+			// set first waypoint as spawn
             waypoints[0] = spawnObject.transform;
             // Fill in the waypoints from the parent
             for (int i = 0; i < waypointsParent.childCount; i++) {
                 waypoints[i + 1] = waypointsParent.GetChild(i);
                 Debug.Log("POS: " + waypoints[i + 1].position);
             }
-            
-            // Change the baseObject's position to the last waypoint's position before adding it to the array
-            if (waypointsParent.childCount > 0) {
-                Transform lastWaypoint = waypointsParent.GetChild(waypointsParent.childCount - 1);
-                Vector3 newPosition = lastWaypoint.position;
-                newPosition.y = 1.05f; // Set the y coordinate to 1.05f
-                baseObject.transform.position = newPosition;
-            }
-            
-            waypoints[waypoints.Length - 1] = baseObject.transform; // Assign baseObject at the end
+			// move baseObject to first waypoint after spawn
+			// can be changed
+			Vector3 newPosition = waypoints[1].position;
+			newPosition.y = 1.05f;
+			baseObject.transform.position = newPosition;
         } else {
             Debug.LogError("Waypoints parent not assigned.");
         }
@@ -55,22 +52,13 @@ public class GenerateCubes : MonoBehaviour {
 
     // extend the path of all existing waypoints
     public void ExtendPath(int roundNumber) {
-        // Ensure there's a waypointsParent and it has children
-        if (waypointsParent != null && waypointsParent.childCount > 0) {
-            // Calculate the target index for the base. It should not exceed the number of waypoints.
-            int targetIndex = Mathf.Min(roundNumber + 1, waypointsParent.childCount);
-            
-            // Update the base's position to the target waypoint
-            Vector3 newPosition = waypointsParent.GetChild(targetIndex - 1).position;
+        // if waypoints length > 0 and base not already on position of last waypoint
+        if (waypoints != null && waypoints.Length > 0 && roundNumber < waypoints.Length) {
+			// get next waypoint in waypoints and adjust base position
+			int newWayPointBaseIndex = roundNumber + 1;
+			Vector3 newPosition = waypoints[newWayPointBaseIndex].position;
             newPosition.y = 1.05f; // Ensure the base's y coordinate is always 1.05f
             baseObject.transform.position = newPosition;
-            
-            // Update the waypoints array to include the new base position
-            // This assumes waypoints array is already initialized and has enough space
-            waypoints[waypoints.Length - 1] = baseObject.transform;
-            
-            // Optionally, log the new base position for debugging
-            Debug.Log($"Round {roundNumber}: Base moved to waypoint {targetIndex} at position {newPosition}");
         } else {
             Debug.LogError("Waypoints parent not assigned or has no children.");
         }
@@ -97,10 +85,13 @@ public class GenerateCubes : MonoBehaviour {
         Debug.Log("Cubes successfully generated");
     }
 	
+	// convert x and z coordinates to string with 0.5f offset
 	private string CoordinatesToStringOffset(float x, float z) { return "Cube " + (x + 0.5f).ToString("00") + "-" + (z + 0.5f).ToString("00"); }
 	
+	// convert x and z coordinates to string
 	private string CoordinatesToString(float x, float z) { return "Cube " + x.ToString("00") + "-" + z.ToString("00"); }
 
+	// return waypoints Transform array
     public Transform[] GetWaypoints() { return waypoints; }
 
     // calculates the whole path between spawn and base
@@ -141,12 +132,12 @@ public class GenerateCubes : MonoBehaviour {
         }
     }
 	
-    // Only can place on ground
+    // check if cube at position x,z is ground and if so changes to blocked material
 	public bool TryCubeGroundAtPosition(float x, float z) {
-		
+		// get cube object by name
 		string cubeName = CoordinatesToStringOffset(x, z);
 		GameObject cube = GameObject.Find(cubeName);
-		
+		// change material if valid tag
 		if (cube != null) {
 			if (cube.tag == "Ground") {
 				Renderer renderer = cube.GetComponent<Renderer>();
@@ -158,10 +149,12 @@ public class GenerateCubes : MonoBehaviour {
 		return false;
 	}
 	
+	// reset cube at position x,z
 	public void ResetCubeGroundAtPosition(float x, float z) {
+		// get cube object by name
 		string cubeName = CoordinatesToStringOffset(x, z);
 		GameObject cube = GameObject.Find(cubeName);
-		
+		// change material
 		if (cube != null) {
 			Renderer renderer = cube.GetComponent<Renderer>();
 			if (renderer != null) renderer.material = transparentMaterial;
