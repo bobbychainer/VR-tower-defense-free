@@ -15,8 +15,10 @@ public class EnemyShooting : EnemyController
     private float attackRadius = 5f;
     public GameObject bulletPrefab;
     private Vector3 attackStartPosition;
+    private float bulletDespawnAfterXSec = 5f;
 
     private Animator animator;
+    private AudioManager audioManager;
 
     protected override void Start() {
         base.Start();
@@ -27,6 +29,7 @@ public class EnemyShooting : EnemyController
         damage = 1;
         attackStartPosition = gameObject.transform.position;
         animator = GetComponent<Animator>();
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     protected override void Update() {
@@ -86,18 +89,18 @@ public class EnemyShooting : EnemyController
 
     protected virtual void Attack() {
         GameObject enemyBullet = Instantiate(bulletPrefab, attackStartPosition, Quaternion.identity);
-
         EnemyShootingBullet bullet = enemyBullet.GetComponent<EnemyShootingBullet>();
 
         if (bullet != null) {
             if (targetPlayer != null) {
+                audioManager.PlaySFX(audioManager.enemyShootingBullet);
                 bullet.Initialize(targetPlayer, damage);
-
+                Destroy(enemyBullet, bulletDespawnAfterXSec);
                 if (animator != null) animator.SetTrigger("Shoot");
                 
             } else if (targetEnemy != null) {
+                audioManager.PlaySFX(audioManager.enemyShootingBullet);
                 bullet.Initialize(targetEnemy, damage);
-                
                 if (animator != null) animator.SetTrigger("Shoot");
                 
             }

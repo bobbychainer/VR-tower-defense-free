@@ -21,14 +21,10 @@ public class PlayerController : MonoBehaviour
     public GameObject bulletSpawnPoint; //Position where Bullet should come out
 
 
-    private AudioSource damageAS;
-    private AudioSource shootAS;
+    private AudioManager audioManager;
 
     public void Start(){
-
-        AudioSource[] audioSources = GetComponents<AudioSource>();
-        damageAS = audioSources[0];
-        shootAS = audioSources[1];
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
 
@@ -39,7 +35,6 @@ public class PlayerController : MonoBehaviour
         } else if (!freezePlayer && !moveProvider.enabled) {
             moveProvider.enabled = true;
         }
-        //TODO: Implement VR Controller Button as Input
     }
 
     private void OnEnable() {
@@ -112,8 +107,7 @@ public class PlayerController : MonoBehaviour
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         if (rb != null) {
             rb.velocity = bulletSpawnPoint.transform.forward * bulletSpeed;
-
-            shootAS.Play();
+            audioManager.PlaySFX(audioManager.playerShootBullet);
 
             //Debug.Log("Bullet velocity set to: " + rb.velocity);
         } else {
@@ -122,8 +116,9 @@ public class PlayerController : MonoBehaviour
     }
 
     public void TakeDamage(int damage) {
+        audioManager.PlaySFX(audioManager.playerGettingHurt);
         GameManager.instance.TakePlayerDamage(damage); 
-        damageAS.Play();
+        
     }
 
     public void RespawnPlayer() { transform.position = initialLocation.position; }

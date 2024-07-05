@@ -17,6 +17,7 @@ TagManager:
   - Blocked
   - Killbox
   - TowerSpawn
+  - Audio
   layers:
   - Default
   - TransparentFX
