@@ -7,6 +7,7 @@ public class GenerateCubes : MonoBehaviour {
     private Vector2 gridSize = new Vector2(50, 50); // grid size
     [SerializeField] private  GameObject cubePrefab; // prefab
     [SerializeField] private Material pathMaterial; // Material for cubes on the path
+	[SerializeField] private  Material spawnMaterial;
     [SerializeField] private  Material transparentMaterial; // Material for cubes not on the path
 	[SerializeField] private  Material blockedMaterial;
 	[SerializeField] private  Material buildMaterial;
@@ -22,6 +23,7 @@ public class GenerateCubes : MonoBehaviour {
         if (spawnObject != null && baseObject != null) {
             InitializeWaypoints();
             GenerateGrid();
+			GenerateTowerSpawn();
             CalculatePathCubes();
         } else {
             Debug.LogError("Spawn or Base object not found.");
@@ -93,6 +95,20 @@ public class GenerateCubes : MonoBehaviour {
 
 	// return waypoints Transform array
     public Transform[] GetWaypoints() { return waypoints; }
+
+	private void GenerateTowerSpawn() {
+		
+		Vector3 spawnPosition = new Vector3(8f,0f,15f);
+		
+		string cubeName = CoordinatesToStringOffset(spawnPosition.x, spawnPosition.z);
+		GameObject cube = GameObject.Find(cubeName);
+		if (cube != null) {
+			cube.tag = "TowerSpawn";
+			Renderer renderer = cube.GetComponent<Renderer>();
+			if (renderer != null) renderer.material = spawnMaterial;
+		}
+		
+	}
 
     // calculates the whole path between spawn and base
     public void CalculatePathCubes() {

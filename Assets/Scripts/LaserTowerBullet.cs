@@ -7,6 +7,7 @@ public class LaserTowerBullet : BulletController {
 	// bullet target position
 	private Vector3 target;
 	private float distanceToTarget;
+	private bool fireCollisionOver;
 	
 	// returns true if bullet reached game border (50)
 	protected override bool TargetReached() {
@@ -34,6 +35,20 @@ public class LaserTowerBullet : BulletController {
         damage = _damage;
 		target = _target;
 		distanceToTarget = Vector3.Distance(transform.position, target);
+		fireCollisionOver = false;
     }
+	
+	// destroy object on tower hit
+	// first collision is the start tower collider
+	private void OnTriggerEnter(Collider other) {
+		if (other.gameObject.tag == "Tower") {
+			if (fireCollisionOver) {
+				Destroy(gameObject);
+			} else {
+				Debug.Log("First hit!!!");
+				fireCollisionOver = true;
+			}
+		}
+	}
 	
 }

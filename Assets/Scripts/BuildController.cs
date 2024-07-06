@@ -29,7 +29,7 @@ public class BuildController : MonoBehaviour {
 	
 	// Set the spawn position of buyed tower and the drag height for placing
     void Start() {
-        spawnPosition = new Vector3(0, dragHeight, 15);
+        spawnPosition = new Vector3(8f, dragHeight, 15f);
         objectHeightPlane = new Plane(Vector3.up * dragHeight, Vector3.up);
     }
 
