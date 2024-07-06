@@ -86,8 +86,8 @@ public class Spawner : MonoBehaviour {
 
     // Increases the spawn rate every 4 rounds by decreasing the interval
     public void IncreaseSpawnRate(int round) {
-        Debug.Log("Increasing spawn rate and enemy stats");
         if (round > 0 && round % 4 == 0) {
+            Debug.Log("Increasing spawn rate and enemy stats");
             spawnInterval = Mathf.Max(0.5f, spawnInterval - 0.5f); // Decrease spawnInterval, but not below 0.5f
             GenerateRandomProbabilities(); // Regenerate random probabilities every 4 rounds
         }

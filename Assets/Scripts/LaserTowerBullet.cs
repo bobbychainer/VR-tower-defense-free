@@ -30,7 +30,7 @@ public class LaserTowerBullet : BulletController {
 	}
 	
 	// initialize bullet damage and target
-	public void Initialize(Vector3 _target, int _damage) {
+	public void Initialize(Vector3 _target, float _damage) {
         damage = _damage;
 		target = _target;
 		distanceToTarget = Vector3.Distance(transform.position, target);
