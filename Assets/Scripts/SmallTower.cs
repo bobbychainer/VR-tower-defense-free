@@ -14,7 +14,7 @@ public class SmallTower : TowerController {
 	protected override void Initialize() {
 		// TowerController initialization
 		towerName = "SMALL";
-		damage = 0.5f;
+		damage = 1f;
 		attackCooldown = 1f;
 		attackRadius = 8f;
 		maxLevel = 7;

@@ -38,7 +38,7 @@ public class GenerateCubes : MonoBehaviour {
             for (int i = 0; i < waypointsParent.childCount; i++) waypoints[i + 1] = waypointsParent.GetChild(i);
             
             // move baseObject to first waypoint after spawn
-			Vector3 newPosition = waypoints[1].position;
+			Vector3 newPosition = waypoints[2].position;
 			newPosition.y = 1.05f;
 			baseObject.transform.position = newPosition;
         } else {

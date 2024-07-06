@@ -9,6 +9,9 @@ public class UIManager : MonoBehaviour {
     private GameObject buildUI;
     public GameObject playerUI;
     private GameObject gameUI;
+    public Button smallTowerButton;
+    public Button rapidTowerButton;
+    public Button laserTowerButton;
     public TMP_Text scoreText;
     public TMP_Text highScoreText;
     public TMP_Text roundText;
@@ -17,6 +20,7 @@ public class UIManager : MonoBehaviour {
     public TMP_Text baseHealthText;
     public TMP_Text playerHealthText;
     public TMP_Text playerCoinsText;
+    public TMP_Text notEnoughCoinsText;
     public Button readyButton;	
     private BuildController buildController;
     
@@ -35,7 +39,8 @@ public class UIManager : MonoBehaviour {
         if (buildUI == null || playerUI == null || gameUI == null) Debug.Log("UIs not found");
         buildUI.SetActive(true);
         playerUI.SetActive(false);
-
+        notEnoughCoinsText.text = "Not enough Coins!";
+        notEnoughCoinsText.gameObject.SetActive(false);
         //scoreText.text = "Score: " + GameManager.instance.GetPlayerScore().ToString();
         //roundText.text = "Round: " + GameManager.instance.GetRound().ToString();
         //stateText.text = "State: " + GameManager.instance.GetState().ToString();
@@ -44,14 +49,19 @@ public class UIManager : MonoBehaviour {
         //playerCoinsText.text = "Player Coins: " + GameManager.instance.GetPlayerCoins().ToString();
 		
 		buildController = FindObjectOfType<BuildController>();
+        UpdateButtonColors();
     }
 
     // change visibility of ready button
     public void ToggleReadyButton(bool isVisible) { readyButton.gameObject.SetActive(isVisible); }
+    public void ToggleCoinWarning(bool isVisible) { notEnoughCoinsText.gameObject.SetActive(isVisible); }
 
     // update ui texts
     public void UpdatePlayerHealthText(float playerHealth) { playerHealthText.text = "Player Health: " + playerHealth.ToString(); }
-    public void UpdatePlayerCoinsText(float playerCoins) { playerCoinsText.text = "Player Coins: " + playerCoins.ToString(); }
+    public void UpdatePlayerCoinsText(float playerCoins) { 
+        playerCoinsText.text = "Coins: " + playerCoins.ToString(); 
+         UpdateButtonColors();
+    }
     public void UpdateBaseHealthText(float baseHealth) { baseHealthText.text = "Base Health: " + baseHealth.ToString(); }
     public void UpdatePlayerScoreText(float score) { scoreText.text = "Score: " + score.ToString(); }
     public void UpdatePlayerHighScoreText(float highScore) { highScoreText.text = "Highscore: " + highScore.ToString(); }
@@ -59,7 +69,7 @@ public class UIManager : MonoBehaviour {
     public void UpdateGameState(string state) { stateText.text = "State " + state; }
     public void UpdateTimerText(float time) {timerText.text = "Timer: " + Mathf.RoundToInt(time).ToString(); }
 
-    // instatiate small tower
+    // instantiate small tower
 	public void SmallTowerButtonPressed() { 
         Debug.Log("S pressed");
 		int towerPrice = GameManager.instance.GetTowerCosts("SMALL", 0);
@@ -67,11 +77,10 @@ public class UIManager : MonoBehaviour {
             buildController.SpawnSmallTower(); 
         } else {
             Debug.Log("Not enough Coins to Buy");
-        }
-        
+        } 
     }
 
-	// instatiate rapid tower
+	// instantiate rapid tower
 	public void RapidTowerButtonPressed() { 
         Debug.Log("R pressed");
 		int towerPrice = GameManager.instance.GetTowerCosts("RAPID", 0);
@@ -82,7 +91,7 @@ public class UIManager : MonoBehaviour {
         }
     }
 
-	// instatiate laser tower
+	// instantiate laser tower
 	public void LaserTowerButtonPressed() { 
         Debug.Log("L pressed");
 		int towerPrice = GameManager.instance.GetTowerCosts("LASER", 0);
@@ -92,4 +101,22 @@ public class UIManager : MonoBehaviour {
             Debug.Log("Not enough Coins to Buy");
         }
     }
+    private void UpdateButtonColors() {
+        UpdateButtonColor(smallTowerButton, GameManager.instance.GetTowerCosts("SMALL", 0));
+        UpdateButtonColor(rapidTowerButton, GameManager.instance.GetTowerCosts("RAPID", 0));
+        UpdateButtonColor(laserTowerButton, GameManager.instance.GetTowerCosts("LASER", 0));
+    }
+
+    private void UpdateButtonColor(Button button, int towerPrice) {
+        ColorBlock colorBlock = button.colors;
+        if (GameManager.instance.GetPlayerCoins() < towerPrice) {
+            colorBlock.normalColor = Color.red;
+            colorBlock.highlightedColor = Color.red;
+        } else {
+            colorBlock.normalColor = Color.white;
+            colorBlock.highlightedColor = Color.white;
+        }
+        button.colors = colorBlock;
+    }
+    
 }

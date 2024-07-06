@@ -14,7 +14,7 @@ public class RapidTower : TowerController {
 	protected override void Initialize() {
 		// TowerController initialization
 		towerName = "RAPID";
-		damage = 0.5f;
+		damage = 1f;
 		attackCooldown = 0.7f;
 		attackRadius = 8f;
 		maxLevel = 6;

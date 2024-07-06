@@ -10,10 +10,11 @@ public class Spawner : MonoBehaviour {
 
     // Base probabilities
     private Dictionary<int, float[]> baseProbabilities = new Dictionary<int, float[]> {
-        {1, new float[] {0.7f, 0.2f, 0.07f, 0.03f}}, // Runde 1: A hoch, B mittel, C niedrig, D kaum
-        {2, new float[] {0.4f, 0.4f, 0.15f, 0.05f}}, // Runde 2: A hoch, B hoch, C mittel, D niedrig
-        {3, new float[] {0.34f, 0.33f, 0.23f, 0.1f}}, // Runde 3: A hoch, B hoch, C hoch, D mittel
-        {4, new float[] {0.25f, 0.25f, 0.25f, 0.25f}} // Runde 4: A hoch, B hoch, C hoch, D hoch
+        {1, new float[] {0.9f, 0.1f}}, // Runde 1: G1 sehr wahrscheinlich, G2 minimal wahrscheinlich
+        {2, new float[] {0.6f, 0.3f, 0.1f}}, // Runde 2: G1 sehr wahrscheinlich, G2 sehr wahrscheinlich, G3 minimal wahrscheinlich
+        {3, new float[] {0.3f, 0.3f, 0.2f, 0.2f}}, // Runde 3: G1 sehr wahrscheinlich, G2 sehr wahrscheinlich, G3 wahrscheinlich, G4 minimal wahrscheinlich
+        {4, new float[] {0.25f, 0.25f, 0.25f, 0.25f}}, // Runde 4: Alle gleich wahrscheinlich
+        {13, new float[] {0.25f, 0.25f, 0.25f, 0.25f}} // Ab Runde 13: Alle gleich wahrscheinlich
     };
 
     // Variable to store actual spawn probabilities
@@ -66,7 +67,8 @@ public class Spawner : MonoBehaviour {
     // spawns enemy with a certain probability
     private GameObject GetRandomEnemyPrefab() {
         int currentRound = GameManager.instance.GetRound();
-        float[] probabilities = spawnProbabilities.ContainsKey(currentRound) ? spawnProbabilities[currentRound] : spawnProbabilities[4];
+        int roundGroup = (currentRound - 1) % 4 + 1; // Use rounds 1-4 for 5-12
+        float[] probabilities = spawnProbabilities.ContainsKey(currentRound) ? spawnProbabilities[currentRound] : spawnProbabilities.ContainsKey(roundGroup) ? spawnProbabilities[roundGroup] : spawnProbabilities[13];
 
         float total = 0;
         foreach (float prob in probabilities) total += prob;
@@ -88,7 +90,7 @@ public class Spawner : MonoBehaviour {
     public void IncreaseSpawnRate(int round) {
         if (round > 0 && round % 4 == 0) {
             Debug.Log("Increasing spawn rate and enemy stats");
-            spawnInterval = Mathf.Max(0.5f, spawnInterval - 0.5f); // Decrease spawnInterval, but not below 0.5f
+            spawnInterval = Mathf.Max(0.5f, spawnInterval - 0.5f); // Increase spawnInterval, but not below 0.5f
             GenerateRandomProbabilities(); // Regenerate random probabilities every 4 rounds
         }
     }
