@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.InputSystem;
+using UnityEngine.Pool;
 
 public class GameManager : MonoBehaviour {
     public static GameManager instance;
@@ -18,7 +19,7 @@ public class GameManager : MonoBehaviour {
     private List<int> lastTenHighScores = new List<int>();
     public GameState currentState;
     public bool isTimerRunning = false; 
-    private float timer = 20f;
+    private float timer = 10f;
     private float currentTimer;
     private float playerScore;
     private float playerHighScore;
@@ -61,19 +62,19 @@ public class GameManager : MonoBehaviour {
         towerPrices.Add("LASER", new List<int> { 100, 100, 200, 300, 400 });
 
         // Damage Upgrades
-        damageUpgrades.Add("SMALL", new List<float> { 0, 1.5f, 0, 0, 3, 0, 0 });
+        damageUpgrades.Add("SMALL", new List<float> { 0, 1, 0, 0, 3, 0, 0 });
         damageUpgrades.Add("RAPID", new List<float> { 0, 0, 2, 0, 3, 0 });
-        damageUpgrades.Add("LASER", new List<float> { 0, 1.5f, 3, 0, 5 });
+        damageUpgrades.Add("LASER", new List<float> { 0, 1, 3, 0, 5 });
 
         // Attack Cooldown Upgrades
         attackCooldownUpgrades.Add("SMALL", new List<float> { 0f, 0f, 0.9f, 0.8f, 0f, 0.7f, 0f });
-        attackCooldownUpgrades.Add("RAPID", new List<float> { 0f, 0.6f, 0f, 0.5f, 0f, 0.3f });
+        attackCooldownUpgrades.Add("RAPID", new List<float> { 0f, 0.8f, 0f, 0.6f, 0f, 0.4f });
         attackCooldownUpgrades.Add("LASER", new List<float> { 0f, 0f, 4f, 3f, 0f });
 
         // Attack Radius Upgrades
-        attackRadiusUpgrades.Add("SMALL", new List<float> { 0f, 0f, 0f, 14f, 0f, 18f, 22f });
-        attackRadiusUpgrades.Add("RAPID", new List<float> { 0f, 0f, 0f, 12f, 16f, 0f });
-        attackRadiusUpgrades.Add("LASER", new List<float> { 0f, 0f, 0f, 14f, 18f });
+        attackRadiusUpgrades.Add("SMALL", new List<float> { 0f, 0f, 0f, 10f, 0f, 14f, 16f });
+        attackRadiusUpgrades.Add("RAPID", new List<float> { 0f, 0f, 0f, 10f, 14f, 0f });
+        attackRadiusUpgrades.Add("LASER", new List<float> { 0f, 0f, 0f, 10f, 14f });
 
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
@@ -105,7 +106,7 @@ public class GameManager : MonoBehaviour {
         currentState = GameState.PREPARATION;
         baseMaxHealth = 100;
         baseCurrHealth = baseMaxHealth;
-        playerCoins = 20000;
+        playerCoins = 200;
         playerMaxHealth = 5;
         playerCurrHealth = playerMaxHealth;
         UIManager.instance.UpdateRound(currentRound);
@@ -133,7 +134,7 @@ public class GameManager : MonoBehaviour {
             audioManager.ChangeBGM(audioManager.background);
             enemySpawner.IncreaseSpawnRate(currentRound);
             EnemyController.IncreaseEnemyStats();
-            generateCubes.ExtendPath(currentRound);
+            generateCubes.ExtendPath(currentRound + 1);
             playerController.freezePlayer = false;
             playerCoins += 200;
             playerCurrHealth = playerMaxHealth;
@@ -141,6 +142,8 @@ public class GameManager : MonoBehaviour {
             isTimerRunning = false;
             enemySpawner.StopEnemySpawn();
             currentRound++; 
+            UIManager.instance.UpdatePlayerCoinsText(playerCoins);
+            UIManager.instance.UpdatePlayerHealthText(playerCurrHealth);
             UIManager.instance.UpdateRound(currentRound);
             UIManager.instance.UpdateGameState("Preparation"); 
             UIManager.instance.ToggleReadyButton(true);

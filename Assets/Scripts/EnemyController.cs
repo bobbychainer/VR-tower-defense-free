@@ -85,6 +85,7 @@ public class EnemyController : MonoBehaviour {
         enemyHealth -= damage;
         if (enemyHealth <= 0) {
             Destroy(gameObject);
+            GameManager.instance.AddCoins(enemyValue);
             audioManager.PlaySFX(audioManager.enemyDeadSound);
             //Debug.Log("Enemy destroyed.");
             GameManager.instance.UpdatePlayerScore(enemyValue);
