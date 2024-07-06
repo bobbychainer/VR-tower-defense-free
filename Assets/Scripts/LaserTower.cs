@@ -25,7 +25,7 @@ public class LaserTower : TowerController {
 		attackStartPosition = transform.Find("Canons/AttackStart").position;
 		attackEndPositions = GetAxisAlignedEndPositions();
 		// RapidTower upgrades
-		upgradeLevelIndex = level;
+		upgradeLevelIndex = level-1;
 	}
 	
 	// return true if raycast on enemyLayer detects enemy 

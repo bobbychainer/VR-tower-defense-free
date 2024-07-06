@@ -164,6 +164,13 @@ public class TowerController: MonoBehaviour {
 				// set info text to stat
 				string towerStatText = CreateStatInformationText();
 				SetInformationText(towerStatText);
+				// show upgrade and delete button
+				ToggleTowerOptionList(true);
+				ToggleTowerOptionControlls(false);
+				// update state
+				state = SelectState.SELECTED;
+			} else {
+				SetInformationText("UPGRADE\n\nNot Enough Coins.");
 			}
 		} else if (state == SelectState.OPTION_DELETE) {
 			// delete
@@ -175,11 +182,6 @@ public class TowerController: MonoBehaviour {
 			buildController.TowerDeleteButtonPressed(towerRefund);
 			Destroy(gameObject);
 		}
-		// show upgrade and delete button
-		ToggleTowerOptionList(true);
-		ToggleTowerOptionControlls(false);
-		// update state
-		state = SelectState.SELECTED;
 	}
 	
 	// cancel tower option and reset state
@@ -238,7 +240,7 @@ public class TowerController: MonoBehaviour {
 		string text = "UPGRADES\n\n";
 		// get upgrades for level
 		var upgrades = buildController.GetAllUpgrades(towerName,level);
-		text += "Costs  -"+upgrades.price+"\n";
+		text += "Costs  "+upgrades.price+" Coins\n";
 		if (upgrades.damage != 0) text += "Damage "+damage+" -> "+upgrades.damage+"\n";
 		if (upgrades.attackCooldown != 0f) text += "Attack Speed "+attackCooldown+" -> "+upgrades.attackCooldown+"\n";
 		if (upgrades.attackRadius != 0f) text += "Attack Radius "+(int)attackRadius+" -> "+(int)upgrades.attackRadius+"\n";
