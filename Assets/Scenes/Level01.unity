@@ -17911,6 +17911,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cubePrefab: {fileID: 3735507351028812634, guid: 78adb579e1deade4db56b787ebee8d55, type: 3}
   pathMaterial: {fileID: 2100000, guid: 83d4c00b8438c4846bcebdc77a0b0202, type: 2}
+  spawnMaterial: {fileID: 2100000, guid: bd67114bc7b6c3840905306a1276c766, type: 2}
   transparentMaterial: {fileID: 2100000, guid: f375772995f7a8b4db2fffb24b6ff158, type: 2}
   blockedMaterial: {fileID: 2100000, guid: f78609c6bcdc9c546a3fe8de824b2b84, type: 2}
   buildMaterial: {fileID: 2100000, guid: 1be907de5ac19fb4fbd25f2daba841e5, type: 2}

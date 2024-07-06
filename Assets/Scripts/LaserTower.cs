@@ -41,10 +41,10 @@ public class LaserTower : TowerController {
 	
 	// shot LaserTowerBullet towards attackEndPosition
 	protected override void Attack() {
-		CreateBullet(attackEndPositions[0], Quaternion.identity);
-		CreateBullet(attackEndPositions[1], Quaternion.identity);
+		CreateBullet(attackEndPositions[0], Quaternion.Euler(-90, 0, 0));
+		CreateBullet(attackEndPositions[1], Quaternion.Euler(90, 0, 0));
 		CreateBullet(attackEndPositions[2], Quaternion.Euler(0, 0, 90));
-		CreateBullet(attackEndPositions[3], Quaternion.Euler(0, 0, 90));
+		CreateBullet(attackEndPositions[3], Quaternion.Euler(0, 0, -90));
 	}
 	
 	// upgrade tower stats and design

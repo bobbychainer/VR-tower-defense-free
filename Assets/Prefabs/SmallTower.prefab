@@ -5265,10 +5265,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 233aeadb475094d4b8becbb85d936d9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
-  minScale: 0.75
-  maxScale: 2
-  distanceScale: 0.1
 --- !u!1 &5819999336726049112
 GameObject:
   m_ObjectHideFlags: 0
@@ -5690,7 +5686,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
