@@ -13,7 +13,7 @@ public class TowerController: MonoBehaviour {
 	protected int maxLevel = 1;
 	protected float lastAttackTime = 0f;
 	protected float damage = 0.5f;
-	protected float attackRadius = 2f;
+	protected float attackRadius = 8f;
 	protected int towerPrice = 0;
 	protected float totalTowerHealth = 100;
 	protected float currentTowerHealth = 100;
@@ -27,6 +27,8 @@ public class TowerController: MonoBehaviour {
 	private GenerateCubes generateCubes;
 	protected BuildController buildController;
 	
+	protected LineRenderer radiusRenderer; // LineRenderer for the attack radius
+	
 	// on start
 	protected virtual void Start() {
 		// start initializations
@@ -34,6 +36,9 @@ public class TowerController: MonoBehaviour {
 		baseObject = gameObject.transform.Find("Base").gameObject;
 		generateCubes = FindObjectOfType<GenerateCubes>();
 		buildController = FindObjectOfType<BuildController>();
+		// initialize Radius
+		InitializeRadiusRenderer();
+		UpdateRadiusRenderer();
 		// on spawn in drag mode
 		state = SelectState.DRAGGABLE;
 		// deactivate select options
@@ -41,6 +46,8 @@ public class TowerController: MonoBehaviour {
 		ToggleTowerOptionControlls(false);
 		// set info text
 		SetInformationText(towerName+" TOWER\n\nMove Tower by Dragging.\nPress Accept to Place.");
+		
+		ToggleRadiusRenderer(true);
 	}
 
 	protected virtual void Update() {
@@ -89,7 +96,7 @@ public class TowerController: MonoBehaviour {
 		bool groundBlocked = generateCubes.TryCubeGroundAtPosition(basePosition.x, basePosition.z);
 		
 		if (groundBlocked) {
-			// activate tower 
+			// activate tower
 			Initialize();
 			placed = true;
 			// remove buttons
@@ -254,6 +261,8 @@ public class TowerController: MonoBehaviour {
 		GameObject cancelObject = gameObject.transform.Find("TowerPanel/Cancel").gameObject;
 		acceptObject.SetActive(false);
 		cancelObject.SetActive(false);
+		// hide radius
+		ToggleRadiusRenderer(false);
 		// hide tower options
 		CloseInformationMenu();
 	}
@@ -309,6 +318,7 @@ public class TowerController: MonoBehaviour {
 		ToggleTowerOptionList(false);
 		ToggleTowerOptionControlls(false);
 		ToggleTowerInformation(false);
+		ToggleRadiusRenderer(false);
 	}
 	
 	// show informations on tower selected
@@ -317,6 +327,7 @@ public class TowerController: MonoBehaviour {
 		state = SelectState.SELECTED;
 		ToggleTowerOptionList(true);
 		ToggleTowerInformation(true);
+		ToggleRadiusRenderer(true);
 		// set info text to stat
 		string towerStatText = CreateStatInformationText();
 		SetInformationText(towerStatText);
@@ -327,4 +338,27 @@ public class TowerController: MonoBehaviour {
 	public SelectState GetSelectState() { return state;	}
 	
 	public void IncreaseTowerPrice(int extraPrice) { towerPrice += extraPrice; }
+	
+	private void InitializeRadiusRenderer() {
+		radiusRenderer = gameObject.AddComponent<LineRenderer>();
+		radiusRenderer.startWidth = 0.1f;
+		radiusRenderer.endWidth = 0.1f;
+		radiusRenderer.positionCount = 50;
+		radiusRenderer.useWorldSpace = false;
+		radiusRenderer.loop = true;
+	}
+	
+	public void ToggleRadiusRenderer(bool isVisible) {
+		radiusRenderer.enabled = isVisible;
+	}
+	
+	protected void UpdateRadiusRenderer() {
+		float angle = 20f;
+		for (int i = 0; i < 50; i++) {
+			float x = Mathf.Sin(Mathf.Deg2Rad * angle) * attackRadius;
+			float z = Mathf.Cos(Mathf.Deg2Rad * angle) * attackRadius;
+			radiusRenderer.SetPosition(i, new Vector3(x, 0, z));
+			angle += (360f / 50);
+		}
+	}
 }

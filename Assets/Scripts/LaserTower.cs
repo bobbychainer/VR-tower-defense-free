@@ -19,13 +19,13 @@ public class LaserTower : TowerController {
 		towerName = "LASER";
 		damage = 0.5f;
 		attackCooldown = 5f;
-		attackRadius = 10f;
+		attackRadius = 8f;
 		maxLevel = 5;
 		// RapidTower initialization
 		attackStartPosition = transform.Find("Canons/AttackStart").position;
 		attackEndPositions = GetAxisAlignedEndPositions();
 		// RapidTower upgrades
-		upgradeLevelIndex = level-1;
+		upgradeLevelIndex = level - 1;
 	}
 	
 	// return true if raycast on enemyLayer detects enemy 
@@ -52,6 +52,7 @@ public class LaserTower : TowerController {
 		base.UpgradeTower();
 		upgradeLevelIndex += 1;
 		UpgradeStates();
+		UpdateRadiusRenderer();
 		UpgradeDesign();
 	}
 
@@ -114,5 +115,4 @@ public class LaserTower : TowerController {
 			Gizmos.DrawRay(attackStartPosition, attackDirection);
 		}
 	}
-
 }

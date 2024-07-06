@@ -48,6 +48,7 @@ public class RapidTower : TowerController {
 		base.UpgradeTower();
 		upgradeLevelIndex += 1;
 		UpgradeStates();
+		UpdateRadiusRenderer();
 		UpgradeDesign();
 	}
 	
