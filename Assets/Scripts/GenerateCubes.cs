@@ -31,17 +31,13 @@ public class GenerateCubes : MonoBehaviour {
     // get wayoints from parentand initialize spawn and base
     void InitializeWaypoints() {
         if (waypointsParent != null) {
-			// Increase the size by 2 to accommodate spawn and base objects
-            waypoints = new Transform[waypointsParent.childCount + 1];
-			// set first waypoint as spawn
-            waypoints[0] = spawnObject.transform;
+            waypoints = new Transform[waypointsParent.childCount + 1]; // Increase the size by 2 to accommodate spawn and base objects
+            waypoints[0] = spawnObject.transform; // set first waypoint as spawn
+
             // Fill in the waypoints from the parent
-            for (int i = 0; i < waypointsParent.childCount; i++) {
-                waypoints[i + 1] = waypointsParent.GetChild(i);
-                Debug.Log("POS: " + waypoints[i + 1].position);
-            }
-			// move baseObject to first waypoint after spawn
-			// can be changed
+            for (int i = 0; i < waypointsParent.childCount; i++) waypoints[i + 1] = waypointsParent.GetChild(i);
+            
+            // move baseObject to first waypoint after spawn
 			Vector3 newPosition = waypoints[1].position;
 			newPosition.y = 1.05f;
 			baseObject.transform.position = newPosition;
@@ -53,14 +49,18 @@ public class GenerateCubes : MonoBehaviour {
     // extend the path of all existing waypoints
     public void ExtendPath(int roundNumber) {
         // if waypoints length > 0 and base not already on position of last waypoint
-        if (waypoints != null && waypoints.Length > 0 && roundNumber < waypoints.Length) {
+        if (waypoints != null && waypoints.Length > 0 && roundNumber < waypoints.Length - 1) {
 			// get next waypoint in waypoints and adjust base position
 			int newWayPointBaseIndex = roundNumber + 1;
 			Vector3 newPosition = waypoints[newWayPointBaseIndex].position;
             newPosition.y = 1.05f; // Ensure the base's y coordinate is always 1.05f
             baseObject.transform.position = newPosition;
         } else {
-            Debug.LogError("Waypoints parent not assigned or has no children.");
+            //Debug.Log("Last Waypoint reached, base stays.");
+            int lastWayPointBaseIndex = waypoints.Length - 1;
+			Vector3 newPosition = waypoints[lastWayPointBaseIndex].position;
+            newPosition.y = 1.05f;
+            baseObject.transform.position = newPosition;
         }
     }
 

@@ -227,8 +227,8 @@ public class BuildController : MonoBehaviour {
 	public void TowerDeleteButtonPressed(int refund) {GameManager.instance.AddCoins(refund);}
 	
 	// return the damage, attackCooldown, attackRadius, price for a Tower name and a level
-	public (int damage, float attackCooldown, float attackRadius, int price) GetAllUpgrades(string name, int level) {
-        int damage = GameManager.instance.GetDamageUpgrade(name, level);
+	public (float damage, float attackCooldown, float attackRadius, int price) GetAllUpgrades(string name, int level) {
+        float damage = GameManager.instance.GetDamageUpgrade(name, level);
         float attackCooldown = GameManager.instance.GetAttackCooldownUpgrade(name, level);
         float attackRadius = GameManager.instance.GetAttackRadiusUpgrade(name, level);
 		int price = GameManager.instance.GetTowerCosts(name, level);

@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
 
             if (bulletController != null) {
                 //Debug.Log("bullCon != null");
-                int damage = bulletController.GetDamage();
+                float damage = bulletController.GetDamage();
                 bulletController.TargetHit();
                 TakeDamage(damage);
                 Destroy(other.gameObject);
@@ -115,7 +115,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage) {
+    public void TakeDamage(float damage) {
         audioManager.PlaySFX(audioManager.playerGettingHurt);
         GameManager.instance.TakePlayerDamage(damage); 
         

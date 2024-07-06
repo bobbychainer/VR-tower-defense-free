@@ -11,14 +11,14 @@ public class GameManager : MonoBehaviour {
     private GameObject pauseMenu;
     private Spawner enemySpawner;
     public Dictionary<string, List<int>> towerPrices = new Dictionary<string, List<int>>();
-	public Dictionary<string, List<int>> damageUpgrades = new Dictionary<string, List<int>>();
+	public Dictionary<string, List<float>> damageUpgrades = new Dictionary<string, List<float>>();
 	public Dictionary<string, List<float>> attackCooldownUpgrades = new Dictionary<string, List<float>>();
 	public Dictionary<string, List<float>> attackRadiusUpgrades = new Dictionary<string, List<float>>();
     public enum GameState { PREPARATION, ATTACK, PAUSED}
     private List<int> lastTenHighScores = new List<int>();
     public GameState currentState;
     public bool isTimerRunning = false; 
-    private float timer = 10f;
+    private float timer = 20f;
     private float currentTimer;
     private float playerScore;
     private float playerHighScore;
@@ -56,14 +56,14 @@ public class GameManager : MonoBehaviour {
         pauseMenu.SetActive(false);
 
         // Tower Prices
-        towerPrices.Add("SMALL", new List<int> { 10, 10, 20, 30, 40, 50, 60 });
-        towerPrices.Add("RAPID", new List<int> { 10, 10, 20, 30, 40, 50 });
-        towerPrices.Add("LASER", new List<int> { 10, 10, 20, 30, 40 });
+        towerPrices.Add("SMALL", new List<int> { 100, 100, 200, 300, 400, 500, 600 });
+        towerPrices.Add("RAPID", new List<int> { 100, 100, 200, 300, 400, 500 });
+        towerPrices.Add("LASER", new List<int> { 100, 100, 200, 300, 400 });
 
         // Damage Upgrades
-        damageUpgrades.Add("SMALL", new List<int> { 0, 2, 0, 0, 4, 0, 0 });
-        damageUpgrades.Add("RAPID", new List<int> { 0, 0, 2, 0, 3, 0 });
-        damageUpgrades.Add("LASER", new List<int> { 0, 2, 4, 0, 6 });
+        damageUpgrades.Add("SMALL", new List<float> { 0, 1.5f, 0, 0, 3, 0, 0 });
+        damageUpgrades.Add("RAPID", new List<float> { 0, 0, 2, 0, 3, 0 });
+        damageUpgrades.Add("LASER", new List<float> { 0, 1.5f, 3, 0, 5 });
 
         // Attack Cooldown Upgrades
         attackCooldownUpgrades.Add("SMALL", new List<float> { 0f, 0f, 0.9f, 0.8f, 0f, 0.7f, 0f });
@@ -160,8 +160,8 @@ public class GameManager : MonoBehaviour {
 		return towerPriceList[level];
 	}
 	
-	public int GetDamageUpgrade(string name, int level) {
-		List<int> upgradeList = damageUpgrades[name];
+	public float GetDamageUpgrade(string name, int level) {
+		List<float> upgradeList = damageUpgrades[name];
 		return upgradeList[level];
 	}
 	
@@ -251,7 +251,6 @@ public class GameManager : MonoBehaviour {
             audioManager.PlaySFX(audioManager.gameOverSound);
             audioManager.PlaySFX(audioManager.gameOverVoice);
             StopGame();
-
         }
     }
 
@@ -266,7 +265,7 @@ public class GameManager : MonoBehaviour {
         Time.timeScale = 0f;
     }
 
-    public void TakePlayerDamage(int dmg) {
+    public void TakePlayerDamage(float dmg) {
         playerCurrHealth -= dmg;
         if (playerCurrHealth <= 0) {
             Debug.Log("Player Health 0, Freeze Player");

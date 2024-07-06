@@ -12,11 +12,11 @@ public class TowerController: MonoBehaviour {
 	protected int level = 1;
 	protected int maxLevel = 1;
 	protected float lastAttackTime = 0f;
-	protected int damage = 1;
+	protected float damage = 0.5f;
 	protected float attackRadius = 2f;
 	protected int towerPrice = 0;
-	protected int totalTowerHealth = 100;
-	protected int currentTowerHealth = 100;
+	protected float totalTowerHealth = 100;
+	protected float currentTowerHealth = 100;
 	protected float attackCooldown = 1f;
 	protected bool placed = false;
 	public enum SelectState { NONE , DRAGGABLE , SELECTED , OPTION_UPGRADE , OPTION_DELETE }
@@ -263,7 +263,7 @@ public class TowerController: MonoBehaviour {
             BulletController bulletController = other.gameObject.GetComponent<BulletController>();
             if (bulletController != null) {
 				// get bullet damage
-                int damage = bulletController.GetDamage();
+                float damage = bulletController.GetDamage();
 				// take damage
                 bulletController.TargetHit();
                 TakeDamage(damage);
@@ -289,7 +289,7 @@ public class TowerController: MonoBehaviour {
 	}
 
 	// take damge from enemy bullet
-    public void TakeDamage(int damage) {
+    public void TakeDamage(float damage) {
         currentTowerHealth -= damage;
 		// update healthObject
 		UpdateHealthBar();

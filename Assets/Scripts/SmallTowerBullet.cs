@@ -21,7 +21,7 @@ public class SmallTowerBullet : BulletController {
 	}
 	
 	// initialize bullet damage and target
-	public void Initialize(Transform _target, int _damage) {
+	public void Initialize(Transform _target, float _damage) {
         damage = _damage;
 		target = _target;
     }

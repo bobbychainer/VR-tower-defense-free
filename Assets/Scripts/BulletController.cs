@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour {
     protected float bulletSpeed = 10f;
-    protected int damage;
+    protected float damage;
 	protected bool targetReached = false;
 
     protected virtual void Start() {
@@ -37,7 +37,7 @@ public class BulletController : MonoBehaviour {
 	}
 	
 	// return damage for enemy calculations
-	public int GetDamage() {
+	public float GetDamage() {
 		return damage;
 	}
 }

@@ -17,7 +17,7 @@ public class LaserTower : TowerController {
 	protected override void Initialize() {
 		// TowerController initialization
 		towerName = "LASER";
-		damage = 1;
+		damage = 0.5f;
 		attackCooldown = 5f;
 		attackRadius = 10f;
 		maxLevel = 5;

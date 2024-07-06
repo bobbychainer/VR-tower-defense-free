@@ -58,7 +58,7 @@ public class EnemyController : MonoBehaviour {
         if (other.gameObject.tag == "Bullet") {
             BulletController bulletController = other.gameObject.GetComponent<BulletController>();
             if (bulletController != null) {
-                int damage = bulletController.GetDamage();
+                float damage = bulletController.GetDamage();
                 bulletController.TargetHit();
                 TakeDamage(damage);
             }
@@ -81,7 +81,7 @@ public class EnemyController : MonoBehaviour {
     protected virtual void SetDestinationToNextWaypoint() { if (currentWaypointIndex < waypoints.Length) agent.SetDestination(waypoints[currentWaypointIndex].position);  }
 	
     // enemy takes damage from bullet and player gets score
-    public void TakeDamage(int damage) {
+    public void TakeDamage(float damage) {
         enemyHealth -= damage;
         if (enemyHealth <= 0) {
             Destroy(gameObject);
