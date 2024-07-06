@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviour {
         currentState = GameState.PREPARATION;
         baseMaxHealth = 100;
         baseCurrHealth = baseMaxHealth;
-        playerCoins = 200;
+        playerCoins = 20000;
         playerMaxHealth = 5;
         playerCurrHealth = playerMaxHealth;
         UIManager.instance.UpdateRound(currentRound);

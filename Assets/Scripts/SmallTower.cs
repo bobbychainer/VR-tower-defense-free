@@ -16,7 +16,7 @@ public class SmallTower : TowerController {
 		towerName = "SMALL";
 		damage = 0.5f;
 		attackCooldown = 1f;
-		attackRadius = 10f;
+		attackRadius = 8f;
 		maxLevel = 7;
 		// RapidTower initialization
 		// get top position of tower (CenterSphere)
@@ -45,6 +45,7 @@ public class SmallTower : TowerController {
 		base.UpgradeTower();
 		upgradeLevelIndex += 1;
 		UpgradeStates();
+		UpdateRadiusRenderer();
 		UpgradeDesign();
 	}
 	
