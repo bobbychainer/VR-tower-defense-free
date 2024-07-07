@@ -32,8 +32,8 @@ public class TowerController: MonoBehaviour {
 	// on start
 	protected virtual void Start() {
 		// start initializations
-		healthObject = gameObject.transform.Find("TowerPanel/HealthBar/Background/Anchor/Health").gameObject;
-		baseObject = gameObject.transform.Find("Base").gameObject;
+		healthObject = transform.Find("TowerPanel/HealthBar/Background/Anchor/Health").gameObject;
+		baseObject = transform.Find("Base").gameObject;
 		generateCubes = FindObjectOfType<GenerateCubes>();
 		buildController = FindObjectOfType<BuildController>();
 		// initialize Radius

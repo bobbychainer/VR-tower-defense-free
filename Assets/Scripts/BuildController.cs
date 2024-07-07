@@ -262,6 +262,8 @@ public class BuildController : MonoBehaviour {
 		}
 	}
 	
+	public bool IsTowerSpawnedButNotPlaced() { return spawnedTowerButNotPlaced; }
+	
 	// show all tower
 	public void ShowTowerPressed() {
 		ToggleTowerActive(true);
