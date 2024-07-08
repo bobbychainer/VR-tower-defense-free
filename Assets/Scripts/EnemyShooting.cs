@@ -18,7 +18,6 @@ public class EnemyShooting : EnemyController
     private float bulletDespawnAfterXSec = 5f;
 
     private Animator animator;
-    private AudioManager audioManager;
 
     protected override void Start() {
         base.Start();
