@@ -87,25 +87,32 @@ public class EnemyShooting : EnemyController
         return false;
     }
 
+    
     protected virtual void Attack() {
+        // Capture the player's position at the moment of attack
+        Vector3 targetPosition = targetPlayer != null ? targetPlayer.transform.position : targetEnemy != null ? targetEnemy.transform.position : Vector3.zero;
+
+        // Create the bullet
         GameObject enemyBullet = Instantiate(bulletPrefab, attackStartPosition, Quaternion.identity);
         EnemyShootingBullet bullet = enemyBullet.GetComponent<EnemyShootingBullet>();
 
         if (bullet != null) {
-            if (targetPlayer != null) {
+            if (targetPosition != Vector3.zero) {
+                // Initialize the bullet with the calculated direction
+                bullet.Initialize(targetPosition, damage);
                 audioManager.PlaySFX(audioManager.enemyShootingBullet);
-                bullet.Initialize(targetPlayer, damage);
+
+                // Destroy the bullet after a certain time
                 Destroy(enemyBullet, bulletDespawnAfterXSec);
+
+                // Trigger the shoot animation if available
                 if (animator != null) animator.SetTrigger("Shoot");
-                
-            } else if (targetEnemy != null) {
-                audioManager.PlaySFX(audioManager.enemyShootingBullet);
-                bullet.Initialize(targetEnemy, damage);
-                if (animator != null) animator.SetTrigger("Shoot");
-                
             }
         }
     }
+
+
+    
 
     protected virtual bool AttackReady() { return (Time.time - lastAttackTime >= attackCooldown); }
 

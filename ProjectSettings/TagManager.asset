@@ -18,6 +18,7 @@ TagManager:
   - Killbox
   - TowerSpawn
   - Audio
+  - Freeze
   layers:
   - Default
   - TransparentFX

@@ -48,7 +48,9 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnReturnTriggerPressed(InputAction.CallbackContext context) {
-        MovePlayerToLocation();
+        if (freezePlayer == false) {
+            MovePlayerToLocation();
+        }
     }
 
         private void OnShootTriggerPressed(InputAction.CallbackContext context) {        
@@ -69,6 +71,13 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
+            Debug.Log(other.gameObject.tag);
+        if (other.gameObject.tag == "Freeze") {
+            freezePlayer = true;
+        }
+        if (other.gameObject.tag == "Ground") {
+            freezePlayer = false;
+        }
         //Check Collision EnemyBullet -> Player
         if (other.gameObject.tag == "EnemyBullet") {
             //Debug.Log("Hit EnemyBullet -> Player" + other.gameObject);
