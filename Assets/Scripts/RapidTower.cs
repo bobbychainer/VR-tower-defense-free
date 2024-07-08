@@ -16,7 +16,7 @@ public class RapidTower : TowerController {
 		towerName = "RAPID";
 		damage = 1f;
 		attackCooldown = 0.7f;
-		attackRadius = 8f;
+		attackRadius = 5f;
 		maxLevel = 6;
 		// RapidTower initialization
 		// get top position of tower (CenterSphere)
