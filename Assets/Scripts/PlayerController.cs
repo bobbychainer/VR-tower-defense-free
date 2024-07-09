@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     public Transform initialLocation;
     public InputActionProperty returnTriggerAction;
     public InputActionProperty shootTriggerAction;
-    public bool freezePlayer = false;
+    public bool freezePlayer = true;
     public ActionBasedContinuousMoveProvider moveProvider;
     public GameObject bulletPrefab;   // The bullet prefab to instantiate
     public float bulletSpeed = 20f;   // Speed of the bullet
@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
 
     public void Start(){
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        freezePlayer = true;
     }
 
 

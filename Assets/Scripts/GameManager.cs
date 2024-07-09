@@ -98,7 +98,6 @@ public class GameManager : MonoBehaviour {
     public void StartGame() {
         Debug.Log("StartGame");
 		started = true;
-        playerController.freezePlayer = false;
         playerController.RespawnPlayer();
         UIManager.instance.playerUI.SetActive(true);
         
@@ -137,7 +136,6 @@ public class GameManager : MonoBehaviour {
             enemySpawner.IncreaseSpawnRate(currentRound);
             EnemyController.IncreaseEnemyStats();
             generateCubes.ExtendPath(currentRound + 1);
-            playerController.freezePlayer = false;
             playerCoins += 200;
             playerCurrHealth = playerMaxHealth;
             currentState = GameState.PREPARATION;
