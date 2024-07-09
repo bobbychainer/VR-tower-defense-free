@@ -36,6 +36,10 @@ public class MenuController : MonoBehaviour {
         tutorialMenu.SetActive(false);
     }
 
+    public void ReloadScene() {
+        SceneManager.LoadScene("Level01");
+    }
+
     public void StartFirstLevel() {
         Debug.Log("StartFirstLevel()");
         GameManager.instance.StartGame();
