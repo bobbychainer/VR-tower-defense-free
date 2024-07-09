@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     public ActionBasedContinuousMoveProvider moveProvider;
     public GameObject bulletPrefab;   // The bullet prefab to instantiate
     public float bulletSpeed = 20f;   // Speed of the bullet
-    public float fireRate = 2f;     // Rate of fire in seconds
+    public float fireRate = 0.5f;     // Rate of fire in seconds
     private float nextFireTime = 1f;  // Time until the next shot can be fired
     public GameObject bulletSpawnPoint; //Position where Bullet should come out
 

@@ -65,7 +65,7 @@ public class EnemyController : MonoBehaviour {
         }
         //Collision PlayerBullet -> Enemy
         if (other.gameObject.tag == "PlayerBullet") {
-            int damage = other.gameObject.GetComponent<PlayerBullet>().GetDamage();
+            float damage = other.gameObject.GetComponent<PlayerBullet>().GetDamage();
             TakeDamage(damage);
             Destroy(other.gameObject);
         }

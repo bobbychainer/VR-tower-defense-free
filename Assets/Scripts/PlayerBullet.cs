@@ -6,7 +6,7 @@ public class PlayerBullet : MonoBehaviour
 {
     public float speed = 20f;
     public float lifetime = 5f;
-    protected int  damage = 10;
+    protected float damage = 0.8f;
 
     void Start()
     {
@@ -20,7 +20,7 @@ public class PlayerBullet : MonoBehaviour
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
-    public int GetDamage() {
+    public float GetDamage() {
 		return damage;
 	}
 
