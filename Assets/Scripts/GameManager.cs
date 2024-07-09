@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour {
     private List<int> lastTenHighScores = new List<int>();
     public GameState currentState;
     public bool isTimerRunning = false; 
-    private float timer = 10f;
+    private float timer = 20f;
     private float currentTimer;
     private float playerScore;
     private float playerHighScore;
@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour {
     public void StartGame() {
         Debug.Log("StartGame");
 		started = true;
-        playerController.RespawnPlayer();
+        playerController.SpawnPlayer();
         UIManager.instance.playerUI.SetActive(true);
         
         playerScore = 0;
@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour {
         baseMaxHealth = 100;
         baseCurrHealth = baseMaxHealth;
         playerCoins = 200;
-        playerMaxHealth = 5;
+        playerMaxHealth = 1;
         playerCurrHealth = playerMaxHealth;
         UIManager.instance.UpdateRound(currentRound);
         UIManager.instance.UpdatePlayerScoreText(playerScore);  
@@ -250,35 +250,29 @@ public class GameManager : MonoBehaviour {
         Debug.Log("BH: " + baseCurrHealth);
         baseCurrHealth -= dmg;
         UIManager.instance.UpdateBaseHealthText(baseCurrHealth);
-        if (baseCurrHealth <= 0) {
-            //Debug.Log("Base Health 0, Load GameOverScene");
-            //MenuController.instance.LoadGameOverScene();
+        if (baseCurrHealth <= 0 && started) {
             audioManager.PlaySFX(audioManager.gameOverSound);
             audioManager.PlaySFX(audioManager.gameOverVoice);
             StopGame();
         }
     }
 
-    public void StopGame() { // TODO: Fix GameOver behavior
+    public void StopGame() { 
         Debug.Log("StopGame");
-        //playerController.freezePlayer = true;
-        //playerController.moveProvider.enabled = false;
+        started = false;
+        audioManager.ChangeBGM(audioManager.background);
         playerController.RespawnPlayer();
-        MenuController.instance.LoadMainMenuScene();
-        currentState = GameState.PREPARATION;
-        isTimerRunning = false;
-        Time.timeScale = 0f;
+        MenuController.instance.LoadGameOverScene();
+        UIManager.instance.playerUI.SetActive(false);
+        ChangeGameState();
     }
 
     public void TakePlayerDamage(float dmg) {
         playerCurrHealth -= dmg;
         if (playerCurrHealth <= 0) {
             Debug.Log("Player Health 0, Freeze Player");
-            playerController.freezePlayer = true; // TODO: check if its really working on VR
-            Debug.Log("FROZEN");
-        }
+            playerController.FreezePlayer();
+        } 
         UIManager.instance.UpdatePlayerHealthText(playerCurrHealth);
     }
-	
-	
 }

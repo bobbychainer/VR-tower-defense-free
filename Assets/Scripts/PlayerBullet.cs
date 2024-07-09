@@ -6,7 +6,7 @@ public class PlayerBullet : MonoBehaviour
 {
     public float speed = 20f;
     public float lifetime = 5f;
-    protected int  damage = 10;
+    protected int damage = 3;
 
     void Start()
     {
