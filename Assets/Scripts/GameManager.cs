@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour {
     private List<int> lastTenHighScores = new List<int>();
     public GameState currentState;
     public bool isTimerRunning = false; 
-    private float timer = 20f;
+    private float timer = 30f;
     private float currentTimer;
     private float playerScore;
     private float playerHighScore;
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour {
         // Tower Prices
         towerPrices.Add("SMALL", new List<int> { 100, 100, 200, 300, 400, 500, 600 });
         towerPrices.Add("RAPID", new List<int> { 100, 100, 200, 300, 400, 500 });
-        towerPrices.Add("LASER", new List<int> { 100, 100, 200, 300, 400 });
+        towerPrices.Add("LASER", new List<int> { 120, 120, 200, 300, 400 });
 
         // Damage Upgrades
         damageUpgrades.Add("SMALL", new List<float> { 0, 1, 0, 0, 3, 0, 0 });
@@ -133,10 +133,11 @@ public class GameManager : MonoBehaviour {
             UIManager.instance.ToggleReadyButton(false);
         } else if (currentState == GameState.ATTACK) { // Next is PREP
             audioManager.ChangeBGM(audioManager.background);
+            timer += 15f;
             enemySpawner.IncreaseSpawnRate(currentRound);
             EnemyController.IncreaseEnemyStats();
             generateCubes.ExtendPath(currentRound + 1);
-            playerCoins += 200;
+            playerCoins += 50;
             playerCurrHealth = playerMaxHealth;
             currentState = GameState.PREPARATION;
             isTimerRunning = false;

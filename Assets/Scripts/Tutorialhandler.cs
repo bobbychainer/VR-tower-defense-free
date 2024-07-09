@@ -25,30 +25,37 @@ public class DropdownHandlerTMP : MonoBehaviour
 Welcome to our TowerDef VR Game
 
 Preparation Phase:
-
-During this phase, you have the opportunity to build and upgrade your defense.
-Use this time wisely to place your towers and strengthen your strategy.
-Plan your defenses along the path to maximize their effectiveness.
+Build and upgrade your defense.
 
 Attack Phase:
-
-Once the attack phase begins, enemies will start spawning and moving towards your base.
-your towers will automatically attack the enemies as they come into range.
+Enemies will start spawning and moving towards your base.
+Your towers will automatically attack the enemies as they come into range.
 You cannot build or upgrade towers during this phase, so make sure your setup is ready!
 
 Game Layout:
+Enemies run from spawn (green) to base (blue) on a given path (red).
+Each round, the base moves further back, increasing the challenge.
+Enemy stats and timer increases over the time.
 
-Spawn Point (Green): This is where enemies will enter the map.
-Path (Red): Enemies will follow this path towards your base. Place your towers strategically along this path to maximize damage.
-Base (Blue): This is your base. Protect it at all costs! Each round, the base moves further back, increasing the challenge.
 Objective:
-
 Prevent the enemies from reaching your base. If too many enemies get through, you will lose the game.
                 ";
                 break;
             case 1://Controls
-                infoText.text = @"Controls.
-                TODO!";
+                infoText.text = @"
+                Controls:
+                
+                Right Hand:
+                - Trigger: UI Click / Player Shoot Ability
+                - Touchpad Up: Press to Teleport on a Location
+                - Touchpad right/left: Touch to do a 90° turn, Press to keep spinning
+                
+                Left Hand:
+                - Trigger: Teleport to Overview
+                - Touchpad: Movement and Strafe
+                - Grab: Pause the Game
+                
+                Tip: You can look at your controllers, while ingame to see tooltips!";
                 break;
             case 2://Towers
                 infoText.text = @"All Towers can be upgraded.
