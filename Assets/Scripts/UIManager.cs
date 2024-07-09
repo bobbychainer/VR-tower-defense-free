@@ -112,9 +112,11 @@ public class UIManager : MonoBehaviour {
         if (GameManager.instance.GetPlayerCoins() < towerPrice) {
             colorBlock.normalColor = Color.red;
             colorBlock.highlightedColor = Color.red;
+            notEnoughCoinsText.gameObject.SetActive(true);
         } else {
             colorBlock.normalColor = Color.white;
             colorBlock.highlightedColor = Color.white;
+            notEnoughCoinsText.gameObject.SetActive(false);
         }
         button.colors = colorBlock;
     }

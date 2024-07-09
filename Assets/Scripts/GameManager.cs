@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour {
     public bool canBuy = true;
     private float playerCurrHealth;
     private float playerMaxHealth;
+	private bool started;
 
     private AudioManager audioManager;
     
@@ -96,7 +97,7 @@ public class GameManager : MonoBehaviour {
     // starts the game after button clicked
     public void StartGame() {
         Debug.Log("StartGame");
-        playerController.freezePlayer = false;
+		started = true;
         playerController.RespawnPlayer();
         UIManager.instance.playerUI.SetActive(true);
         
@@ -135,7 +136,6 @@ public class GameManager : MonoBehaviour {
             enemySpawner.IncreaseSpawnRate(currentRound);
             EnemyController.IncreaseEnemyStats();
             generateCubes.ExtendPath(currentRound + 1);
-            playerController.freezePlayer = false;
             playerCoins += 200;
             playerCurrHealth = playerMaxHealth;
             currentState = GameState.PREPARATION;
@@ -177,6 +177,8 @@ public class GameManager : MonoBehaviour {
 		List<float> upgradeList = attackRadiusUpgrades[name];
 		return upgradeList[level];
 	}
+	
+	public bool IsStarted() { return started; }
 
 	public bool IsPreparationGameState() { return currentState == GameState.PREPARATION; }
 	public bool IsAttackGameState() { return currentState == GameState.ATTACK; }
