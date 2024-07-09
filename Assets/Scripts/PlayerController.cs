@@ -10,6 +10,7 @@ using System.Numerics;
 public class PlayerController : MonoBehaviour
 {
     public Transform initialLocation;
+    public Transform overviewLocation;
     public InputActionProperty returnTriggerAction;
     public InputActionProperty shootTriggerAction;
     public bool freezePlayer = true;
@@ -62,17 +63,17 @@ public class PlayerController : MonoBehaviour
     }
 
     private void MovePlayerToLocation() {
-        if (initialLocation) {
+        if (overviewLocation) {
             // Move the XR Origin to the target location
-            transform.position = initialLocation.position;
-            transform.rotation = initialLocation.rotation;
+            transform.position = overviewLocation.position;
+            transform.rotation = overviewLocation.rotation;
         } else {
             Debug.LogWarning("Target location is not set.");
         }
     }
 
     private void OnTriggerEnter(Collider other) {
-            Debug.Log(other.gameObject.tag);
+        //Debug.Log(other.gameObject.tag);
         if (other.gameObject.tag == "Freeze") {
             freezePlayer = true;
         }
@@ -94,7 +95,7 @@ public class PlayerController : MonoBehaviour
         }
         // Killbox Collision
         if (other.gameObject.tag == "Killbox") {
-            RespawnPlayer();
+            SpawnPlayer();
             Debug.Log("Player hit Killbox");
         }
     }
@@ -132,4 +133,11 @@ public class PlayerController : MonoBehaviour
     }
 
     public void RespawnPlayer() { transform.position = initialLocation.position; }
+    public void SpawnPlayer() { transform.position = overviewLocation.position; }
+
+    public void FreezePlayer() {
+        Debug.Log("FROZEN");
+        transform.position = overviewLocation.position;
+        freezePlayer = true;   
+    }
 }
