@@ -17,7 +17,7 @@ public class EnemyController : MonoBehaviour {
     protected Transform[] waypoints;
     protected float enemySpeed = 4f;
     
-    private AudioManager audioManager;
+    protected AudioManager audioManager;
 
 
     protected virtual void Start() {

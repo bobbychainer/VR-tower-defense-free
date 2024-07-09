@@ -11,6 +11,7 @@ public class MenuController : MonoBehaviour {
     private GameObject creditsMenu;
     private GameObject gameOverMenu;
     private GameObject settingsMenu;
+    private GameObject tutorialMenu;
     public TMP_Text highScoresText;
     
     void Awake() {
@@ -26,11 +27,13 @@ public class MenuController : MonoBehaviour {
         creditsMenu = GameObject.Find("CreditsMenu");
         gameOverMenu = GameObject.Find("GameOverMenu");
         settingsMenu = GameObject.Find("SettingsMenu");
-        if (mainMenu == null || creditsMenu == null || gameOverMenu == null|| settingsMenu == null ) Debug.Log("Menus not found");
+        tutorialMenu = GameObject.Find("TutorialMenu");
+        if (mainMenu == null || creditsMenu == null || gameOverMenu == null|| settingsMenu == null || tutorialMenu == null) Debug.Log("One of the Menus not found");
         mainMenu.SetActive(true);
         creditsMenu.SetActive(false);
         gameOverMenu.SetActive(false);
         settingsMenu.SetActive(false);
+        tutorialMenu.SetActive(false);
     }
 
     public void StartFirstLevel() {
@@ -44,6 +47,7 @@ public class MenuController : MonoBehaviour {
         creditsMenu.SetActive(false);
         settingsMenu.SetActive(false);
         gameOverMenu.SetActive(true);
+        tutorialMenu.SetActive(false);
     }
 
     public void LoadMainMenuScene() {
@@ -52,6 +56,7 @@ public class MenuController : MonoBehaviour {
         creditsMenu.SetActive(false);
         settingsMenu.SetActive(false);
         gameOverMenu.SetActive(false);
+        tutorialMenu.SetActive(false);
     }
 
     public void LoadCreditsScene() {
@@ -60,16 +65,25 @@ public class MenuController : MonoBehaviour {
         creditsMenu.SetActive(true);
         settingsMenu.SetActive(false);
         gameOverMenu.SetActive(false);
+        tutorialMenu.SetActive(false);
     }
     
     public void LoadSettingsScene() {
-        Debug.Log("LoadCreditsScene()");
+        Debug.Log("LoadSettingsscene()");
         mainMenu.SetActive(false);
         creditsMenu.SetActive(false);
         settingsMenu.SetActive(true);
         gameOverMenu.SetActive(false);
+        tutorialMenu.SetActive(false);
     }
-
+    public void LoadTutorialScene() {
+        Debug.Log("LoadTutorialScene()");
+        mainMenu.SetActive(false);
+        creditsMenu.SetActive(false);
+        settingsMenu.SetActive(false);
+        gameOverMenu.SetActive(false);
+        tutorialMenu.SetActive(true);
+    }
     public void Quit() {
         Debug.Log("Quit()");
         #if UNITY_STANDALONE
