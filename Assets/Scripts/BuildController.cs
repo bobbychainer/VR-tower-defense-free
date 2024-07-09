@@ -54,37 +54,39 @@ public class BuildController : MonoBehaviour {
 	// if VR Controller trigger is pressed
 	// two different states: allow on click only drag-and-drop or selection
     private void OnTriggerPressed(InputAction.CallbackContext context) {
-		if (spawnedTowerButNotPlaced) {
-			// drag state
-			// find drag target if ray points towards Tower object
-			dragTarget = PerformRaycastOnTower();
-			if (dragTarget != null) {
-				TowerController towerController = dragTarget.gameObject.GetComponent<TowerController>();
-				if (towerController) {
-					// only not placed towers can be moved
-					if (!towerController.hasBeenPlaced()) {
-						isDragging = true;
+		if (GameManager.instance.IsPreparationGameState()) {
+			if (spawnedTowerButNotPlaced) {
+				// drag state
+				// find drag target if ray points towards Tower object
+				dragTarget = PerformRaycastOnTower();
+				if (dragTarget != null) {
+					TowerController towerController = dragTarget.gameObject.GetComponent<TowerController>();
+					if (towerController) {
+						// only not placed towers can be moved
+						if (!towerController.hasBeenPlaced()) {
+							isDragging = true;
+						}
 					}
 				}
-			}
-		} else {
-			// select state
-			// find select target if ray points towards Tower object
-			GameObject selectedTargetNew = PerformRaycastOnTower();
-			// if Tower already selected or null again do nothing
-			if (!GameObject.ReferenceEquals(selectedTargetNew, selectedTarget)) {
-				// on option buttons presses dont reset selection even if ray hits no tower
-				GameObject optionMenuItem = PerformRaycastOnOption();
-				// if no option button pressed
-				if (optionMenuItem == null) {
-					// toggle the menu of the selected tower off
-					ResetInformationMenuOfSelectedTarget();
-					selectedTarget = selectedTargetNew;
-					if (selectedTarget != null) {
-						TowerController towerController = selectedTarget.gameObject.GetComponent<TowerController>();
-						if (towerController) {
-							// show information panel of selected target
-							towerController.ShowInformationMenu();
+			} else {
+				// select state
+				// find select target if ray points towards Tower object
+				GameObject selectedTargetNew = PerformRaycastOnTower();
+				// if Tower already selected or null again do nothing
+				if (!GameObject.ReferenceEquals(selectedTargetNew, selectedTarget)) {
+					// on option buttons presses dont reset selection even if ray hits no tower
+					GameObject optionMenuItem = PerformRaycastOnOption();
+					// if no option button pressed
+					if (optionMenuItem == null) {
+						// toggle the menu of the selected tower off
+						ResetInformationMenuOfSelectedTarget();
+						selectedTarget = selectedTargetNew;
+						if (selectedTarget != null) {
+							TowerController towerController = selectedTarget.gameObject.GetComponent<TowerController>();
+							if (towerController) {
+								// show information panel of selected target
+								towerController.ShowInformationMenu();
+							}
 						}
 					}
 				}
