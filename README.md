@@ -1,78 +1,73 @@
 # VR-TowerDefense
+In an informtik lab, three other fellow students and I implemented tower defense in unity. The game is implemented for 3d and vr (it can also be played without vr setup via XOrigin emulator). A new aspect of the game is that you can intervene as a player in the game.
 
+## Table of Contents
+1. [Game Prinicple](#game-prinicple)
+2. [Implemented Features](#implemented-features)
+3. [Installation](#installation)
+4. [Contributing](#contributing)
+5. [License](#license)
+6. [Credits](#credits)
+7. [Acknowledgments](#acknowledgments)
 
-## Getting started
+## Game Prinicple
+The playing field is a 50x50 blockgrid with a spawn and a base. Each round consists of the phases **Preparation** and **Attack**. In the Preparation phase you can build or upgrade towers via the UI menu, as soon as you click on the ready-button, the phase and the timer starts. The enemies start to spawn and run along the marked path to the base. In each round the base changes its position further back on the path and the enemies change or become stronger.
+The base has lives and loses them when enemies reach the base. You can control the player in both phases and attack the opponents in the Attack phase. The player also has lives, if he loses them all, he will be freed until the end of the round.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Implemented Features
+- Path with spawn and base
+- Player movement and shooting
+- Four different enemy types
+- Four different tower types and upgrades
+- Score and health system
+- Menus and UIs
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+### Project status
+- Done
 
-## Add your files
-### Branch
-
-```
-cd existing_repo
-git remote add origin https://git.se.uni-hannover.de/applab/sose2024/vr-towerdefense.git
-git branch -M main
-git push -uf origin main
-```
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-## Name
-TowerDefense-VR!
-
-## Description
-The basic concept is based on the classic 2D tower defence. Our game is implemented in 3D and the player can intervene in the game and perform actions via VR.
-
-### Implemented Features
-- Game field with spawn, base and a colored path between them
-- Different kinds of enemies (TODO)
-- different kinds of towers (TODO)
-
-## Project status
-- In progress
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+### Future implementations
+- 
 
 ## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+### Prerequisites and important info
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+- Unity Version: This project was developed using Unity LTS version 2022.3.26f1.
+- Compatibility: The game is designed for 2D gameplay and is compatible with desktop platforms.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+
+### Installation Steps
+
+```bash
+# Clone the repository
+git clone https://github.com/sp8cky/TowerDefenseVR
+
+# Add your directory to Unity Hub
+```
+
+### Customization Options:
+- Code Structure: The project follows a modular code structure, making it easy to understand and extend. Scripts are organized into logical components such as PlayerController, EnemyController and GameManager.
+- Adjust player movement and attack settings
+- Modify enemy/tower behavior: Users can customize various aspects of the enemy/tower behavior, such as movement speed, attack speed, spawn rate...
+- Change game visuals: Users can replace the default sprites with their own artwork to customize the game's appearance.
 
 ## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+- Feedback and Contributions: Feedback and contributions are welcome! If you encounter any issues or have suggestions for improvements, feel free to open an issue or submit a pull request on GitHub.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+### How to Contribute
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Commit your changes: `git commit -m 'Add some feature'`
+4. Push to the branch: `git push origin feature/your-feature`
+5. Open a pull request
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+## License:
+- This project is licensed under the MIT-License. See the LICENSE file for details.
 
-PW: yZQgMgpMw6
+## Credits:
+- This project was created by sp8cky and three other people.
+  
+## Acknowledgments
+- We used a few packages and assets, all listed in the credits menu, thanks for those!
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
 
