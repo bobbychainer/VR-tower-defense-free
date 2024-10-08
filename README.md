@@ -31,7 +31,7 @@ The base has lives and loses them when enemies reach the base. You can control t
 ## Installation
 ### Prerequisites and important info
 - Unity Version: This project was developed using Unity LTS version 2022.3.26f1.
-- Compatibility: The game is designed for 2D gameplay and is compatible with desktop platforms.
+- Compatibility: The game is designed for 3D VR gameplay and is compatible with desktop platforms. You can also play without a VR-setup with the XOrigin Emulator in the unity project. You have to activate it before playing.
 
 ### Installation Steps
 Clone the repository and add it to Unity Hub
