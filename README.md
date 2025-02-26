@@ -4,7 +4,6 @@ In an informtik lab, three other fellow students and I implemented a Tower-Defen
 ## Table of Contents
 1. [Game Prinicple](#game-prinicple)
 2. [Implemented Features](#implemented-features)
-3. [Installation](#installation)
 4. [Contributing](#contributing)
 5. [License](#license)
 6. [Credits](#credits)
@@ -21,28 +20,6 @@ The base has lives and loses them when enemies reach the base. You can control t
 - Four different tower types and upgrades
 - Score and health system
 - Menus and UIs
-
-### Project status
-- Done
-
-### Future implementations
-- 
-
-## Installation
-### Prerequisites and important info
-- Unity Version: This project was developed using Unity LTS version 2022.3.26f1.
-- Compatibility: The game is designed for 3D VR gameplay and is compatible with desktop platforms. You can also play without a VR-setup with the XOrigin Emulator in the unity project. You have to activate it before playing.
-
-### Installation Steps
-Clone the repository and add it to Unity Hub
-```bash
-git clone https://github.com/sp8cky/TowerDefenseVR
-```
-
-### Customization Options:
-- Adjust player movement and attack settings
-- Modify enemy/tower behavior: Users can customize various aspects of the enemy/tower behavior, such as movement speed, attack speed, spawn rate...
-- Change game visuals: Users can replace the default sprites with their own artwork to customize the game's appearance.
 
 ## Contributing
 - Feedback and Contributions: Feedback and contributions are welcome! If you encounter any issues or have suggestions for improvements, feel free to open an issue or submit a pull request on GitHub.
