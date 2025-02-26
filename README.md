@@ -35,7 +35,7 @@ The base has lives and loses them when enemies reach the base. You can control t
 - This project is licensed under the MIT-License. See the LICENSE file for details.
 
 ## Credits:
-- This project was created by sp8cky and three other people.
+- This project was created by bobby and three other people.
   
 ## Acknowledgments
 - We used a few packages and assets, all listed in the credits menu, thanks for those!
